@@ -5,3 +5,5 @@ import path from "path";
 const constructorMethod = (app) => {
   app.use("/homepage", postRoutes);
 };
+
+export default constructorMethod;
