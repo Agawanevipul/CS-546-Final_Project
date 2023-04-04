@@ -9,7 +9,7 @@
     />
 
     <!-- Bootstrap CSS -->
-    <link rel="shortcut icon" type="x-icon" href="logo_m.png" />
+    <link rel="shortcut icon" type="x-icon" href="assets/logo_m.png" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -21,7 +21,7 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="styling.css" />
+    <link rel="stylesheet" href="assets/style.css" />
 
     <title>Study Ace</title>
   </head>
@@ -80,13 +80,13 @@
       <div class="container">
         <div class="row no-gutters">
           <div class="col-lg-5">
-            <img src="loogin.jpg" class="img-fluid" alt="" />
+            <img src="assets/loogin.jpg" class="img-fluid" alt="" />
           </div>
           <div class="col-lg-7 px-5 pt-5">
             <h1 class="font-weight-bold py-3" id="login_red">
               <img
                 id="login_logo"
-                src="logo_m.png"
+                src="assets/logo_m.png"
                 class="img-fluid"
                 alt="StudyAce Logo"
               />
@@ -136,7 +136,7 @@
       <div class="container">
         <div class="row no-gutters">
           <div class="col-lg-5">
-            <img src="registration_copy.jpg" class="img-fluid" alt="" />
+            <img src="assets/registration_copy.jpg" class="img-fluid" alt="" />
           </div>
           <div class="col-lg-7 px-5 pt-4">
             <h1 class="font-weight-bold py-1" id="login_red">Register</h1>
@@ -318,51 +318,6 @@
         }
       });
     </script>
-
-    <!--<script>
-      $(document).ready(function () {
-        // hide the registration section by default
-        $("#registration_form").hide();
-
-        // when the "Login" link is clicked, hide the registration section and show the login section
-        $("a[href='#']").click(function () {
-          $("#login_form").toggle();
-          $("#registration_form").toggle();
-          return false; // prevent the link from navigating to the top of the page
-        });
-
-        // when the login form is submitted, validate the input and handle the login process
-        $("#login_form").submit(function (event) {
-          event.preventDefault(); // prevent the form from submitting normally
-
-          // perform input validation
-          var email = $("#login_mail").val();
-          var password = $("#login_password").val();
-          if (!email || !password) {
-            alert("Please enter both email and password");
-            return;
-          }
-
-          // perform login process
-          // ...
-        });
-
-        // when the registration form is submitted, validate the input and handle the registration process
-        $("#registration_form").submit(function (event) {
-          event.preventDefault(); // prevent the form from submitting normally
-
-          // perform input validation
-          var email = $("#reg_mail").val();
-          var password = $("#reg_password").val();
-          if (!email || !password) {
-            alert("Please enter both email and password");
-            return;
-          }
-          // perform registration process
-          // ...
-        });
-      });
-    </script>-->
 
     <script>
       $(document).ready(function () {
