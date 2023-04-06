@@ -5,7 +5,7 @@ const constructorMethod = (app) => {
   app.use("/login", studentRoute);
 
   app.use("/", (req, res) => {
-    res.render("foo", {});
+    res.render("loginDetails", {});
   });
 
   // app.get("/", (req, res) => {
