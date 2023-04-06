@@ -12,7 +12,6 @@ const constructorMethod = (app) => {
   //   res.sendFile(path.resolve("login/index.html"));
   // });
 
-
   app.use("*", (req, res) => {
     res.status(404).json({ error: "Not found" });
   });
