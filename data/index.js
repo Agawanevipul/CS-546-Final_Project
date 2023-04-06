@@ -1,3 +1,3 @@
-import students from "./assignment.js";
+import students from "./Assignment.js";
 
 export const studentsInfo = students;
