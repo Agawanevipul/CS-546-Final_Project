@@ -7,7 +7,6 @@ const constructorMethod = (app) => {
   app.use("/", (req, res) => {
     res.render("loginDetails", {});
   });
-
   // app.get("/", (req, res) => {
   //   res.sendFile(path.resolve("login/index.html"));
   // });

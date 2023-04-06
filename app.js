@@ -8,10 +8,10 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// const staticDir = express.static(__dirname + "/public");
+const staticDir = express.static(__dirname + "/login");
 
-// app.use("/login", staticDir);
 const app = express();
+app.use("/login", staticDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 configRoutes(app);
