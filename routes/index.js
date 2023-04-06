@@ -7,10 +7,6 @@ const constructorMethod = (app) => {
   app.use("/login", (req, res) => {
     res.render("loginDetails", {});
   });
-  // app.get("/", (req, res) => {
-  //   res.sendFile(path.resolve("login/index.html"));
-  // });
-
   app.use("*", (req, res) => {
     res.status(404).json({ error: "Not found" });
   });
