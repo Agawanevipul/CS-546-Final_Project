@@ -2,9 +2,9 @@ import studentRoute from "./assignment.js";
 
 const constructorMethod = (app) => {
   // app.use("/", (req, res.render("foo"));
-  app.use("/login", studentRoute);
+  app.use("/register", studentRoute);
 
-  app.use("/", (req, res) => {
+  app.use("/login", (req, res) => {
     res.render("loginDetails", {});
   });
   // app.get("/", (req, res) => {
