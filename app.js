@@ -14,7 +14,6 @@ const app = express();
 app.use("/login", staticDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-configRoutes(app);
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
