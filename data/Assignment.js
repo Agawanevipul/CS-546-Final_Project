@@ -11,7 +11,7 @@ const method = {
     stevensId,
     program,
     degree,
-    year_Completion
+    // year_Completion
   ) {
     const salt = await bcrypt.genSalt(10);
     const passwords = await bcrypt.hash(password, salt);
@@ -25,13 +25,12 @@ const method = {
       password: passwords,
       stevensId: stevensId,
       program: program,
-      degree: degree,
-      year_Completion: year_Completion,
+      degree: degree
+      // year_Completion: year_Completion,
     };
     const infoCollection = await studentCollection();
     const insertInfo = await infoCollection.insertOne(obj1);
-
     const newId = insertInfo.insertedId.toString();
-  },
+  }
 };
 export default method;
