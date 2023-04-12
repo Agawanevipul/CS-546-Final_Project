@@ -8,10 +8,10 @@ import { dirname } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const staticDir = express.static(__dirname + "/login");
+const staticDir = express.static(__dirname + "/");
 
 const app = express();
-app.use("/login", staticDir);
+app.use("/", staticDir);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.engine("handlebars", exphbs.engine({ defaultLayout: "main" }));

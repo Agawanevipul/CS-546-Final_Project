@@ -5,7 +5,7 @@ import { studentsInfo } from "../data/index.js";
 // import validation from "../helpers.js";
 const router = Router();
 router
-  .route("/login")
+  .route("/")
   .get(async (req, res) => {
     //code here for GET
     try{
@@ -52,19 +52,19 @@ router
   //   }
   // });
 
-  router.route('/details').post(async (req, res) => {
-    //code here for POST
-    // const loginId = req.body.exampleInputEmail1;
-    // const loginPassword=req.body.exampleInputPassword1;
-    try {
-      res.render('foo',{})
-      // console.log(loginId,loginPassword)
-      // res.render('foo',{loginId, loginPassword})
+  // router.route('/details').post(async (req, res) => {
+  //   //code here for POST
+  //   // const loginId = req.body.exampleInputEmail1;
+  //   // const loginPassword=req.body.exampleInputPassword1;
+  //   try {
+  //     res.render('foo',{})
+  //     // console.log(loginId,loginPassword)
+  //     // res.render('foo',{loginId, loginPassword})
     
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: "Internal server error" });
-    }
-  });
+  //   } catch (error) {
+  //     console.error(error);
+  //     return res.status(500).json({ error: "Internal server error" });
+  //   }
+  // });
 
 export default router;
