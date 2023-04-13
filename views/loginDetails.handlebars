@@ -5,18 +5,19 @@
             <img src="/public//images /registration_copy.jpg" class="img-fluid" alt="" />
           </div>
           <div class="col-lg-7 px-5 pt-4">
-            <h1 class="font-weight-bold py-1" id="login_red">Register</h1>
+            <h1 class="font-weight-bold py-1" id="login_red">{{title}}</h1>
             <!--<h4 id="sign_red">Register</h4>-->
-            <form>
+            <form method="post" id="myForm">
               <div class="row pt-4">
                 <div class="col-md-6">
                   <div class="form-group">
                     <input
                       type="text"
                       class="form-control"
-                      id="f_name"
+                      id="fname"
                       name="fname"
                       placeholder="First Name"
+                      value="{{first_name}}"
                     />
                   </div>
                 </div>
@@ -25,9 +26,10 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="l_name"
+                      id="lname"
                       name="lname"
                       placeholder="Last Name"
+                      value="{{last_name}}"
                     />
                   </div>
                 </div>
@@ -38,9 +40,10 @@
                     <input
                       type="text"
                       class="form-control"
-                      id="reg_mail"
+                      id="emailId"
                       name="mail"
                       placeholder="abc@stevens.edu"
+                      value="{{email_id}}"
                     />
                   </div>
                 </div>
@@ -51,9 +54,10 @@
                     <input
                       type="number"
                       class="form-control"
-                      id="cwid"
-                      name="campus_code"
+                      id="campusId"
+                      name="campusId"
                       placeholder="Campus Wide ID (CWID)"
+                      value="{{cwid}}"
                     />
                   </div>
                 </div>
@@ -61,7 +65,7 @@
               <div class="row pt-2">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <select class="form-control" id="major" name="major">
+                    <select class="form-control" id="program" name="program" value="{{program_value}}">
                       <option value="" disabled selected>Select Degree</option>
                       <option value="btech">bachelor's</option>
                       <option value="ms">Master's</option>
@@ -71,7 +75,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <select class="form-control" id="major" name="major">
+                    <select class="form-control" id="major" name="major" value="{{major_value}}">
                       <option value="" disabled selected>Select Major</option>
                       <option value="CS">CS</option>
                       <option value="MIS">MIS</option>
@@ -92,6 +96,7 @@
                       id="create_pass"
                       name="create"
                       placeholder="Create Password"
+                      value="{{password_value}}"
                     />
                   </div>
                 </div>
@@ -109,11 +114,24 @@
                   </div>
                 </div>
               </div>
+              {{#if error }}
+              <div class="form-group">
+              <div class="alert alert-danger">
+              {{ error }}
+              </div>
+              </div>
+              {{/if}}
               <div class="row pt-4">
                 <div class="col-lg-6 mx-auto text-center">
-                  <button type="button" class="btn1">Submit</button>
+                  <button type="submit" class="btn1">Submit</button>
                 </div>
               </div>
+               
+      <div class="form-group">
+        <div class="alert alert-success">
+          {{ result }}
+        </div>
+      </div>
               <p class="text-center">
                 Already have an account?
                 <a class="toggle" href="##">Login</a>

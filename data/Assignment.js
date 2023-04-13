@@ -4,13 +4,13 @@ import bcrypt from "bcrypt";
 // import validation from '../helpers.js';
 const method = {
   async create(
-    first_Name,
-    last_Name,
-    emailId,
-    password,
-    stevensId,
+    first_name,
+    last_name,
+    email_id,
+    CWID,
     program,
-    degree,
+    major,
+    password,
     // year_Completion
   ) {
     const salt = await bcrypt.genSalt(10);
@@ -19,18 +19,18 @@ const method = {
     let obj1 = {
       _id: student_id,
       student_id,
-      first_Name: first_Name,
-      last_Name: last_Name,
-      emailId: emailId,
-      password: passwords,
-      stevensId: stevensId,
+      first_name: first_name,
+      last_name: last_name,
+      email_id: email_id,
+      campus_id: CWID,
       program: program,
-      degree: degree
+      major: major,
+      password:passwords
       // year_Completion: year_Completion,
     };
     const infoCollection = await studentCollection();
     const insertInfo = await infoCollection.insertOne(obj1);
-    const newId = insertInfo.insertedId.toString();
+    // const newId = insertInfo.insertedId.toString();
   }
 };
 export default method;
