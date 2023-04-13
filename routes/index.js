@@ -1,4 +1,4 @@
-import studentRoute from "./assignment.js";
+import studentRoute from "./routesModels.js";
 
 const constructorMethod = (app) => {
   // app.use("/", (req, res.render("foo"));
