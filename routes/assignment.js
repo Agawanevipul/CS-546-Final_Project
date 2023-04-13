@@ -29,6 +29,7 @@ router
       firstName = validator.checkString(firstName, 'First Name');
       lastName = validator.checkString(lastName, 'Last Name');
       emailId = validator.checkString(emailId, 'Email Id');
+      emailId = validator.validateEmailId(emailId);
       program = validator.checkString(program, 'Program');
       major = validator.checkString(major, 'Major');
       password = validator.checkString(password, 'Password');

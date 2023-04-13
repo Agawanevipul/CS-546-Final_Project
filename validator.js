@@ -55,6 +55,13 @@ const exportedMethods = {
     // Password is valid
     return password;
   },
+  validateEmailId(emailId){
+    if (emailId.endsWith("@stevens.edu")) {
+        return emailId
+    } else {
+       throw `Email address is not from Stevens Institute of Technology`;
+    }
+  }
 };
 
 export default exportedMethods;
