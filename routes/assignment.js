@@ -21,37 +21,45 @@ router
     let lastName = req.body.last_name;
     let emailId = req.body.email_id;
     let CWID = req.body.cwid;
-    let program = req.body.program_value;
-    let major = req.body.major_value;
-    let password  = req.body.password_value;
-    
-    firstName = validator.checkString(firstName, 'First Name');
-    lastName = validator.checkString(lastName, 'Last Name');
-    emailId = validator.checkString(emailId, 'Email Id');
-    program = validator.checkString(program, 'Program');
-    major = validator.checkString(major, 'Major');
-    password = validator.checkString(password, 'Password');
-    password = validator.validatePassword(password);
-
-    console.log(firstName)
+    let program = req.body.program;
+    let major = req.body.major;
+    let password  = req.body.create_pass;
+    let confirmPassword = req.body.confirm_pass
+    try{
+      firstName = validator.checkString(firstName, 'First Name');
+      lastName = validator.checkString(lastName, 'Last Name');
+      emailId = validator.checkString(emailId, 'Email Id');
+      program = validator.checkString(program, 'Program');
+      major = validator.checkString(major, 'Major');
+      password = validator.checkString(password, 'Password');
+      password = validator.validatePassword(password);
+      confirmPassword = validator.checkString(confirmPassword, 'Confirm Password')
+      confirmPassword = validator.validatePassword(confirmPassword);
+    }
+    catch(e){
+      res.status(404).json({error: e});
+    }
+    console.log(confirmPassword,password,major,program,emailId,lastName,firstName)
     try {
-      const student = await studentsInfo.create(
-        firstName,
-        lastName,
-        emailId,
-        CWID,
-        program,
-        major,
-        password
-      );
-      return res.json(student);
+      if(password === confirmPassword){
+        const student = await studentsInfo.create(
+          firstName,
+          lastName,
+          emailId,
+          CWID,
+          program,
+          major,
+          password,
+          confirmPassword
+        );
+        res.json(student);
+      }
+      else{
+        res.status(400).json({error: "Confirm password must be similar to password."})
+      }
     } catch (e) {
       res.status(404).json({error: e});
     }
-  
-    res.render('loginDetails', {
-      result: "Sucessfully submitted"
-    });
   });
 
   // router.route('/details').post(async (req, res) => {

@@ -43,17 +43,17 @@ const exportedMethods = {
   validatePassword(password) {
     // Password must be at least 8 characters long
     if (password.length < 8) {
-      return false;
+      throw `Password must be at least 8 characters long`;
     }
 
     // Password must contain at least one uppercase letter, one lowercase letter, and one number
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
     if (!regex.test(password)) {
-      return false;
+      throw `Password must contain at least one uppercase letter, one lowercase letter, and one number`;
     }
 
     // Password is valid
-    return true;
+    return password;
   },
 };
 
