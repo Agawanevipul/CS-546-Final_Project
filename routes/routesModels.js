@@ -10,7 +10,7 @@ router
   .get(async (req, res) => {
     //code here for GET
     try{
-      res.render('loginDetails', {title: "Register"});
+      res.render('register', {title: "Register"});
     } catch (e) {
       res.status(404).json({error: e});
     } 
@@ -30,7 +30,7 @@ router
       
     // }
     // catch(e){
-    //   res.status(404).render('loginDetails',{
+    //   res.status(404).render('register',{
     //     firstName: firstName,
     //     lastName: lastName,
     //     emailId: emailId,
@@ -41,7 +41,6 @@ router
     //     error: e
     //   });
     // }
-    console.log(confirmPassword,password,major,program,emailId,lastName,firstName)
     try {
       firstName = validator.checkString(firstName, 'First Name');
       lastName = validator.checkString(lastName, 'Last Name');
@@ -69,7 +68,7 @@ router
       }
       else{
         const error = "Confirm password must be similar to password.";
-        return res.status(400).render('loginDetails', { 
+        return res.status(400).render('register', { 
           firstName: firstName,
           lastName: lastName,
           CWID: CWID,
@@ -79,7 +78,7 @@ router
           error });
       }
     } catch (e) {
-      res.status(404).render('loginDetails', {
+      res.status(404).render('register', {
         firstName: firstName,
         lastName: lastName,
         emailId: emailId,

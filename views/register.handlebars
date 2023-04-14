@@ -1,3 +1,59 @@
+{{#if loginPage}}
+<section id="login_form" class="form my-4 mx-5">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-5">
+            <img src="/public/images /loogin.jpg" class="img-fluid" alt="" />
+          </div>
+          <div class="col-lg-7 px-5 pt-5">
+            <h1 class="font-weight-bold py-3" id="login_red">
+              <img
+                id="login_logo"
+                src="/public/images /logo_m.png"
+                class="img-fluid"
+                alt="StudyAce Logo"
+              />
+              StudyAce
+            </h1>
+            <h1 id="sign_red">{{title}}</h1>
+
+            <form>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <input
+                    type="email"
+                    placeholder="abc@stevens.edu"
+                    class="form-control my-3 p-4"
+                    id="login_mail"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <input
+                    type="password"
+                    placeholder="password"
+                    class="form-control my-3 p-4"
+                    id="login_password"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <button type="submit" class="btn1">sign in</button>
+                </div>
+              </div>
+              <a id="forgot_pwd" href="#">Forgot password?</a>
+              <p>
+                Don't have an account?
+                <a class="toggle" href="/register">Register here</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+{{else}}
 <section id="registration_form" class="form my-4 mx-5">
       <div class="container">
         <div class="row no-gutters">
@@ -38,7 +94,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <input
-                      type="text"
+                      type="email"
                       class="form-control"
                       id="email_id"
                       name="email_id"
@@ -52,7 +108,7 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <input
-                      type="number"
+                      type="text"
                       class="form-control"
                       id="cwid"
                       name="cwid"
@@ -129,10 +185,11 @@
               </div>
                <p class="text-center">
                 Already have an account?
-                <a class="toggle" href="##">Login</a>
+                <a class="toggle" href="/login">Sign in</a>
               </p>
             </form>
           </div>
         </div>
       </div>
     </section>
+{{/if}}
