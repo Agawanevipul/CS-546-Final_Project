@@ -38,6 +38,26 @@ const method = {
       confirmPassword:confirmPasswords
     };
     const insertInfo = await infoCollection.insertOne(obj1);
-  }
+  },
+  async get_details(email_id, password){
+    emailId = validator.checkString(emailId, 'Email Id');
+    emailId = validator.validateEmailId(emailId);
+    password = validator.checkString(password, 'Password');
+    let isValid = false;
+    
+
+    const studentInfo = await studentCollection();
+    const info_obj = await studentInfo.findOne({emailId: email_id});
+    if (!info_obj) {throw 'You need to register for the access!!';}
+
+    isValid = await bcrypt.compare(password, info_obj.password);
+    if(isValid === false){
+       throw `Password does not match.`
+    }
+    
+    return ; 
+}
+
+
 };
 export default method;
