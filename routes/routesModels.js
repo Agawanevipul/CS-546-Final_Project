@@ -84,28 +84,18 @@ router
     }
   }
    if(isclicked === 'loggedIn'){
-    let emailId = req.body.email_id;
-    let password  = req.body.create_pass;
+    let emailId = req.body.emailId;
+    let password  = req.body.password;
     try {
       emailId = validator.checkString(emailId, 'Email Id');
       emailId = validator.validateEmailId(emailId);
       password = validator.checkString(password, 'Password');
- 
-      if(password === confirmPassword){
-        const student = await studentsInfo.get_details(
-          emailId,
-          password
-        );
-        res.json(student);
-      }
-      else{
-        const error = "Confirm password must be similar to password.";
-        return res.status(400).render('register', { 
-          title: 'Login',
-          loginPage: true,
-          emailId: emailId,
-          error });
-      }
+      
+      const student = await studentsInfo.get_details(
+        emailId,
+        password
+      );
+      res.json(student);
     } catch (e) {
       res.status(404).render('register', {
         title: 'Login',
