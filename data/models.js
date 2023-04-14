@@ -15,11 +15,16 @@ const method = {
     confirmPassword = validator.checkString(confirmPassword, 'Confirm Password')
     confirmPassword = validator.validatePassword(confirmPassword);
 
+    const infoCollection = await studentCollection();
+
     const salt = await bcrypt.genSalt(10);
     const passwords = await bcrypt.hash(password, salt);
     const confirmPasswords = await bcrypt.hash(confirmPassword, salt);
     const student_id = new ObjectId();
-
+    const student = await infoCollection.findOne({emailId: emailId})
+    if(student){
+      throw `you are already registered. Please login to the system.`
+    }
     let obj1 = {
       _id: student_id,
       student_id,
@@ -32,7 +37,6 @@ const method = {
       password:passwords,
       confirmPassword:confirmPasswords
     };
-    const infoCollection = await studentCollection();
     const insertInfo = await infoCollection.insertOne(obj1);
   }
 };
