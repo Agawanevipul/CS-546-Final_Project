@@ -2,7 +2,7 @@ import { Router } from "express";
 import path from 'path'
 import { studentsInfo } from "../data/index.js";
 import { title } from "process";
-import validator from "../validator.js";
+import validator from "./validator.js";
 
 const router = Router();
 router
@@ -10,7 +10,7 @@ router
   .get(async (req, res) => {
     //code here for GET
     try{
-      res.render('loginDetails', {title: "Register"});
+      res.render('register', {title: "Register"});
     } catch (e) {
       res.status(404).json({error: e});
     } 
@@ -25,7 +25,23 @@ router
     let major = req.body.major;
     let password  = req.body.create_pass;
     let confirmPassword = req.body.confirm_pass
-    try{
+
+    // try{
+      
+    // }
+    // catch(e){
+    //   res.status(404).render('register',{
+    //     firstName: firstName,
+    //     lastName: lastName,
+    //     emailId: emailId,
+    //     program: program,
+    //     major: major,
+    //     password: password,
+    //     confirmPassword: confirmPassword,
+    //     error: e
+    //   });
+    // }
+    try {
       firstName = validator.checkString(firstName, 'First Name');
       lastName = validator.checkString(lastName, 'Last Name');
       emailId = validator.checkString(emailId, 'Email Id');
@@ -36,12 +52,7 @@ router
       password = validator.validatePassword(password);
       confirmPassword = validator.checkString(confirmPassword, 'Confirm Password')
       confirmPassword = validator.validatePassword(confirmPassword);
-    }
-    catch(e){
-      res.status(404).json({error: e});
-    }
-    console.log(confirmPassword,password,major,program,emailId,lastName,firstName)
-    try {
+
       if(password === confirmPassword){
         const student = await studentsInfo.create(
           firstName,
@@ -56,10 +67,29 @@ router
         res.json(student);
       }
       else{
-        res.status(400).json({error: "Confirm password must be similar to password."})
+        const error = "Confirm password must be similar to password.";
+        return res.status(400).render('register', { 
+          firstName: firstName,
+          lastName: lastName,
+          CWID: CWID,
+          emailId: emailId,
+          program: program,
+          major: major,
+          error });
       }
     } catch (e) {
-      res.status(404).json({error: e});
+      res.status(404).render('register', {
+        firstName: firstName,
+        lastName: lastName,
+        emailId: emailId,
+        CWID: CWID,
+        program: program,
+        major: major,
+        password: password,
+        confirmPassword: confirmPassword,
+        error: e
+      });
+      return;
     }
   });
 
