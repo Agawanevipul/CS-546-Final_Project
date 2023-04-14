@@ -17,14 +17,17 @@
             </h1>
             <h1 id="sign_red">{{title}}</h1>
 
-            <form>
+            <form method="post" id="login" action="/login">
+            <input type="hidden" name="clicked" value="loggedIn">
               <div class="form-row">
                 <div class="col-lg-7">
                   <input
                     type="email"
                     placeholder="abc@stevens.edu"
                     class="form-control my-3 p-4"
-                    id="login_mail"
+                    id="emailId"
+                    name="emailId"
+                    value="{{emailId}}"
                   />
                 </div>
               </div>
@@ -34,10 +37,19 @@
                     type="password"
                     placeholder="password"
                     class="form-control my-3 p-4"
-                    id="login_password"
+                    id="password"
+                    name="password"
+                    value="{{password}}"
                   />
                 </div>
               </div>
+              {{#if error }}
+              <div class="form-group">
+              <div class="alert alert-danger">
+              {{ error }}
+              </div>
+              </div>
+              {{/if}}
               <div class="form-row">
                 <div class="col-lg-7">
                   <button type="submit" class="btn1">sign in</button>
@@ -63,7 +75,8 @@
           <div class="col-lg-7 px-5 pt-4">
             <h1 class="font-weight-bold py-1" id="login_red">{{title}}</h1>
             <!--<h4 id="sign_red">Register</h4>-->
-            <form method="post" id="myForm" action="/register">
+            <form method="post" id="register" action="/register">
+            <input type="hidden" name="clicked" value="registered">
               <div class="row pt-4">
                 <div class="col-md-6">
                   <div class="form-group">

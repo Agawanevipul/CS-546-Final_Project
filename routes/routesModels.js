@@ -7,16 +7,19 @@ import validator from "./validator.js";
 const router = Router();
 router
   .route("/")
-  .get(async (req, res) => {
-    //code here for GET
-    try{
-      res.render('register', {title: "Register"});
-    } catch (e) {
-      res.status(404).json({error: e});
-    } 
+  // .get(async (req, res) => {
+  //   //code here for GET
+  //   try{
+  //     res.render('register', {title: "Register"});
+  //   } catch (e) {
+  //     res.status(404).json({error: e});
+  //   } 
     
-  })
+  // })
   .post(async (req, res) => {
+    let isclicked = req.body.clicked
+    console.log(isclicked)
+    if(isclicked === 'registered'){
     let firstName = req.body.first_name;
     let lastName = req.body.last_name;
     let emailId = req.body.email_id;
@@ -25,22 +28,6 @@ router
     let major = req.body.major;
     let password  = req.body.create_pass;
     let confirmPassword = req.body.confirm_pass
-
-    // try{
-      
-    // }
-    // catch(e){
-    //   res.status(404).render('register',{
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //     emailId: emailId,
-    //     program: program,
-    //     major: major,
-    //     password: password,
-    //     confirmPassword: confirmPassword,
-    //     error: e
-    //   });
-    // }
     try {
       firstName = validator.checkString(firstName, 'First Name');
       lastName = validator.checkString(lastName, 'Last Name');
@@ -69,6 +56,8 @@ router
       else{
         const error = "Confirm password must be similar to password.";
         return res.status(400).render('register', { 
+          title: 'Register',
+          loginPage: false,
           firstName: firstName,
           lastName: lastName,
           CWID: CWID,
@@ -79,6 +68,8 @@ router
       }
     } catch (e) {
       res.status(404).render('register', {
+        title: 'Register',
+        loginPage: false,
         firstName: firstName,
         lastName: lastName,
         emailId: emailId,
@@ -91,6 +82,40 @@ router
       });
       return;
     }
+  }
+   if(isclicked === 'loggedIn'){
+    let emailId = req.body.email_id;
+    let password  = req.body.create_pass;
+    try {
+      emailId = validator.checkString(emailId, 'Email Id');
+      emailId = validator.validateEmailId(emailId);
+      password = validator.checkString(password, 'Password');
+ 
+      if(password === confirmPassword){
+        const student = await studentsInfo.get_details(
+          emailId,
+          password
+        );
+        res.json(student);
+      }
+      else{
+        const error = "Confirm password must be similar to password.";
+        return res.status(400).render('register', { 
+          title: 'Login',
+          loginPage: true,
+          emailId: emailId,
+          error });
+      }
+    } catch (e) {
+      res.status(404).render('register', {
+        title: 'Login',
+        loginPage: true,
+        emailId: emailId,
+        error: e
+      });
+      return;
+    }
+   }
   });
 
   // router.route('/details').post(async (req, res) => {
