@@ -1,0 +1,208 @@
+{{#if loginPage}}
+<section id="login_form" class="form my-4 mx-5">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-5">
+            <img src="/public/images /loogin.jpg" class="img-fluid" alt="" />
+          </div>
+          <div class="col-lg-7 px-5 pt-5">
+            <h1 class="font-weight-bold py-3" id="login_red">
+              <img
+                id="login_logo"
+                src="/public/images /logo_m.png"
+                class="img-fluid"
+                alt="StudyAce Logo"
+              />
+              StudyAce
+            </h1>
+            <h1 id="sign_red">{{title}}</h1>
+
+            <form method="post" id="login" action="/login">
+            <input type="hidden" name="clicked" value="loggedIn">
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <input
+                    type="email"
+                    placeholder="abc@stevens.edu"
+                    class="form-control my-3 p-4"
+                    id="emailId"
+                    name="emailId"
+                    value="{{emailId}}"
+                  />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <input
+                    type="password"
+                    placeholder="password"
+                    class="form-control my-3 p-4"
+                    id="password"
+                    name="password"
+                    value="{{password}}"
+                  />
+                </div>
+              </div>
+              {{#if error }}
+              <div class="form-group">
+              <div class="alert alert-danger">
+              {{ error }}
+              </div>
+              </div>
+              {{/if}}
+              <div class="form-row">
+                <div class="col-lg-7">
+                  <button type="submit" class="btn1">sign in</button>
+                </div>
+              </div>
+              <a id="forgot_pwd" href="#">Forgot password?</a>
+              <p>
+                Don't have an account?
+                <a class="toggle" href="/register">Register here</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+{{else}}
+<section id="registration_form" class="form my-4 mx-5">
+      <div class="container">
+        <div class="row no-gutters">
+          <div class="col-lg-5">
+            <img src="/public//images /registration_copy.jpg" class="img-fluid" alt="" />
+          </div>
+          <div class="col-lg-7 px-5 pt-4">
+            <h1 class="font-weight-bold py-1" id="login_red">{{title}}</h1>
+            <!--<h4 id="sign_red">Register</h4>-->
+            <form method="post" id="register" action="/register">
+            <input type="hidden" name="clicked" value="registered">
+              <div class="row pt-4">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="first_name"
+                      name="first_name"
+                      placeholder="First Name"
+                      value="{{firstName}}"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="last_name"
+                      name="last_name"
+                      placeholder="Last Name"
+                      value="{{lastName}}"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-2">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email_id"
+                      name="email_id"
+                      placeholder="abc@stevens.edu"
+                      value="{{emailId}}"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-2">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="cwid"
+                      name="cwid"
+                      placeholder="Campus Wide ID (CWID)"
+                      value="{{CWID}}"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-2">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class="form-control" id="program" name="program" value="{{program}}">
+                      <option value="" disabled selected>Select Degree</option>
+                      <option value="btech">bachelor's</option>
+                      <option value="ms">Master's</option>
+                      <option value="phd">PHD</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <select class="form-control" id="major" name="major" value="{{major}}">
+                      <option value="" disabled selected>Select Major</option>
+                      <option value="CS">CS</option>
+                      <option value="MIS">MIS</option>
+                      <option value="CE">CE</option>
+                      <option value="SW">SW</option>
+                      <option value="ML">ML</option>
+                      <option value="FE">FE</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-2">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="create_pass"
+                      name="create_pass"
+                      placeholder="Create Password"
+                      value="{{create_pass}}"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-2">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="confirm_pass"
+                      name="confirm_pass"
+                      placeholder="Confirm Password"
+                      value="{{confirm_pass}}"
+                    />
+                  </div>
+                </div>
+              </div>
+              {{#if error }}
+              <div class="form-group">
+              <div class="alert alert-danger">
+              {{ error }}
+              </div>
+              </div>
+              {{/if}}
+              <div class="row pt-4">
+                <div class="col-lg-6 mx-auto text-center">
+                  <button type="submit" class="btn1">Submit</button>
+                </div>
+              </div>
+               <p class="text-center">
+                Already have an account?
+                <a class="toggle" href="/login">Sign in</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+{{/if}}
