@@ -40,8 +40,8 @@ const method = {
     const insertInfo = await infoCollection.insertOne(obj1);
   },
   async get_details(email_id, password){
-    emailId = validator.checkString(emailId, 'Email Id');
-    emailId = validator.validateEmailId(emailId);
+    email_id = validator.checkString(email_id, 'Email Id');
+    email_id = validator.validateEmailId(email_id);
     password = validator.checkString(password, 'Password');
     let isValid = false;
     
@@ -54,10 +54,6 @@ const method = {
     if(isValid === false){
        throw `Password does not match.`
     }
-    
-    return ; 
 }
-
-
 };
 export default method;
