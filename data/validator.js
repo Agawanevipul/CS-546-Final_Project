@@ -55,12 +55,28 @@ const exportedMethods = {
     // Password is valid
     return password;
   },
-  validateEmailId(emailId) {
-    if (emailId.endsWith("@stevens.edu")) {
-      return emailId;
-    } else {
-      throw `Email address is not from Stevens Institute of Technology`;
+  // validateEmailId(emailId) {
+  //   if (emailId.endsWith("@stevens.edu")) {
+  //     return emailId;
+  //   } else {
+  //     throw `Email address is not from Stevens Institute of Technology`;
+  //   }
+  // },
+  validateEmailId(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(email)) {
+      throw new Error("Invalid email address");
     }
+    if (!email.endsWith("@stevens.edu")) {
+      throw new Error("Email domain must be @stevens.edu");
+    }
+    if (!/^[^\s@]{3,}@stevens\.edu$/.test(email)) {
+      throw new Error(
+        "Email address must have at least 3 characters before the @stevens.edu domain"
+      );
+    }
+
+    return email;
   },
 };
 
