@@ -122,7 +122,5 @@ router
 //     return res.status(500).json({ error: "Internal server error" });
 //   }
 // });
-router.route("/homepage").get(async (req, res) => {
-  res.render("homepage", {});
-});
+
 export default router;
