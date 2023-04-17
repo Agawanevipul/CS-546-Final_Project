@@ -82,7 +82,8 @@ i {
   height: 100vh;
   overflow: scroll;
 
-  background-image: url("file:///C:/Users/adity/OneDrive/Desktop/mountain.jpg");
+  background-image: url("http://localhost:3000/public/images/mountain.jpg");
+
   background-position: center;
   background-size: cover;
 }
