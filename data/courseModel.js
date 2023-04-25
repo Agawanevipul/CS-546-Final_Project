@@ -1,6 +1,6 @@
 import {courseCollection} from "../config/mongoCollections.js";
 import {ObjectId} from "mongodb";
-import validation from '../helpers.js';
+import validator from './validator.js';
 const method = {
     async create(student_id, semester, total_Courses, courses_Name) {   
     const course_id = new ObjectId();
