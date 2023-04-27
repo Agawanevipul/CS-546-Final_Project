@@ -40,21 +40,21 @@ const exportedMethods = {
     if (!num) throw `You must provide a number of ${varName}`;
     if (typeof num !== "number") throw `You must provide a number`;
   },
-  validatePassword(password) {
-    // Password must be at least 8 characters long
-    if (password.length < 8) {
-      throw `Password must be at least 8 characters long`;
-    }
+  // validatePassword(password) {
+  //   // Password must be at least 8 characters long
+  //   if (password.length < 8) {
+  //     throw `Password must be at least 8 characters long`;
+  //   }
 
-    // Password must contain at least one uppercase letter, one lowercase letter, and one number
-    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
-    if (!regex.test(password)) {
-      throw `Password must contain at least one uppercase letter, one lowercase letter, and one number`;
-    }
+  //   // Password must contain at least one uppercase letter, one lowercase letter, and one number
+  //   const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
+  //   if (!regex.test(password)) {
+  //     throw `Password must contain at least one uppercase letter, one lowercase letter, and one number`;
+  //   }
 
-    // Password is valid
-    return password;
-  },
+  //   // Password is valid
+  //   return password;
+  // },
   // validateEmailId(emailId){
   //   if (emailId.endsWith("@stevens.edu")) {
   //       return emailId
@@ -78,6 +78,35 @@ const exportedMethods = {
 
     return email;
   },
+  validPassword(password) {
+    if (!password || password.length < 8 || password.includes(" ")) {
+        throw `Password must be at least 8 characters long and cannot contain empty spaces.`;
+    }
+    const upperCase = /[A-Z]/;
+    const numberCase = /[0-9]/;
+    const specialCharCase = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    if (!upperCase.test(password) || !numberCase.test(password) || !specialCharCase.test(password)) {
+        throw `Password must contain at least one uppercase character, one number, and one special character.`;
+    }
+        return password;
+    },
+    validRole(role) {
+        role = role.toLowerCase();
+      
+        if (role !== "admin" && role !== "user") {
+          throw `Role must be either 'admin' or 'user'`;
+        }
+        return role;
+    },
+    validName(name, varName) {
+        let nameValid = /^[a-zA-Z]/; // Regular expression to match valid firstName
+        if(!nameValid.test(name)){
+            throw `Invalid ${varName} name.`
+        }
+        if (name.length < 2 || name.length > 25)
+        throw `name should be in length between 2 to 25.`;
+        return name;
+    }   
 };
 
 export default exportedMethods;

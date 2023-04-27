@@ -2,7 +2,7 @@ import { Router } from "express";
 import path from "path";
 import { studentsInfo } from "../data/index.js";
 import { title } from "process";
-import validator from "./validator.js";
+import validator from "../validator.js";
 
 const router = Router();
 router
