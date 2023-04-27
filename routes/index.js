@@ -20,6 +20,12 @@ const constructorMethod = (app) => {
       loginPage: false,
     });
   });
+  app.use("/courses", studentRoute);
+  app.get("/courses", (req, res) => {
+    res.render("courses", {
+      title: "Courses"
+    });
+  });
   app.use("*", (req, res) => {
     res.status(404).json({ error: "Not found" });
   });
