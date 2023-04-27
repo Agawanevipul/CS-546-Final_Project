@@ -1,0 +1,67 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  background: rgb(219, 226, 226);
+}
+.row {
+  background: white;
+  border-radius: 30px;
+}
+img {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+.btn1 {
+  border: none;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  background-color: #9d1535;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.btn1:hover {
+  background-color: white;
+  border: 1px solid;
+  color: #9d1535;
+}
+#login_red {
+  color: #9d1535;
+}
+#sign_red {
+  color: #9d1535;
+}
+#login_logo {
+  height: 70px;
+  width: 70px;
+}
+footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: white !important;
+  color: #9d1535;
+  text-align: center;
+}
+#sa_footer_link {
+  color: #9d1535;
+}
+i {
+  color: #9d1535;
+}
+#nav_name {
+  color: #9d1535;
+}
+#nav_one,
+#nav_two,
+#drop_1,
+#drop_2,
+#drop_3,
+#navbarDropdown,
+#drop_4 {
+  color: #9d1535;
+}
