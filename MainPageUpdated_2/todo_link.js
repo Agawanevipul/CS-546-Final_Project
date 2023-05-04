@@ -73,6 +73,9 @@ form.addEventListener("submit", (e) => {
   newTask.appendChild(saveIcon);
   newTask.appendChild(prioritySelect);
   newTask.appendChild(gradeInput);
+  
+  prioritySelect.disabled = true;
+  gradeInput.disabled = true;
 
   closeSign.addEventListener("click", () => {
     newTask.remove();
@@ -104,14 +107,13 @@ form.addEventListener("submit", (e) => {
     }
     gradeInput.disabled = true;
 
-    const grade = parseInt(gradeInput.value);
-    if (!isNaN(grade) && grade >= 0 && grade <= 100) {
-      newTask.setAttribute("data-grade", grade);
+    const grade = gradeInput.value.trim();
+    if (grade === "" || (parseInt(grade) >= 0 && parseInt(grade) <= 100)) {
+      newTask.setAttribute("data-grade", grade === "" ? "" : parseInt(grade));
     } else {
       alert("Please enter a valid grade between 0 and 100.");
-
-      newTask.remove();
-    }
+      gradeInput.value = "";
+      return;
   });
 
   newTask.addEventListener("dragstart", () => {
