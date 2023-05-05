@@ -4,37 +4,34 @@ import validator from '../validator.js';
 
 const method = {
     async create(student_id, semester, totalCourses, courseNames) {   
-    let newCourse = {
-        student_id: student_id,
-        semester: semester,
-        totalCourses: totalCourses,
-        courseNames: courseNames,
-    };
-    const courseInfo = await courseCollection();
-    const insertInfo = await courseInfo.insertOne(newCourse)
+      student_id= validator.checkId(student_id,'Student ID')
+      semester  = validator.checkNumber(parseInt(semester.trim()),'Semester')
+      totalCourses  = validator.checkNumber(parseInt(totalCourses.trim()),'Total Courses')
+      courseNames = validator.checkStringArray(courseNames, 'Course Names');
+      
+      let newCourse = {
+          student_id: student_id,
+          semester: semester,
+          totalCourses: totalCourses,
+          courseNames: courseNames
+      };
+      const courseInfo = await courseCollection();
+      const insertInfo = await courseInfo.insertOne(newCourse)
 
-    if (!insertInfo.acknowledged || !insertInfo.insertedId)
-    throw [400,'Could not add course details'];
+      if (!insertInfo.acknowledged || !insertInfo.insertedId)
+      throw [400,'Could not add course details'];
 
-    const newId = insertInfo.insertedId;
-    return await this.get(newId.toString());
+      const newId = insertInfo.insertedId;
+      return await this.get(newId.toString());
     },
     async get(id){
-      if (!id) throw [400,'You must provide an id to search for'];
-    if (typeof id !== 'string') throw [400,'Id must be a string'];
-    if (id.trim().length === 0)
-      throw [400,'id cannot be an empty string or just spaces'];
-    id = id.trim();
-      if (id.toLowerCase()==="null" | id.toLowerCase()==="undefined" | id.toLowerCase()==="none" | id.toLowerCase()==="infinity" | id==="NaN"){
-        throw [400,'Invalid input provided for id'];
-      }
-    if (!ObjectId.isValid(id)) throw [400,'invalid object ID'];
+      id= validator.checkId(id,'Course ID')
     
-        const courseInfo = await courseCollection();
-        const course = await courseInfo.findOne({_id: new ObjectId(id)});
-        if (!course) throw [404, 'No course found with that id'];
-        course._id = course._id.toString();
-        return course; 
+      const courseInfo = await courseCollection();
+      const course = await courseInfo.findOne({_id: new ObjectId(id)});
+      if (!course) throw [404, 'No course found with that id'];
+      course._id = course._id.toString();
+      return course; 
     },
     async getAll() {
         const courseInfo = await courseCollection();
@@ -47,28 +44,55 @@ const method = {
         return courseList;
     },
     async remove(id) {
-        if (!id) throw [400,'You must provide an id to search for'];
-        if (typeof id !== 'string') throw [400,'Id must be a string'];
-        if (id.trim().length === 0)
-          throw [400,'id cannot be an empty string or just spaces'];
-        id = id.trim();
-          if (id.toLowerCase()==="null" | id.toLowerCase()==="undefined" | id.toLowerCase()==="none" | id.toLowerCase()==="infinity" | id==="NaN"){
-            throw [400,'Invalid input provided for id'];
-          }
-        if (!ObjectId.isValid(id)) throw [400,'invalid object ID'];
+      id= validator.checkId(id,'Course ID')
     
-        const courseInfo = await courseCollection();
-        const deletionInfo = await courseInfo.findOneAndDelete({
-          _id: new ObjectId(id)
-        });
-    
-        if (deletionInfo.lastErrorObject.n === 0) {
-          throw [404,`Could not delete course details with id of ${id}`];
-        }
-        let result={"courseId": id, "deleted": true}
-        return result;
-      },
+      const courseInfo = await courseCollection();
+      const deletionInfo = await courseInfo.findOneAndDelete({
+        _id: new ObjectId(id)
+      });
+  
+      if (deletionInfo.lastErrorObject.n === 0) {
+        throw [404,`Could not delete course details with id of ${id}`];
+      }
+      let result={"courseId": id, "deleted": true}
+      return result;
+    },
+    async update(id,student_id, semester, totalCourses, courseNames) {
 
+      id= validator.checkId(id,'Course ID')
+      student_id= validator.checkId(student_id,'Student ID')
+      semester  = validator.checkNumber(parseInt(semester.trim()),'Semester')
+      totalCourses  = validator.checkNumber(parseInt(totalCourses.trim()),'Total Courses')
+      courseNames = validator.checkStringArray(courseNames, 'Course Names');
     
+      const oldData = await this.get(id);
+      let new_flag=false
+      if(student_id!==oldData.student_id) new_flag=true
+      if(semester!==oldData.semester) new_flag=true
+      if(totalCourses!==oldData.totalCourses) new_flag=true
+      if(courseNames.length!==oldData.courseNames.length) new_flag=true
+      for(let i=0;i<courseNames.length;i++){
+        if(courseNames[i]!==oldData.courseNames[i]) new_flag=true
+      }
+
+      if(new_flag===false) throw [400,'No new values to update'];
+      let updatedCourseData = {
+        student_id: student_id,
+        semester: semester,
+        totalCourses: totalCourses,
+        courseNames: courseNames 
+      };
+      const courseInfo = await courseCollection();
+      const updateInfo = await courseInfo.findOneAndReplace(
+        {_id: new ObjectId(id)},
+        updatedCourseData,
+        {returnDocument: 'after'}
+      );
+      if (updateInfo.lastErrorObject.n === 0)
+        throw [404, `Update failed! Could not update course details with id ${id}`];
+    
+      const result = await courseInfo.findOne({_id: new ObjectId(id)});
+      return result;
+  }    
 }
 export default method;

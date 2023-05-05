@@ -8,6 +8,7 @@ const method = {
     lastName = validator.checkString(lastName, 'Last Name');
     emailId = validator.checkString(emailId, 'Email Id');
     emailId = validator.validateEmailId(emailId);
+    CWID  = validator.checkNumber(parseInt(CWID.trim()),'CWID')
     program = validator.checkString(program, 'Program');
     major = validator.checkString(major, 'Major');
     password = validator.checkString(password, 'Password');
@@ -25,7 +26,7 @@ const method = {
     if(student){
       throw `you are already registered. Please login to the system.`
     }
-    let obj1 = {
+    let info = {
       firstName: firstName,
       lastName: lastName,
       emailId: emailId,
@@ -35,7 +36,7 @@ const method = {
       password:passwords,
       confirmPassword:confirmPasswords
     };
-    const insertInfo = await infoCollection.insertOne(obj1);
+    const insertInfo = await infoCollection.insertOne(info);
     return insertInfo
   },
   async get_details(email_id, password){
@@ -57,16 +58,8 @@ const method = {
 },
 
 async remove(id) {
-  if (!id) throw [400,'You must provide an id to search for'];
-  if (typeof id !== 'string') throw [400,'Id must be a string'];
-  if (id.trim().length === 0)
-    throw [400,'id cannot be an empty string or just spaces'];
-  id = id.trim();
-    if (id.toLowerCase()==="null" | id.toLowerCase()==="undefined" | id.toLowerCase()==="none" | id.toLowerCase()==="infinity" | id==="NaN"){
-      throw [400,'Invalid input provided for id'];
-    }
-  if (!ObjectId.isValid(id)) throw [400,'invalid object ID'];
 
+  id= validator.checkId(id,'Student ID')
   const studentInfo = await studentCollection();
   const deletionInfo = await studentInfo.findOneAndDelete({
     _id: new ObjectId(id)
@@ -78,5 +71,83 @@ async remove(id) {
   let result={"studentId": id, "deleted": true}
   return result;
 },
+async get(id) {
+  id= validator.checkId(id,'Student ID')
+  const studentInfo = await studentCollection()
+  const student = await studentInfo.findOne({_id: new ObjectId(id)});
+  if (student === null) throw [404,'No student with that id'];
+  student._id = student._id.toString();
+  return student
+},
+
+async update(id,firstName,lastName,emailId,CWID,program,major,password,confirmPassword) {
+
+    id= validator.checkId(id,'Student ID')
+    firstName = validator.checkString(firstName, 'First Name');
+    lastName = validator.checkString(lastName, 'Last Name');
+    emailId = validator.checkString(emailId, 'Email Id');
+    emailId = validator.validateEmailId(emailId);
+    CWID  = validator.checkNumber(parseInt(CWID.trim()),'CWID')
+    program = validator.checkString(program, 'Program');
+    major = validator.checkString(major, 'Major');
+    password = validator.checkString(password, 'Password');
+    password = validator.validPassword(password);
+    confirmPassword = validator.checkString(confirmPassword, 'Confirm Password')
+    confirmPassword = validator.validPassword(confirmPassword);
+
+
+  const oldData = await this.get(id);
+  let new_flag=false
+  if(firstName!==oldData.firstName) new_flag=true
+  if(lastName!==oldData.lastName) new_flag=true
+  if(emailId!==oldData.emailId) new_flag=true
+  if(program!==oldData.program) new_flag=true
+
+  let compareToPassword = false;
+  compareToPassword = await bcrypt.compare(password, oldData.password);
+  // console.log(password,oldData.password,"first")
+  //   console.log(compareToPassword)
+  if (!compareToPassword) {
+    new_flag=true
+  }
+
+  compareToPassword = false;
+  compareToPassword = await bcrypt.compare(confirmPassword, oldData.confirmPassword);
+    // console.log(compareToPassword)
+  if (!compareToPassword) {
+    new_flag=true
+  }
+  
+  
+  if (!(password===confirmPassword)) {
+    throw 'Passwords donot match'
+  }
+
+  const salt = await bcrypt.genSalt(10);
+    const passwords = await bcrypt.hash(password, salt);
+    const confirmPasswords = await bcrypt.hash(confirmPassword, salt);
+
+  if(new_flag===false) throw [400,'No new values to update'];
+  let updatedStudentData = {
+    firstName: firstName,
+    lastName: lastName,
+    emailId: emailId,
+    CWID: CWID,
+    program: program,
+    password: passwords,
+    confirmPassword: confirmPasswords 
+  };
+  const studentInfo = await studentCollection()
+  const updateInfo = await studentInfo.findOneAndReplace(
+    {_id: new ObjectId(id)},
+    updatedStudentData,
+    {returnDocument: 'after'}
+  );
+  if (updateInfo.lastErrorObject.n === 0)
+    throw [404, `Update failed! Could not update student details with id ${id}`];
+
+  const result = await studentInfo.findOne({_id: new ObjectId(id)});
+  return result;
+}
 };
 export default method;
