@@ -1,7 +1,11 @@
+const analyzeBtn = document.querySelector("#analyzeBtn");
 const form = document.getElementById("form_todo");
 const input = document.getElementById("input_todo");
 const todoLane = document.getElementById("lane_todo");
 const input_desc = document.getElementById("todo_desc");
+const analyzeClick = document.getElementById("analyzeBtn");
+
+let taskSet = new Set();
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -73,12 +77,21 @@ form.addEventListener("submit", (e) => {
   newTask.appendChild(saveIcon);
   newTask.appendChild(prioritySelect);
   newTask.appendChild(gradeInput);
-  
+
   prioritySelect.disabled = true;
   gradeInput.disabled = true;
 
+  taskSet.add(newTask);
+  setTimeout(() => {
+    analyzeBtn.click();
+  }, 500);
+
   closeSign.addEventListener("click", () => {
+    taskSet.delete(newTask);
     newTask.remove();
+    setTimeout(() => {
+      analyzeBtn.click();
+    }, 500);
   });
 
   editIcon.addEventListener("click", () => {
@@ -114,14 +127,23 @@ form.addEventListener("submit", (e) => {
       alert("Please enter a valid grade between 0 and 100.");
       gradeInput.value = "";
       return;
+    }
+    taskSet.delete(newTask);
+    taskSet.add(newTask);
   });
 
   newTask.addEventListener("dragstart", () => {
     newTask.classList.add("is-dragging");
+    setTimeout(() => {
+      analyzeBtn.click();
+    }, 500);
   });
 
   newTask.addEventListener("dragend", () => {
     newTask.classList.remove("is-dragging");
+    setTimeout(() => {
+      analyzeBtn.click();
+    }, 500);
   });
 
   todoLane.appendChild(newTask);
@@ -132,6 +154,7 @@ form.addEventListener("submit", (e) => {
 const form_notes = document.getElementById("form_notes");
 const input_notes = document.getElementById("input_notes");
 const notesLane = document.getElementById("lane_notes");
+let noteSet = new Set();
 
 form_notes.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -150,8 +173,11 @@ form_notes.addEventListener("submit", (e) => {
   closeSign1.innerText = "X";
   newTaskNotes.appendChild(closeSign1);
 
+  noteSet.add(newTaskNotes);
+
   closeSign1.addEventListener("click", () => {
     newTaskNotes.remove();
+    noteSet.delete(newTaskNotes);
   });
 
   newTaskNotes.addEventListener("dragstart", () => {
@@ -164,4 +190,40 @@ form_notes.addEventListener("submit", (e) => {
 
   notesLane.appendChild(newTaskNotes);
   input_notes.value = "";
+});
+
+analyzeBtn.addEventListener("click", () => {
+  const todoLane = document.querySelector("#lane_todo");
+  const todoTasks = todoLane.querySelectorAll(".task");
+  const todoTaskCount = todoTasks.length;
+
+  const doingLane = document.querySelector("#lane_doing");
+  const doingTasks = doingLane.querySelectorAll(".task");
+  const doingTaskCount = doingTasks.length;
+
+  const doneLane = document.querySelector("#lane_done");
+  const doneTasks = doneLane.querySelectorAll(".task");
+  const doneTaskCount = doneTasks.length;
+
+  let totalTasks = todoTaskCount + doingTaskCount + doneTaskCount;
+
+  let todoPercent = (todoTaskCount / totalTasks) * 100;
+  let doingPercent = (doingTaskCount / totalTasks) * 100;
+  let donePercent = (doneTaskCount / totalTasks) * 100;
+
+  todoBar.style.width = `${todoPercent}%`;
+  doingBar.style.width = `${doingPercent}%`;
+  doneBar.style.width = `${donePercent}%`;
+
+  const todoText = document.getElementById("todoText");
+  const doingText = document.getElementById("doingText");
+  const doneText = document.getElementById("doneText");
+
+  const todoLine = `${todoTaskCount} tasks (${Math.round(todoPercent)}%)`;
+  const doingLine = `${doingTaskCount} tasks (${Math.round(doingPercent)}%)`;
+  const doneLine = `${doneTaskCount} tasks (${Math.round(donePercent)}%)`;
+
+  todoText.textContent = todoLine;
+  doingText.textContent = doingLine;
+  doneText.textContent = doneLine;
 });
