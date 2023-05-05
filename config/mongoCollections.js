@@ -16,5 +16,8 @@ const getCollectionFn = (collection) => {
 };
 
 /* Now, you can list your collections here: */
-export const studentCollection = getCollectionFn("studentCollection");
-// export const  courseCollection = getCollectionFn('courseCollection');
+const studentCollection = getCollectionFn("studentCollection");
+const courseCollection = getCollectionFn('courseCollection');
+const descriptionCollection = getCollectionFn('descriptionCollection');
+
+export {studentCollection, courseCollection, descriptionCollection}

@@ -1,3 +1,9 @@
-import students from "./models.js";
+import students from "./studentModel.js";
+import courses from "./courseModel.js";
+import description from "./description.js";
 
-export const studentsInfo = students;
+const studentsInfo = students;
+const courseInfo = courses;
+const descriptionInfo = description;
+
+export {studentsInfo, courseInfo, descriptionInfo}
