@@ -1,17 +1,39 @@
 <div class="mainbg">
-    <form id="form_todo">
-        <input type="text" placeholder="New TODO..." id="input_todo" />
-        <button class="btn btn-light font-weight-bold" type="submit">
-            Add +
-        </button>
-    </form>
+    <div style="display: flex">
+        <form id="form_todo">
+            <input type="text" placeholder="New TODO..." id="input_todo" />
+            <input type="text" placeholder="Description" id="todo_desc" />
+            <div class="dropdown" id="subject_dropdown">
+                <button class="btn btn-light font-weight-bold dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Subject
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Default</a></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
+                    <li><a class="dropdown-item" href="#">CS-546</a></li>
+                    <li><a class="dropdown-item" href="#">CS513</a></li>
+                </ul>
+            </div>
+            <button class="btn btn-light font-weight-bold" type="submit">
+                Add +
+            </button>
+        </form>
+        <form id="form_notes">
+            <input type="text" placeholder="New Notes..." id="input_notes" />
+
+            <button class="btn btn-light font-weight-bold" type="submit">
+                Add +
+            </button>
+        </form>
+    </div>
 
     <div class="DandD_lanes">
         <div class="DandD" id="lane_todo">
             <h3 class="heading">TO DO</h3>
-            <p class="task" draggable="true">
-                Complete the report and submit it by the end of the day
-            </p>
+
             <p class="task" draggable="true">
                 Organize your desk and file important documents.
             </p>
@@ -45,5 +67,32 @@
                 Follow up with clients and respond to their inquiries.
             </p>
         </div>
+        <div class="DandD" id="lane_notes">
+            <h3 class="heading">Notes</h3>
+            <p class="task" draggable="true">
+                Proofread the document and make necessary edits
+            </p>
+            <p class="task" draggable="true">
+                Follow up with clients and respond to their inquiries.
+            </p>
+        </div>
+    </div>
+</div>
+<div class="task-tracking">
+    <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Tasks in todo lane:</h6>
+        <p class="task-tracking__value" id="todo-count"></p>
+    </div>
+    <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Tasks in doing lane:</h6>
+        <p class="task-tracking__value" id="doing-count"></p>
+    </div>
+    <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Tasks in done lane:</h6>
+        <p class="task-tracking__value" id="done-count"></p>
+    </div>
+    <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Total tasks completed:</h6>
+        <p class="task-tracking__value" id="completed-count"></p>
     </div>
 </div>
