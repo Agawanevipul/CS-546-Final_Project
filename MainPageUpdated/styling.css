@@ -1,0 +1,219 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  background: rgb(219, 226, 226);
+}
+.row {
+  background: white;
+  border-radius: 30px;
+}
+img {
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+.btn1 {
+  border: none;
+  outline: none;
+  height: 50px;
+  width: 100%;
+  background-color: #9d1535;
+  color: white;
+  border-radius: 4px;
+  font-weight: bold;
+}
+.btn1:hover {
+  background-color: white;
+  border: 1px solid;
+  color: #9d1535;
+}
+#login_red {
+  color: #9d1535;
+}
+#sign_red {
+  color: #9d1535;
+}
+#login_logo {
+  height: 70px;
+  width: 70px;
+}
+
+footer {
+  margin-top: auto;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  color: #9d1535;
+  text-align: center;
+}
+
+#sa_footer_link {
+  color: #9d1535;
+}
+i {
+  color: #9d1535;
+}
+#nav_name {
+  color: #9d1535;
+}
+#nav_one,
+#nav_two,
+#drop_1,
+#drop_2,
+#drop_3,
+#navbarDropdown,
+#drop_4 {
+  color: #9d1535;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+.mainbg {
+  width: 100%;
+  min-height: 100vh;
+  overflow: scroll;
+
+  background-image: url("file:///C:/Users/adity/OneDrive/Desktop/mountain.jpg");
+  background-position: center;
+  background-size: cover;
+}
+#form_todo {
+  padding: 32px 32px 0;
+  display: flex;
+}
+#form_todo input {
+  padding: 10px;
+  margin-right: 12px;
+  width: 225px;
+  border-radius: 4px;
+  border: none;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: white;
+
+  font-size: 14px;
+  outline: none;
+}
+
+.DandD_lanes {
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  gap: 16px;
+  padding: 24px 32px;
+  overflow: scroll;
+  height: 100%;
+}
+.heading {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+.DandD {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: #f4f4f4;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  padding: 12px;
+  border-radius: 4px;
+  width: 225px;
+  min-height: 120px;
+  flex-shrink: 0;
+}
+.task {
+  /* background: white; */
+  color: black;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: move;
+  margin-bottom: 15px;
+}
+.is-dragging {
+  scale: 1.05;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: rgb(50, 50, 50);
+  color: white;
+}
+#subject_dropdown {
+  margin-right: 12px;
+}
+
+#form_notes {
+  padding: 32px 32px 0;
+  display: flex;
+}
+#form_notes input {
+  padding: 10px;
+  margin-right: 12px;
+  margin-left: 240px;
+  width: 225px;
+  border-radius: 4px;
+  border: none;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: white;
+
+  font-size: 14px;
+  outline: none;
+}
+.close-sign {
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+}
+.close-sign:hover {
+  color: #666;
+}
+.task-title {
+  font-weight: bold;
+}
+.edit-icon {
+  cursor: pointer;
+}
+.save-icon {
+  cursor: pointer;
+}
+.task-priority {
+  margin-left: 16px;
+}
+.task-tracking {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.task-tracking__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task-tracking__title {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.task-tracking__value {
+  font-size: 1.2rem;
+  font-weight: bold;
+}

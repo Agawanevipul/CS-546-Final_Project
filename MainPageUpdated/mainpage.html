@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link rel="shortcut icon" type="x-icon" href="logo_m.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css"
+      integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+      crossorigin="anonymous"
+    />
+
+    <link rel="stylesheet" href="styling.css" />
+
+    <title>Study Ace</title>
+    <script src="dragging.js" defer></script>
+    <script src="todo_link.js" defer></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"
+      integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"
+      integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a id="nav_name" class="navbar-brand font-weight-bold" href="#"
+        >Study Ace</a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="nav_one"
+              >Home <span class="sr-only">(current)</span></a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="nav_two">Link</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Dropdown
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a id="drop_1" class="dropdown-item" href="#">Action</a>
+              <a id="drop_2" class="dropdown-item" href="#">Another action</a>
+              <div id="drop_3" class="dropdown-divider"></div>
+              <a id="drop_4" class="dropdown-item" href="#"
+                >Something else here</a
+              >
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="mainbg">
+      <div style="display: flex">
+        <form id="form_todo">
+          <input type="text" placeholder="New TODO..." id="input_todo" />
+          <input type="text" placeholder="Description" id="todo_desc" />
+          <div class="dropdown" id="subject_dropdown">
+            <button
+              class="btn btn-light font-weight-bold dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Subject
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Default</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a class="dropdown-item" href="#">CS-546</a></li>
+              <li><a class="dropdown-item" href="#">CS513</a></li>
+            </ul>
+          </div>
+          <button class="btn btn-light font-weight-bold" type="submit">
+            Add +
+          </button>
+        </form>
+        <form id="form_notes">
+          <input type="text" placeholder="New Notes..." id="input_notes" />
+
+          <button class="btn btn-light font-weight-bold" type="submit">
+            Add +
+          </button>
+        </form>
+      </div>
+
+      <div class="DandD_lanes">
+        <div class="DandD" id="lane_todo">
+          <h3 class="heading">TO DO</h3>
+
+          <p class="task" draggable="true">
+            Organize your desk and file important documents.
+          </p>
+          <p class="task" draggable="true">
+            Schedule a meeting with the team to discuss the project.
+          </p>
+          <p class="task" draggable="true">
+            Collaborate with colleagues to brainstorm new ideas for the project.
+          </p>
+        </div>
+
+        <div class="DandD" id="lane_doing">
+          <h3 class="heading">Doing</h3>
+          <p class="task" draggable="true">
+            Research and gather information for the upcoming presentation.
+          </p>
+          <p class="task" draggable="true">
+            Attend the training session and take notes for future reference.
+          </p>
+          <p class="task" draggable="true">
+            Create a to-do list for the week and prioritize tasks.
+          </p>
+        </div>
+
+        <div class="DandD" id="lane_done">
+          <h3 class="heading">Done</h3>
+          <p class="task" draggable="true">
+            Proofread the document and make necessary edits
+          </p>
+          <p class="task" draggable="true">
+            Follow up with clients and respond to their inquiries.
+          </p>
+        </div>
+        <div class="DandD" id="lane_notes">
+          <h3 class="heading">Notes</h3>
+          <p class="task" draggable="true">
+            Proofread the document and make necessary edits
+          </p>
+          <p class="task" draggable="true">
+            Follow up with clients and respond to their inquiries.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="task-tracking">
+      <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Tasks in todo lane:</h6>
+        <p class="task-tracking__value" id="todo-count"></p>
+      </div>
+      <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Tasks in doing lane:</h6>
+        <p class="task-tracking__value" id="doing-count"></p>
+      </div>
+      <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Tasks in done lane:</h6>
+        <p class="task-tracking__value" id="done-count"></p>
+      </div>
+      <div class="task-tracking__item">
+        <h6 class="task-tracking__title">Total tasks completed:</h6>
+        <p class="task-tracking__value" id="completed-count"></p>
+      </div>
+    </div>
+    <footer id="foot" lass="bg-white text-center">
+      <!-- Grid container -->
+      <div class="container p-1 pb-0">
+        <!-- Section: Social media -->
+        <section class="mb-2">
+          <!-- Facebook -->
+          <a
+            class="btn btn-outline-light btn-floating m-1"
+            href="#!"
+            role="button"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+
+          <!-- Twitter -->
+          <a
+            class="btn btn-outline-light btn-floating m-1"
+            href="#!"
+            role="button"
+            ><i class="fab fa-twitter"></i
+          ></a>
+
+          <!-- Google -->
+          <a
+            class="btn btn-outline-light btn-floating m-1"
+            href="#!"
+            role="button"
+            ><i class="fab fa-google"></i
+          ></a>
+
+          <!-- Instagram -->
+          <a
+            class="btn btn-outline-light btn-floating m-1"
+            href="#!"
+            role="button"
+            ><i class="fab fa-instagram"></i
+          ></a>
+
+          <!-- Linkedin -->
+          <a
+            class="btn btn-outline-light btn-floating m-1"
+            href="#!"
+            role="button"
+            ><i class="fab fa-linkedin-in"></i
+          ></a>
+
+          <!-- Github -->
+          <a
+            class="btn btn-outline-light btn-floating m-1"
+            href="#!"
+            role="button"
+            ><i class="fab fa-github"></i
+          ></a>
+        </section>
+        <!-- Section: Social media -->
+      </div>
+      <!-- Grid container -->
+
+      <!-- Copyright -->
+      <div class="text-center p-3">
+        © 2023 Copyright:
+        <a id="sa_footer_link" href="https://mdbootstrap.com/">studyace.com</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+  </body>
+</html>
