@@ -126,3 +126,25 @@ closeSign1.addEventListener("click", () => {
       alert("Failed to delete note");
     });
 });
+// ---------------------------------------------------------------------------------------------------------------------------------
+// Ajax to get user Details on the userProfile page
+$(document).ready(function () {
+  $.ajax({
+    url: "/userProfile",
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (data) {
+      $("#email_id").text(data.email);
+      $("#first_name").text(data.firstName);
+      $("#last_name").text(data.lastName);
+      $("#cwid").text(data.cwid);
+      $("#courses").text(data.courses);
+      $("#program").text(data.program);
+      $("#sem").text(data.semester);
+    })
+    .fail(function () {
+      // Handle any errors that may occur
+      alert("Failed to retrieve user details!");
+    });
+});
