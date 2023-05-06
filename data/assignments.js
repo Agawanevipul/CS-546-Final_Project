@@ -31,6 +31,31 @@ let exportedMethods = {
     
     if (!description) throw [404,'Assignment not found'];
   },
+  async getId(assignmentName){
+    assignmentName = validator.checkString(assignmentName, 'Assignment Name');
+    let description=false
+    const descriptionInfo = await descriptionCollection();
+    let descriptionList = await descriptionInfo.find({}).toArray();
+    for(let i=0;i<descriptionList.length;i++)
+    {
+      let single_description=descriptionList[i]
+      for(let [key,value] of Object.entries(single_description)){
+        if(key==="assignments"){
+          let assignmentList=value
+          for(let j=0;j<assignmentList.length;j++){
+            for(let [key2,value2] of Object.entries(assignmentList[j])){
+              if(assignmentName.equals(value2)){
+                return assignmentList[j]
+              }
+            }
+          }
+        }
+      }   
+    }
+    
+    if (!description) throw [404,'Assignment not found'];
+    
+  },
 
   async getAll(studentId) {
 
