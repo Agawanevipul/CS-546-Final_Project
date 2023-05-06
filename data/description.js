@@ -3,30 +3,27 @@ import {ObjectId} from "mongodb";
 import validator from '../validator.js';
 
 const method = {
-    async create(course_id, assignmentsCount, weightage, assignments) {   
-      course_id= validator.checkId(course_id,'Course ID')
-      assignmentsCount  = validator.checkNumber(parseInt(assignmentsCount.trim()),'Semester')
+    async create(student_id, assignments) {   
+      console.log(student_id)
+      student_id= validator.checkId(student_id,'Student ID')
       // weightage = validator.checkStringObject(weightage, 'Weightage');
       // assignments = validator.checkStringArrayObject(assignments, 'Assignments');
 
       let newDescription = {
-          course_id: course_id,
-          assignmentsCount: assignmentsCount,
-          weightage: weightage,
+          _id: new ObjectId(student_id),
           assignments: assignments
       };
       const descriptionInfo = await descriptionCollection();
       const insertInfo = await descriptionInfo.insertOne(newDescription)
 
       if (!insertInfo.acknowledged || !insertInfo.insertedId)
-      throw [400,'Could not add details into description'];
+      throw [400,'Could not add assignment details'];
 
       const newId = insertInfo.insertedId;
       return await this.get(newId.toString());
       },
       async get(id){
         id= validator.checkId(id,'Description ID')
-      
         const descriptionInfo = await descriptionCollection();
         const description = await descriptionInfo.findOne({_id: new ObjectId(id)});
         if (!description) throw [404, 'No description found with that id'];
@@ -39,7 +36,7 @@ const method = {
         if (!descriptionList) throw [400,'Could not get all descriptions'];
         descriptionList = descriptionList.map((element) => {
           element._id = element._id.toString();
-          return {"_id":element._id.toString(), "name":element.name};
+          return {"_id":element._id.toString(), "assignments":element.assignments};
         });
         return descriptionList;
     },

@@ -2,6 +2,8 @@ import { studentCollection } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import bcrypt from "bcrypt";
 import validator from '../validator.js';
+import assignments from "./description.js";
+
 const method = {
   async create(firstName,lastName,emailId,CWID,program,major,password,confirmPassword) {
     firstName = validator.checkString(firstName, 'First Name');
@@ -36,7 +38,10 @@ const method = {
       password:passwords,
       confirmPassword:confirmPasswords
     };
+
     const insertInfo = await infoCollection.insertOne(info);
+    console.log(insertInfo)
+    const insertAssignment = await assignments.create(insertInfo.insertedId.toString(),[])
     return insertInfo
   },
   async get_details(email_id, password){

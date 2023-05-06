@@ -5,9 +5,9 @@ import validator from '../validator.js';
 const method = {
     async create(student_id, semester, totalCourses, courseNames) {   
       student_id= validator.checkId(student_id,'Student ID')
-      semester  = validator.checkNumber(parseInt(semester.trim()),'Semester')
-      totalCourses  = validator.checkNumber(parseInt(totalCourses.trim()),'Total Courses')
-      courseNames = validator.checkStringArray(courseNames, 'Course Names');
+      semester  = validator.checkNumber(semester,'Semester')
+      totalCourses  = validator.checkNumber(totalCourses,'Total Courses')
+      courseNames = validator.checkStringArray(courseNames, 'Course Names')
       
       let newCourse = {
           student_id: student_id,
@@ -58,11 +58,10 @@ const method = {
       return result;
     },
     async update(id,student_id, semester, totalCourses, courseNames) {
-
       id= validator.checkId(id,'Course ID')
       student_id= validator.checkId(student_id,'Student ID')
-      semester  = validator.checkNumber(parseInt(semester.trim()),'Semester')
-      totalCourses  = validator.checkNumber(parseInt(totalCourses.trim()),'Total Courses')
+      semester  = validator.checkNumber(semester,'Semester')
+      totalCourses  = validator.checkNumber(totalCourses,'Total Courses')
       courseNames = validator.checkStringArray(courseNames, 'Course Names');
     
       const oldData = await this.get(id);
