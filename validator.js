@@ -63,7 +63,7 @@ const exportedMethods = {
     if (!inp) throw `You must provide a number of ${varName}`;
     if (typeof(parseInt(inp))!=='number')
       throw `You must provide a number for ${varName}`;
-    return inp.trim();
+    return inp;
   },
   validateEmailId(email) {
     email=email.trim()
