@@ -75,3 +75,54 @@ closeSign.addEventListener("click", () => {
       alert("Failed to delete task");
     });
 });
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+// AJAX code for the noteAddBtn button:
+$(document).ready(function () {
+  $("#form_notes").submit(function (event) {
+    event.preventDefault();
+
+    var formData = {
+      notes: $("#input_notes").val(),
+    };
+
+    $.ajax({
+      type: "POST",
+      url: "/api/notes",
+      data: JSON.stringify(formData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_notes")[0].reset();
+
+        alert("Note added successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding Note: " + xhr.responseText);
+      },
+    });
+  });
+});
+
+// closeSign AJAX/
+closeSign1.addEventListener("click", () => {
+  const noteId = closeSign1.parentElement.getAttribute("data-note-id");
+  const url = `/tasks/${taskId}`;
+  const options = {
+    method: "DELETE",
+  };
+  fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        closeSign1.parentElement.remove();
+      } else {
+        throw new Error(`Failed to delete note with ID ${noteId}`);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to delete note");
+    });
+});
