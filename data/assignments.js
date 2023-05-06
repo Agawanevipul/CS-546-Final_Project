@@ -44,7 +44,7 @@ let exportedMethods = {
           let assignmentList=value
           for(let j=0;j<assignmentList.length;j++){
             for(let [key2,value2] of Object.entries(assignmentList[j])){
-              if(assignmentName.equals(value2)){
+              if(assignmentName===value2){
                 return assignmentList[j]
               }
             }

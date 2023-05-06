@@ -55,11 +55,16 @@ const method = {
     if (!info_obj) {throw 'You need to register for the access!!';}
 
     isValid = await bcrypt.compare(password, info_obj.password);
-    if(isValid === false){
-       throw `Password does not match.`
+    if (isValid) {
+      return info_obj
+    } else {
+      throw 'Passwords donot match'
     }
+    // if(isValid === false){
+    //    throw `Password does not match.`
+    // }
 
-    return info_obj
+    // return info_obj
 },
 
 async remove(id) {
