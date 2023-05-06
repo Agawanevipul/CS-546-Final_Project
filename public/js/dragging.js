@@ -4,11 +4,13 @@ const droppables = document.querySelectorAll(".DandD");
 draggables.forEach((task) => {
   task.addEventListener("dragstart", () => {
     task.classList.add("is-dragging");
+    current_task = task;
   });
 
   task.addEventListener("dragend", () => {
     task.classList.remove("is-dragging");
   });
+  RadioNodeList;
 });
 
 droppables.forEach((zone) => {
