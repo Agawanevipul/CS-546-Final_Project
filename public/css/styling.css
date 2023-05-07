@@ -219,3 +219,25 @@ i {
 .grade {
   margin-top: 8px;
 }
+#tracking_card {
+  width: 18rem;
+  position: fixed;
+  top: 0;
+  right: 0;
+  margin-top: 70px;
+  margin-right: 10px;
+}
+
+.progress-bar {
+  font-size: 0.875rem;
+  font-weight: bold;
+}
+.card-body p {
+  margin-top: 1px;
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+#analyzeBtn {
+  display: none;
+}
