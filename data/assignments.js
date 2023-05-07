@@ -3,10 +3,11 @@
 import {ObjectId} from 'mongodb';
 import validator from '../validator.js';
 import {descriptionCollection} from '../config/mongoCollections.js';
+
 let exportedMethods = {
   async get(assignmentId) {
 
-    assignmentId = validator.checkId(assignmentId);
+    assignmentId = validator.checkId(assignmentId, "Assignment ID");
     
     let description=false
     const descriptionInfo = await descriptionCollection();
@@ -29,65 +30,94 @@ let exportedMethods = {
     }
     
     if (!description) throw [404,'Assignment not found'];
-    // return description;
+  },
+  async getId(assignmentName){
+    assignmentName = validator.checkString(assignmentName, 'Assignment Name');
+    let description=false
+    const descriptionInfo = await descriptionCollection();
+    let descriptionList = await descriptionInfo.find({}).toArray();
+    for(let i=0;i<descriptionList.length;i++)
+    {
+      let single_description=descriptionList[i]
+      for(let [key,value] of Object.entries(single_description)){
+        if(key==="assignments"){
+          let assignmentList=value
+          for(let j=0;j<assignmentList.length;j++){
+            for(let [key2,value2] of Object.entries(assignmentList[j])){
+              if(assignmentName===value2){
+                return assignmentList[j]
+              }
+            }
+          }
+        }
+      }   
+    }
+    
+    if (!description) throw [404,'Assignment not found'];
+    
   },
 
-  async getAll(descriptionId) {
+  async getAll(studentId) {
 
-    descriptionId = validator.checkId(descriptionId);
+    studentId = validator.checkId(studentId);
     
     const descriptionInfo = await descriptionCollection();
-    const description = await descriptionInfo.findOne({_id: new ObjectId(descriptionId)});
+    const description = await descriptionInfo.findOne({_id: new ObjectId(studentId)});
 
-    if (!description) throw [404,'Course Description not found'];
+    if (!description) throw [404,'No assignments assigned for the student'];
     
-    if(!description.assignments) throw [404,'Assignments not found for this course description'];
+    if(!description.assignments) throw [404,'Assignments not found for this student'];
     return description.assignments;
   },  
-  async create(descriptionId, assignmentName, type, status, dateOfSubmission, dateOfInitialization, dateOfCompletion, notes) {
-    descriptionId = validator.checkId(descriptionId);
+  async create(studentId, assignmentName, status, priority, grade, subject, dueDate, notes) {
+    studentId = validator.checkId(studentId, "Student ID");
+    assignmentName = validator.checkString(assignmentName, 'Assignment Name');
+    status = validator.checkString(status, 'Status');
+    priority = validator.checkString(priority, 'Priority');
+    grade = validator.checkNumber(grade, 'Grade');
+    subject = validator.checkString(subject, 'Subject');
+    dueDate = validator.checkString(dueDate, 'Due Date');
+    notes = validator.checkString(notes, 'Notes');
 
     const descriptionInfo = await descriptionCollection();
-    const oldData = await descriptionInfo.findOne({_id: new ObjectId(descriptionId)});
+    const oldData = await descriptionInfo.findOne({_id: new ObjectId(studentId)});
 
     let oldAssignments=[]
     let newAssignment = {
       _id: new ObjectId(),
       assignmentName: assignmentName,
-      type: type,
       status: status,
-      dateOfSubmission: dateOfSubmission,
-      dateOfInitialization: dateOfInitialization,
-      dateOfCompletion: dateOfCompletion,
+      priority: priority,
+      grade: grade,
+      subject: subject,
+      dueDate: dueDate,
       notes: notes
     };
 
-    const descriptionAssignments= await this.getAll(descriptionId);
+    const descriptionAssignments= await this.getAll(studentId);
+    console.log(descriptionAssignments)
     oldAssignments=descriptionAssignments
     oldAssignments.push(newAssignment)
 
     let updatedAssignmentData = {
-        course_id: oldData.course_id,
-        assignmentsCount: oldData.assignmentsCount,
-        hasExam: oldData.hasExam,
-        weightage: oldData.weightage, 
+        _id: oldData._id, 
         assignments: oldAssignments
     };
 
     const updateInfo = await descriptionInfo.findOneAndReplace(
-      {_id: new ObjectId(descriptionId)},
+      {_id: new ObjectId(studentId)},
       updatedAssignmentData,
       {returnDocument: 'after'}
     );
     if (updateInfo.lastErrorObject.n === 0)
-      throw [404, `Update failed! Could not update course description with id ${descriptionId}`];
+      throw [404, `Update failed! Could not update course description with id ${studentId}`];
 
-    const resultdescription = await descriptionInfo.findOne({_id: new ObjectId(descriptionId)});
+    const resultdescription = await descriptionInfo.findOne({_id: new ObjectId(studentId)});
     return resultdescription;
   },
   async remove(assignmentId) {
 
-    assignmentId = validator.checkId(assignmentId);
+    assignmentId = validator.checkId(assignmentId, "Assignment ID");
     const descriptionInfo = await descriptionCollection();
     let descriptionList = await descriptionInfo.find({}).toArray();
     let flag=false
@@ -102,10 +132,6 @@ let exportedMethods = {
               if(new ObjectId(assignmentId).equals(value2)){
                 assignmentList.splice(j,1)
                 let updatedDescriptionData = {
-                    course_id: single_description.course_id,
-                    assignmentsCount: single_description.assignmentsCount,
-                    hasExam: single_description.hasExam,
-                    weightage: single_description.weightage,
                     assignments: assignmentList
                 };
                 flag =true
@@ -127,66 +153,65 @@ let exportedMethods = {
     }
 
     if (flag===false)
-      throw [404, `Could not find Aassignment with id of ${albumId}`];
+      throw [404, `Could not find Aassignment with id of ${assignmentId}`];
  },
- async update(descriptionId, assignmentId, assignmentName, type, status, dateOfSubmission, dateOfInitialization, dateOfCompletion, notes) {
-  descriptionId = validator.checkId(descriptionId);
+ async update(studentId, assignmentId, assignmentName, status, priority, grade, subject, dueDate, notes) {
+  studentId = validator.checkId(studentId,'Student ID');
+  assignmentId = validator.checkId(assignmentId, 'Assignment ID');
+  assignmentName = validator.checkString(assignmentName, 'Assignment Name');
+  status = validator.checkString(status, 'Status');
+  priority = validator.checkString(priority, 'Priority');
+  grade = validator.checkNumber(grade, 'Grade');
+  subject = validator.checkString(subject, 'Subject');
+  dueDate = validator.checkString(dueDate, 'Due Date');
+  notes = validator.checkString(notes, 'Notes');
 
   const descriptionInfo = await descriptionCollection();
-  const oldData = await descriptionInfo.findOne({_id: new ObjectId(descriptionId)});
+  const oldData = await descriptionInfo.findOne({_id: new ObjectId(studentId)});
   const descriptionAssignments= await this.get(assignmentId);
-
-  console.log(oldData)
   let flag=false
   if(descriptionAssignments.assignmentName!==assignmentName) flag = true
-  if(descriptionAssignments.type!==type) flag = true
   if(descriptionAssignments.status!==status) flag = true
-  if(descriptionAssignments.dateOfSubmission!==dateOfSubmission) flag = true
-  if(descriptionAssignments.dateOfInitialization!==dateOfInitialization) flag = true
-  if(descriptionAssignments.dateOfCompletion!==dateOfCompletion) flag = true
+  if(descriptionAssignments.priority!==priority) flag = true
+  if(descriptionAssignments.grade!==grade) flag = true
+  if(descriptionAssignments.subject!==subject) flag = true
+  if(descriptionAssignments.dueDate!==dueDate) flag = true
   if(descriptionAssignments.notes!==notes) flag = true
 
   if(flag===false) throw [400,'No new values to update'];
 
+  const removedAssignments= await this.remove(assignmentId);
+  const AssignmentsList= await this.getAll(studentId);
+
   let oldAssignments=[]
+  oldAssignments=AssignmentsList
+ 
   let newAssignment = {
     _id: assignmentId,
     assignmentName: assignmentName,
-    type: type,
     status: status,
-    dateOfSubmission: dateOfSubmission,
-    dateOfInitialization: dateOfInitialization,
-    dateOfCompletion: dateOfCompletion,
+    priority: priority,
+    grade: grade,
+    subject: subject,
+    dueDate: dueDate,
     notes: notes
   };
+  oldAssignments.push(newAssignment)
 
-  // const removedAssignments= await this.remove(assignmentId);
-  
-  // const updatedAssignments= await this.create(assignmentId)
-
-
-  // console.log(descriptionAssignments)
-  // oldAssignments=descriptionAssignments
-  // console.log(oldAssignments)
-  // oldAssignments.push(newAssignment)
-
-  let updatedAssignmentData = {
-      course_id: oldData.course_id,
-      assignmentsCount: oldData.assignmentsCount,
-      hasExam: oldData.hasExam,
-      weightage: oldData.weightage, 
-      assignments: newAssignment
-  };
+  let newInfo = {
+    _id: new ObjectId(studentId),
+    assignments: oldAssignments
+  }
 
   const updateInfo = await descriptionInfo.findOneAndReplace(
-    {_id: new ObjectId(descriptionId)},
-    updatedAssignmentData,
+    {_id: new ObjectId(studentId)},
+    newInfo,
     {returnDocument: 'after'}
   );
   if (updateInfo.lastErrorObject.n === 0)
-    throw [404, `Update failed! Could not update course description with id ${descriptionId}`];
+    throw [404, `Update failed! Could not update course description with id ${studentId}`];
 
-  const resultdescription = await descriptionInfo.findOne({_id: new ObjectId(descriptionId)});
+  const resultdescription = await descriptionInfo.findOne({_id: new ObjectId(studentId)});
   return resultdescription;
 }
 };

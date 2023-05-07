@@ -45,8 +45,9 @@ img {
   height: 70px;
   width: 70px;
 }
+
 footer {
-  position: fixed;
+  margin-top: auto;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -79,16 +80,16 @@ i {
 }
 .mainbg {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   overflow: scroll;
 
-  background-image: url("http://localhost:3000/public/images/mountain.jpg");
-
+  background-image: url("/public/images/mountain.jpg");
   background-position: center;
   background-size: cover;
 }
 #form_todo {
   padding: 32px 32px 0;
+  display: flex;
 }
 #form_todo input {
   padding: 10px;
@@ -131,17 +132,90 @@ i {
   flex-shrink: 0;
 }
 .task {
-  background: white;
   color: black;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
   padding: 12px;
   border-radius: 4px;
   font-size: 16px;
   cursor: move;
+  margin-bottom: 15px;
 }
 .is-dragging {
   scale: 1.05;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
   background: rgb(50, 50, 50);
   color: white;
+}
+#subject_dropdown {
+  margin-right: 12px;
+}
+
+#form_notes {
+  padding: 32px 32px 0;
+  display: flex;
+}
+#form_notes input {
+  padding: 10px;
+  margin-right: 12px;
+  margin-left: 3px;
+  width: 225px;
+  border-radius: 4px;
+  border: none;
+
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  background: white;
+
+  font-size: 14px;
+  outline: none;
+}
+.close-sign {
+  float: right;
+  cursor: pointer;
+  font-weight: bold;
+}
+.close-sign:hover {
+  color: #666;
+}
+.task-title {
+  font-weight: bold;
+}
+.edit-icon {
+  cursor: pointer;
+}
+.save-icon {
+  cursor: pointer;
+}
+.task-priority {
+  margin-left: 16px;
+}
+.task-tracking {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+}
+
+.task-tracking__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.task-tracking__title {
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.task-tracking__value {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.grade {
+  margin-top: 8px;
 }
