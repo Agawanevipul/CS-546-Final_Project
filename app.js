@@ -30,7 +30,6 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
     req.method = req.body._method;
     delete req.body._method;
   }
-
   // let the next middleware run:
   next();
 };
@@ -54,20 +53,18 @@ app.use(
 app.get('/register', (req, res, next) => { 
   if (req.session.user) {
     console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Authenticated User)');
-    return res.redirect('/register')
+    return res.redirect('/homepage')
   }
   else{
     console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Non-Authenticated User)');
-    // return res.redirect('/register')
+    next();
   }
-  next();
 });  
 
 app.get('/login', (req, res, next) => { 
-  // console.log('login middleware fired')
   if (req.session.user) {
     console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Authenticated User)');
-    return res.redirect('/login')
+    return res.redirect('/homepage')
   }
   else {
     console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Non-Authenticated User)');
@@ -86,6 +83,17 @@ app.get('/homepage', (req, res, next) => {
   }
 })
 
+app.get('/logout', (req, res, next) => {
+    if(!req.session.user){
+      console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Non-Authenticated User)');
+      return res.redirect('/login')
+    }
+    if (req.session.user) {
+      console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Authenticated User)');
+      next();
+    }
+  });
+  
 configRoutes(app);
 
 app.listen(3000, () => {
