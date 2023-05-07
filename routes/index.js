@@ -23,7 +23,7 @@ const constructorMethod = (app) => {
   app.use("/courses", studentRoute);
   app.get("/courses", (req, res) => {
     res.render("courses", {
-      title: "Courses"
+      title: "Courses",
     });
   });
   app.use("*", (req, res) => {

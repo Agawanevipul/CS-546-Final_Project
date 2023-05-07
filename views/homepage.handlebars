@@ -1,98 +1,168 @@
 <div class="mainbg">
-    <div style="display: flex">
-        <form id="form_todo">
-            <input type="text" placeholder="New TODO..." id="input_todo" />
-            <input type="text" placeholder="Description" id="todo_desc" />
-            <div class="dropdown" id="subject_dropdown">
-                <button class="btn btn-light font-weight-bold dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Subject
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Default</a></li>
-                    <li>
-                        <hr class="dropdown-divider" />
-                    </li>
-                    <li><a class="dropdown-item" href="#">CS-546</a></li>
-                    <li><a class="dropdown-item" href="#">CS513</a></li>
-                </ul>
-            </div>
-            <button class="btn btn-light font-weight-bold" type="submit">
-                Add +
-            </button>
-        </form>
-        <form id="form_notes">
-            <input type="text" placeholder="New Notes..." id="input_notes" />
+  <div style="display: flex">
+    <form id="form_todo">
+      <input type="text" placeholder="New TODO..." id="input_todo" />
+      <input type="text" placeholder="Description" id="todo_desc" />
+      <div class="dropdown" id="subject_dropdown">
+        <button
+          class="btn btn-light font-weight-bold dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Subject
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Default</a></li>
+          <li>
+            <hr class="dropdown-divider" />
+          </li>
+          <li><a class="dropdown-item" href="#">CS-546</a></li>
+          <li><a class="dropdown-item" href="#">CS513</a></li>
+        </ul>
+      </div>
+      <button class="btn btn-light font-weight-bold" type="submit">
+        Add +
+      </button>
+    </form>
+    <form id="form_notes">
+      <input type="text" placeholder="New Notes..." id="input_notes" />
 
-            <button class="btn btn-light font-weight-bold" type="submit">
-                Add +
-            </button>
-        </form>
+      <button class="btn btn-light font-weight-bold" type="submit">
+        Add +
+      </button>
+    </form>
+  </div>
+
+  <div class="DandD_lanes">
+    <div class="DandD" id="lane_todo">
+      <h3 class="heading">TO DO</h3>
+      {{#each tasks}}
+        <div class="task" draggable="true">
+          <h5 class="task-title">{{this.title}}</h5>
+          <p class="task-desc">{{this.description}}</p>
+          <span class="close-sign">X</span>
+          <span class="edit-icon">✎</span>
+          <span class="save-icon" style="display: none;">✔</span>
+          <select class="task-priority" disabled="">
+            <option value="" disabled="">Priority</option>
+            <option value="{{this.priority}}">{{this.priority}}</option>
+          </select>
+          <input
+            type="number"
+            class="grade"
+            min="0"
+            max="100"
+            placeholder="{{this.grade}}"
+            required=""
+            step="1"
+            disabled=""
+          />
+        </div>
+      {{/each}}
     </div>
 
-    <div class="DandD_lanes">
-        <div class="DandD" id="lane_todo">
-            <h3 class="heading">TO DO</h3>
-
-            <p class="task" draggable="true">
-                Organize your desk and file important documents.
-            </p>
-            <p class="task" draggable="true">
-                Schedule a meeting with the team to discuss the project.
-            </p>
-            <p class="task" draggable="true">
-                Collaborate with colleagues to brainstorm new ideas for the project.
-            </p>
+    <div class="DandD" id="lane_doing">
+      <h3 class="heading">Doing</h3>
+      {{#each tasks}}
+        <div class="task" draggable="true">
+          <h5 class="task-title">{{this.title}}</h5>
+          <p class="task-desc">{{this.description}}</p>
+          <span class="close-sign">X</span>
+          <span class="edit-icon">✎</span>
+          <span class="save-icon" style="display: none;">✔</span>
+          <select class="task-priority" disabled="">
+            <option value="" disabled="">Priority</option>
+            <option value="{{this.priority}}">{{this.priority}}</option>
+          </select>
+          <input
+            type="number"
+            class="grade"
+            min="0"
+            max="100"
+            placeholder="{{this.grade}}"
+            required=""
+            step="1"
+            disabled=""
+          />
         </div>
-
-        <div class="DandD" id="lane_doing">
-            <h3 class="heading">Doing</h3>
-            <p class="task" draggable="true">
-                Research and gather information for the upcoming presentation.
-            </p>
-            <p class="task" draggable="true">
-                Attend the training session and take notes for future reference.
-            </p>
-            <p class="task" draggable="true">
-                Create a to-do list for the week and prioritize tasks.
-            </p>
-        </div>
-
-        <div class="DandD" id="lane_done">
-            <h3 class="heading">Done</h3>
-            <p class="task" draggable="true">
-                Proofread the document and make necessary edits
-            </p>
-            <p class="task" draggable="true">
-                Follow up with clients and respond to their inquiries.
-            </p>
-        </div>
-        <div class="DandD" id="lane_notes">
-            <h3 class="heading">Notes</h3>
-            <p class="task" draggable="true">
-                Proofread the document and make necessary edits
-            </p>
-            <p class="task" draggable="true">
-                Follow up with clients and respond to their inquiries.
-            </p>
-        </div>
+      {{/each}}
     </div>
+
+    <div class="DandD" id="lane_done">
+      <h3 class="heading">Done</h3>
+      {{#each tasks}}
+        <div class="task" draggable="true">
+          <h5 class="task-title">{{this.title}}</h5>
+          <p class="task-desc">{{this.description}}</p>
+          <span class="close-sign">X</span>
+          <span class="edit-icon">✎</span>
+          <span class="save-icon" style="display: none;">✔</span>
+          <select class="task-priority" disabled="">
+            <option value="" disabled="">Priority</option>
+            <option value="{{this.priority}}">{{this.priority}}</option>
+          </select>
+          <input
+            type="number"
+            class="grade"
+            min="0"
+            max="100"
+            placeholder="{{this.grade}}"
+            required=""
+            step="1"
+            disabled=""
+          />
+        </div>
+      {{/each}}
+    </div>
+  </div>
 </div>
-<div class="task-tracking">
-    <div class="task-tracking__item">
-        <h6 class="task-tracking__title">Tasks in todo lane:</h6>
-        <p class="task-tracking__value" id="todo-count"></p>
+<div class="card" id="tracking_card">
+  <div class="card-body">
+    <h5 class="card-title">Task Tracking</h5>
+    <p id="todoText"></p>
+    <div class="progress mb-3">
+      <div
+        class="progress-bar progress-bar-striped progress-bar-animated bg-danger"
+        id="todoBar"
+        role="progressbar"
+        style="width: 100%"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        To-Do
+      </div>
     </div>
-    <div class="task-tracking__item">
-        <h6 class="task-tracking__title">Tasks in doing lane:</h6>
-        <p class="task-tracking__value" id="doing-count"></p>
+    <p id="doingText"></p>
+    <div class="progress mb-3">
+      <div
+        class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+        id="doingBar"
+        role="progressbar"
+        style="width: 100%"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        Doing
+      </div>
     </div>
-    <div class="task-tracking__item">
-        <h6 class="task-tracking__title">Tasks in done lane:</h6>
-        <p class="task-tracking__value" id="done-count"></p>
+    <p id="doneText"></p>
+    <div class="progress mb-3">
+      <div
+        class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+        id="doneBar"
+        role="progressbar"
+        style="width: 100%"
+        aria-valuenow="100"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        Done
+      </div>
     </div>
-    <div class="task-tracking__item">
-        <h6 class="task-tracking__title">Total tasks completed:</h6>
-        <p class="task-tracking__value" id="completed-count"></p>
-    </div>
+
+    <a href="#" class="btn btn-primary" id="analyzeBtn">Analyze!</a>
+  </div>
 </div>
