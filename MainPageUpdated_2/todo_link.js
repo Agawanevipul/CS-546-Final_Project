@@ -5,8 +5,9 @@ const todoLane = document.getElementById("lane_todo");
 const input_desc = document.getElementById("todo_desc");
 const analyzeClick = document.getElementById("analyzeBtn");
 
-let taskSet = new Set();
-
+//let taskSet = new Set();
+let taskId = 0;
+const taskStatus = {};
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const value = input.value;
@@ -29,6 +30,11 @@ form.addEventListener("submit", (e) => {
 
   newTask.classList.add("task");
   newTask.setAttribute("draggable", "true");
+
+  newTask.setAttribute("data-task-id", `task-${taskId}`);
+  taskId++;
+
+  newTask.setAttribute("data-status", "todo");
 
   taskTitle.classList.add("task-title");
   taskTitle.innerText = value;
@@ -81,13 +87,13 @@ form.addEventListener("submit", (e) => {
   prioritySelect.disabled = true;
   gradeInput.disabled = true;
 
-  taskSet.add(newTask);
+  //taskSet.add(newTask);
   setTimeout(() => {
     analyzeBtn.click();
   }, 500);
 
   closeSign.addEventListener("click", () => {
-    taskSet.delete(newTask);
+    //taskSet.delete(newTask);
     newTask.remove();
     setTimeout(() => {
       analyzeBtn.click();
@@ -128,8 +134,8 @@ form.addEventListener("submit", (e) => {
       gradeInput.value = "";
       return;
     }
-    taskSet.delete(newTask);
-    taskSet.add(newTask);
+    //taskSet.delete(newTask);
+    //taskSet.add(newTask);
   });
 
   newTask.addEventListener("dragstart", () => {
@@ -141,6 +147,17 @@ form.addEventListener("submit", (e) => {
 
   newTask.addEventListener("dragend", () => {
     newTask.classList.remove("is-dragging");
+    const currentLane = newTask.parentNode.id;
+    let newStatus;
+    if (currentLane === "lane_todo") {
+      newStatus = "todo";
+    } else if (currentLane === "lane_doing") {
+      newStatus = "doing";
+    } else if (currentLane === "lane_done") {
+      newStatus = "done";
+    }
+    newTask.setAttribute("data-status", newStatus);
+    taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
@@ -207,23 +224,185 @@ analyzeBtn.addEventListener("click", () => {
 
   let totalTasks = todoTaskCount + doingTaskCount + doneTaskCount;
 
-  let todoPercent = (todoTaskCount / totalTasks) * 100;
-  let doingPercent = (doingTaskCount / totalTasks) * 100;
-  let donePercent = (doneTaskCount / totalTasks) * 100;
+  let todoPercent = totalTasks === 0 ? 0 : (todoTaskCount / totalTasks) * 100;
+  let doingPercent = totalTasks === 0 ? 0 : (doingTaskCount / totalTasks) * 100;
+  let donePercent = totalTasks === 0 ? 0 : (doneTaskCount / totalTasks) * 100;
 
-  todoBar.style.width = `${todoPercent}%`;
-  doingBar.style.width = `${doingPercent}%`;
-  doneBar.style.width = `${donePercent}%`;
+  todoBar.style.width = `${totalTasks === 0 ? 0 : todoPercent}%`;
+  doingBar.style.width = `${totalTasks === 0 ? 0 : doingPercent}%`;
+  doneBar.style.width = `${totalTasks === 0 ? 0 : donePercent}%`;
 
   const todoText = document.getElementById("todoText");
   const doingText = document.getElementById("doingText");
   const doneText = document.getElementById("doneText");
 
-  const todoLine = `${todoTaskCount} tasks (${Math.round(todoPercent)}%)`;
-  const doingLine = `${doingTaskCount} tasks (${Math.round(doingPercent)}%)`;
-  const doneLine = `${doneTaskCount} tasks (${Math.round(donePercent)}%)`;
+  const todoLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${todoTaskCount} tasks (${Math.round(todoPercent)}%)`;
+  const doingLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${doingTaskCount} tasks (${Math.round(doingPercent)}%)`;
+  const doneLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${doneTaskCount} tasks (${Math.round(donePercent)}%)`;
 
   todoText.textContent = todoLine;
   doingText.textContent = doingLine;
   doneText.textContent = doneLine;
+});
+
+//ajax post request
+
+// $(document).ready(function () {
+//   $("#form_todo").submit(function (event) {
+//     event.preventDefault();
+
+//     var formData = {
+//       todo: $("#input_todo").val(),
+//       desc: $("#todo_desc").val(),
+//       subject: $("#subject_dropdown button").text().trim(),
+//     };
+
+//     $.ajax({
+//       type: "POST",
+//       url: "/api/todo",
+//       data: JSON.stringify(formData),
+//       contentType: "application/json; charset=utf-8",
+//       dataType: "json",
+//       success: function (response) {
+//         console.log(response);
+
+//         $("#form_todo")[0].reset();
+
+//         alert("TODO added successfully!");
+//       },
+//       error: function (xhr, status, error) {
+//         console.log(xhr.responseText);
+//         alert("Error adding TODO: " + xhr.responseText);
+//       },
+//     });
+//   });
+// });
+
+// AJAX code for the save button that will update all the content of the card:
+
+const taskIdAj = newTask.getAttribute("data-task-id");
+const taskTitleText = taskTitle.innerText.trim();
+const descTextContent = descText.innerText.trim();
+const priorityValue = prioritySelect.value;
+const gradeValue = gradeInput.value.trim();
+
+$.ajax({
+  url: "/update-task",
+  type: "POST",
+  data: {
+    taskId: taskIdAj,
+    taskTitleText: taskTitleText,
+    descTextContent: descTextContent,
+    priorityValue: priorityValue,
+    gradeValue: gradeValue,
+  },
+  success: function (response) {
+    console.log(response);
+  },
+  error: function (xhr, status, error) {
+    console.log(error);
+  },
+});
+
+// closeSign AJAX/
+closeSign.addEventListener("click", () => {
+  const taskId = closeSign.parentElement.getAttribute("data-task-id");
+  const url = `/tasks/${taskId}`;
+  const options = {
+    method: "DELETE",
+  };
+  fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        closeSign.parentElement.remove();
+      } else {
+        throw new Error(`Failed to delete task with ID ${taskId}`);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to delete task");
+    });
+});
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+// AJAX code for the noteAddBtn button:
+$(document).ready(function () {
+  $("#form_notes").submit(function (event) {
+    event.preventDefault();
+
+    var formData = {
+      notes: $("#input_notes").val(),
+    };
+
+    $.ajax({
+      type: "POST",
+      url: "/api/notes",
+      data: JSON.stringify(formData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_notes")[0].reset();
+
+        alert("Note added successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding Note: " + xhr.responseText);
+      },
+    });
+  });
+});
+
+// closeSign AJAX/
+closeSign1.addEventListener("click", () => {
+  const noteId = closeSign1.parentElement.getAttribute("data-note-id");
+  const url = `/tasks/${taskId}`;
+  const options = {
+    method: "DELETE",
+  };
+  fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        closeSign1.parentElement.remove();
+      } else {
+        throw new Error(`Failed to delete note with ID ${noteId}`);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Failed to delete note");
+    });
+});
+// ---------------------------------------------------------------------------------------------------------------------------------
+// Ajax to get user Details on the userProfile page
+$(document).ready(function () {
+  $.ajax({
+    url: "/userProfile",
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (data) {
+      $("#email_id").text(data.email);
+      $("#first_name").text(data.firstName);
+      $("#last_name").text(data.lastName);
+      $("#cwid").text(data.cwid);
+      $("#courses").text(data.courses);
+      $("#program").text(data.program);
+      $("#sem").text(data.semester);
+    })
+    .fail(function () {
+      // Handle any errors that may occur
+      alert("Failed to retrieve user details!");
+    });
 });
