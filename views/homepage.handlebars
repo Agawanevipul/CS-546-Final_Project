@@ -37,10 +37,10 @@
   <div class="DandD_lanes">
     <div class="DandD" id="lane_todo">
       <h3 class="heading">TO DO</h3>
-      {{#each tasks}}
+      {{#each todo}}
         <div class="task" draggable="true">
-          <h5 class="task-title">{{this.title}}</h5>
-          <p class="task-desc">{{this.description}}</p>
+          <h5 class="task-title">{{this.assignmentName}}</h5>
+          <p class="task-desc">{{this.notes}}</p>
           <span class="close-sign">X</span>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
@@ -64,10 +64,10 @@
 
     <div class="DandD" id="lane_doing">
       <h3 class="heading">Doing</h3>
-      {{#each tasks}}
+      {{#each doing}}
         <div class="task" draggable="true">
-          <h5 class="task-title">{{this.title}}</h5>
-          <p class="task-desc">{{this.description}}</p>
+          <h5 class="task-title">{{this.assignmentName}}</h5>
+          <p class="task-desc">{{this.notes}}</p>
           <span class="close-sign">X</span>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
@@ -91,10 +91,10 @@
 
     <div class="DandD" id="lane_done">
       <h3 class="heading">Done</h3>
-      {{#each tasks}}
+      {{#each done}}
         <div class="task" draggable="true">
-          <h5 class="task-title">{{this.title}}</h5>
-          <p class="task-desc">{{this.description}}</p>
+          <h5 class="task-title">{{this.assignmentName}}</h5>
+          <p class="task-desc">{{this.notes}}</p>
           <span class="close-sign">X</span>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
