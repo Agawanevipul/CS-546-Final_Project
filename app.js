@@ -61,6 +61,17 @@ app.get('/register', (req, res, next) => {
   }
 });  
 
+app.get('/courses', (req, res, next) => { 
+  if (req.session.user) {
+    console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Authenticated User)');
+    return res.redirect('/homepage')
+  }
+  else{
+    console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Non-Authenticated User)');
+    next();
+  }
+}); 
+
 app.get('/login', (req, res, next) => { 
   if (req.session.user) {
     console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Authenticated User)');

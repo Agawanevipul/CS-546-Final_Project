@@ -10,9 +10,6 @@ const constructorMethod = (app) => {
       loginPage: true,
     });
   });
-  app.use("/homepage", (req, res) => {
-    res.render("homepage", {});
-  });
 
   app.get("/register", (req, res) => {
     res.render("register", {
@@ -20,6 +17,7 @@ const constructorMethod = (app) => {
       loginPage: false,
     });
   });
+  app.use("/", studentRoute);
   app.use("/courses", studentRoute);
   app.get("/courses", (req, res) => {
     res.render("courses", {
