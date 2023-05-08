@@ -6,12 +6,18 @@ let btn=document.getElementById("button");
 let results = document.getElementById("courseDetails");
 let errorDiv = document.getElementById('error-container');
 let errorTextElement = errorDiv.getElementsByClassName('alert alert-danger')[0];
-  
-// let myDl = document.getElementById('courses');
 let frmLabel = document.getElementById('formLabel');
+
+// let myDl = document.getElementById('courses');
+
 if (myForm) {
   myForm.addEventListener('submit', (event) => {
-    event.preventDefault();
+    const submitBtn = document.getElementById("first_button");
+submitBtn.addEventListener("click", function(event) {
+  event.preventDefault(); 
+
+});
+    // event.preventDefault();
     if (count.value) {
         try{
             // count.classList.remove('inputClass');
@@ -36,11 +42,13 @@ if (myForm) {
             }
             results.appendChild(document.createElement("br"))
             // btn2.style.visibility='visible';
+
             let btn2=document.createElement("button")
             btn2.innerHTML="Add Course Names"
             btn2.className="btn1"
-            results.appendChild(btn2)
-            // myForm.submit()
+            btn2.type="submit"
+            results.appendChild(btn2) 
+            myForm.submit()
         }
         catch(e){
             const message = typeof e === 'string' ? e : e.message;
