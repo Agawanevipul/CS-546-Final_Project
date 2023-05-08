@@ -54,10 +54,10 @@ const method = {
       let result={"descriptionId": id, "deleted": true}
       return result;
     },
-    async update(id,course_id, assignmentsCount, weightage, assignments) {
+    async update(id,student_id, assignmentsCount, weightage, assignments) {
 
       id= validator.checkId(id,'Description ID')
-      course_id= validator.checkId(course_id,'Course ID')
+      student_id= validator.checkId(student_id,'Student ID')
       assignmentsCount  = validator.checkNumber(parseInt(assignmentsCount.trim()),'Semester')
       // weightage = validator.checkObject(weightage, 'Weightage');
       // assignments = validator.checkArrayObject(assignments, 'Assignments');

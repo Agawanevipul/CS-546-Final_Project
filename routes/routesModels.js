@@ -127,13 +127,13 @@ router
 router
   .route("/homepage")
   .get(async (req, res) => {
-    const studentData = await assignmentData.getAllStatus(
-      req.session.user.studentId
-    );
-    let todo = studentData.todo_list;
-    let doing = studentData.doing_list;
-    let done = studentData.done_list;
-    res.render("homepage", { todo, doing, done });
+
+    const studentData = await assignmentInfo.getAllStatus(req.session.user.studentId);
+    let todo = studentData.todo_list
+    let doing = studentData.doing_list
+    let done = studentData.done_list
+    res.render("homepage", {todo, doing, done});
+
   })
   .post(async (req, res) => {
     try {
@@ -228,11 +228,133 @@ router
     } catch (e) {
       res.status(500).json({ error: e });
     }
+  })
+  .patch(async (req, res) => {
+    try {
+      let task_details = req.body;
+      let studentId = req.session.user.studentId;
+      let todo_assignment = task_details.lane_todo;
+      let doing_assignment = task_details.lane_doing;
+      let done_assignment = task_details.lane_done;
+      let priority = task_details.priority; //check the id for priority from form
+      let grade = task_details.grade;
+      let subject = task_details.subject_dropdown;
+      let dueDate = "00/00/0000"; //check the id for due date from form
+      let notes = task_details.form_notes;
+
+      studentId = validator.checkId(studentId, "Student ID");
+      priority = validator.checkString(priority, "Priority");
+      grade = validator.checkNumber(grade, "Grade");
+      subject = validator.checkString(subject, "Subject");
+      dueDate = validator.checkString(dueDate, "Due Date");
+      notes = validator.checkString(notes, "Notes");
+
+      if (todo_assignment) {
+        let assignmentName = todo_assignment;
+        let status = "to-do";
+        let assignmentId = await assignmentData.getId(assignmentName);
+        assignmentId = validator.checkId(assignmentId, "Assignment ID");
+
+        assignmentName = validator.checkString(
+          assignmentName,
+          "Assignment Name"
+        );
+        status = validator.checkString(status, "Status");
+
+
+        let insertData = await assignmentData.update(
+          studentId,
+          assignmentId,
+          assignmentName,
+          status,
+          priority,
+          grade,
+          subject,
+          dueDate,
+          notes
+        );
+        res.json(insertData);
+      } else if (doing_assignment) {
+        let assignmentName = doing_assignment;
+        let status = "doing";
+        let assignmentId = await assignmentData.getId(assignmentName);
+        assignmentId = validator.checkId(assignmentId, "Assignment ID");
+
+        assignmentName = validator.checkString(
+          assignmentName,
+          "Assignment Name"
+        );
+        status = validator.checkString(status, "Status");
+
+        let insertData = await assignmentData.update(
+          studentId,
+          assignmentId,
+          assignmentName,
+          status,
+          priority,
+          grade,
+          subject,
+          dueDate,
+          notes
+        );
+        res.json(insertData);
+      } else if (done_assignment) {
+        let assignmentName = doing_assignment;
+        let status = "done";
+        let assignmentId = await assignmentData.getId(assignmentName);
+        assignmentId = validator.checkId(assignmentId, "Assignment ID");
+
+        assignmentName = validator.checkString(
+          assignmentName,
+          "Assignment Name"
+        );
+        status = validator.checkString(status, "Status");
+
+        let insertData = await assignmentData.update(
+          studentId,
+          assignmentId,
+          assignmentName,
+          status,
+          priority,
+          grade,
+          subject,
+          dueDate,
+          notes
+        );
+        res.json(insertData);
+      }
+    } catch (e) {
+      res.status(500).json({ error: e });
+    }
+  })
+  .delete(async (req, res) => {
+    try {
+      let task_details = req.body;
+      let studentId = req.session.user.studentId;
+      studentId = validator.checkId(studentId, "Student ID");
+
+      assignmentName = validator.checkString(
+        task_details.assignmentName,
+        "Assignment Name"
+      );
+      let assignmentId = await assignmentData.getId(assignmentName);
+      assignmentId = validator.checkId(assignmentId, "Assignment ID");
+
+      let insertData = await assignmentData.remove(assignmentId);
+      res.json(insertData);
+    }
+     catch (e) {
+      res.status(500).json({ error: e });
+    }
   });
 
-router.route("/courses").post(async (req, res) => {
-  console.log("yup");
-  console.log(req.body.courseDetails);
+router
+.route('/courses')
+.post(async (req, res) => {
+  console.log("yup")
+  console.log(req.body)
+  res.redirect('/login')
+
 });
 
 export default router;

@@ -87,7 +87,30 @@ form.addEventListener("submit", (e) => {
   newTask.appendChild(saveIcon);
   newTask.appendChild(prioritySelect);
   newTask.appendChild(gradeInput);
+  formData = {
+    todo: value,
+    desc: valueDesc,
+  };
+  setTimeout(function () {
+    $.ajax({
+      type: "POST",
+      url: "/assignments",
+      data: JSON.stringify(formData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
 
+        $("#form_todo")[0].reset();
+
+        alert("TODO added successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+  }, 200);
   prioritySelect.disabled = true;
   gradeInput.disabled = true;
 
@@ -258,6 +281,7 @@ analyzeBtn.addEventListener("click", () => {
   doneText.textContent = doneLine;
 });
 
+
 const prioritySelect = document.querySelector(".task-priority");
 const priorityOption = prioritySelect.options[prioritySelect.selectedIndex];
 const priorityVal = priorityOption.value;
@@ -279,15 +303,72 @@ prioritySelect.disabled = true;
 //   $("#form_todo").submit(function (event) {
 //     event.preventDefault();
 
+//     // var formData = {
+//     //   todo: $("#input_todo").val(),
+//     //   notes: $("#todo_desc").val(),
+//     // };
+
+//     var todo = $("#input_todo").value;
+//     var notes = $("#todo_desc").value;
+
+//     console.log("Todo: " + todo);
+//     console.log("Notes: " + notes);
 //     var formData = {
+//       todo: todo,
+//       notes: notes,
+//     };
+//     setTimeout(function () {
+//       $.ajax({
+//         type: "POST",
+//         url: "/assignments",
+//         data: JSON.stringify(formData),
+//         contentType: "application/json; charset=utf-8",
+//         dataType: "json",
+//         success: function (response) {
+//           console.log(response);
+
+//           $("#form_todo")[0].reset();
+
+//           alert("TODO added successfully!");
+//         },
+//         error: function (xhr, status, error) {
+//           console.log(xhr.responseText);
+//           alert("Error adding TODO: " + xhr.responseText);
+//         },
+//       });
+//     }, 200); // delay for 0.2 seconds
+//   });
+// });
+
+
+// $(document).ready(function () {
+//   $("#form_todo").submit(function (event) {
+//     event.preventDefault();
+
+//     var formData = {
+
 //       todo: $("#input_todo").val(),
 //       desc: $("#todo_desc").val(),
 //       subject: $("#subject_dropdown button").text().trim(),
+
+//       todo: $("#task_title").val(),
+//       notes: $("#task_desc").val(),
+//       // subject: $("#subject_dropdown button").text().trim(),
+//       // subject: "web",
+//       // priority: "high",
+//       // grade: 87,
+//       // dueDate: "00/00/0000",
+//       // status: "to-do",
+
 //     };
 
 //     $.ajax({
 //       type: "POST",
+
 //       url: "/api/todo",
+
+//       url: "/assignments",
+
 //       data: JSON.stringify(formData),
 //       contentType: "application/json; charset=utf-8",
 //       dataType: "json",

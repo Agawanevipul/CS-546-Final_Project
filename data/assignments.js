@@ -76,32 +76,35 @@ let exportedMethods = {
       _id: new ObjectId(studentId),
     });
 
+
     if (!descriptionList)
       throw [404, "No assignments assigned for the student"];
+
 
     if (!descriptionList.assignments)
       throw [404, "Assignments not found for this student"];
 
-    let todo_list = [],
-      doing_list = [],
-      done_list = [];
-    for (let i = 0; i < descriptionList.assignments.length; i++) {
-      let single_description = descriptionList.assignments[i];
-      for (let [key, value] of Object.entries(single_description)) {
-        if (key === "status") {
-          let assignmentList = value;
-          if (value === "to do") {
-            todo_list.push(single_description);
-          } else if (value === "doing") {
-            doing_list.push(single_description);
-          } else if (value === "done") {
-            done_list.push(single_description);
+
+      let todo_list=[],doing_list=[], done_list=[]
+      for (let i = 0; i < descriptionList.assignments.length; i++) {
+        let single_description = descriptionList.assignments[i];
+        for (let [key, value] of Object.entries(single_description)) {
+          if (key === "status") {
+            if(value==="to-do"){
+              todo_list.push(single_description)
+            }
+            else if (value==="doing"){
+              doing_list.push(single_description)
+            }
+            else if (value==="done"){
+              done_list.push(single_description)
+            }
           }
         }
       }
-    }
+    
+    return {todo_list,doing_list,done_list};
 
-    return { todo_list, doing_list, done_list };
   },
   async create(
     studentId,

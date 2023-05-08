@@ -46,13 +46,48 @@
             </div>
           </div>
 
-          <div class="row pt-2">
-            <div class="col-md-6">
-              <div class="form-group">
-                <div id="courseDetails"></div>
 
+              {{!-- {{/each}} --}}
+              {{!-- {{#if error }} --}}
+              <div class="error-container" id ="error-container" hidden>
+              <div class="alert alert-danger">
+              {{ error }}
               </div>
-            </div>
+              </div>
+              {{!-- {{/if}} --}}
+                            <div class="row pt-2">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <div id="courseDetails"></div>
+                    {{!-- <input
+                      type="text"
+                      class="form-control"
+                      id="course_names"
+                      name="course_names"
+                      placeholder="Course Name"
+                      value="{{courseNames}}"
+                    /> --}}
+                  </div>
+                </div>
+              </div>
+              <div class="row pt-4" id="button">
+                <div class="col-lg-6 mx-auto text-center">
+                  <div class="form-group">
+                  <button id="first_button" class="btn1">Add Course Details</button>
+                  </div>
+                </div>
+              </div>
+
+
+              {{!-- <div class="row pt-4" id="button2" hidden>
+                <div class="col-lg-6 mx-auto text-center">
+                  <button type="submit" class="btn1">Add Course Names</button>
+                </div>
+              </div> --}}
+              
+            </form>
+            <script src='/public/js/courses.js'></script>
+
           </div>
           <div class="row pt-4" id="button">
             <div class="col-lg-6 mx-auto text-center">
