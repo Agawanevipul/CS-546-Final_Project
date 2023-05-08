@@ -5,7 +5,8 @@ const todoLane = document.getElementById("lane_todo");
 const input_desc = document.getElementById("todo_desc");
 const analyzeClick = document.getElementById("analyzeBtn");
 
-let taskSet = new Set();
+//let taskSet = new Set();
+let taskId = 0;
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -29,6 +30,9 @@ form.addEventListener("submit", (e) => {
 
   newTask.classList.add("task");
   newTask.setAttribute("draggable", "true");
+
+  newTask.setAttribute("data-task-id", `task-${taskId}`);
+  taskId++;
 
   taskTitle.classList.add("task-title");
   taskTitle.innerText = value;
@@ -81,13 +85,13 @@ form.addEventListener("submit", (e) => {
   prioritySelect.disabled = true;
   gradeInput.disabled = true;
 
-  taskSet.add(newTask);
+  //taskSet.add(newTask);
   setTimeout(() => {
     analyzeBtn.click();
   }, 500);
 
   closeSign.addEventListener("click", () => {
-    taskSet.delete(newTask);
+    //taskSet.delete(newTask);
     newTask.remove();
     setTimeout(() => {
       analyzeBtn.click();
@@ -128,8 +132,8 @@ form.addEventListener("submit", (e) => {
       gradeInput.value = "";
       return;
     }
-    taskSet.delete(newTask);
-    taskSet.add(newTask);
+    //taskSet.delete(newTask);
+    //taskSet.add(newTask);
   });
 
   newTask.addEventListener("dragstart", () => {
@@ -207,21 +211,30 @@ analyzeBtn.addEventListener("click", () => {
 
   let totalTasks = todoTaskCount + doingTaskCount + doneTaskCount;
 
-  let todoPercent = (todoTaskCount / totalTasks) * 100;
-  let doingPercent = (doingTaskCount / totalTasks) * 100;
-  let donePercent = (doneTaskCount / totalTasks) * 100;
+  let todoPercent = totalTasks === 0 ? 0 : (todoTaskCount / totalTasks) * 100;
+  let doingPercent = totalTasks === 0 ? 0 : (doingTaskCount / totalTasks) * 100;
+  let donePercent = totalTasks === 0 ? 0 : (doneTaskCount / totalTasks) * 100;
 
-  todoBar.style.width = `${todoPercent}%`;
-  doingBar.style.width = `${doingPercent}%`;
-  doneBar.style.width = `${donePercent}%`;
+  todoBar.style.width = `${totalTasks === 0 ? 0 : todoPercent}%`;
+  doingBar.style.width = `${totalTasks === 0 ? 0 : doingPercent}%`;
+  doneBar.style.width = `${totalTasks === 0 ? 0 : donePercent}%`;
 
   const todoText = document.getElementById("todoText");
   const doingText = document.getElementById("doingText");
   const doneText = document.getElementById("doneText");
 
-  const todoLine = `${todoTaskCount} tasks (${Math.round(todoPercent)}%)`;
-  const doingLine = `${doingTaskCount} tasks (${Math.round(doingPercent)}%)`;
-  const doneLine = `${doneTaskCount} tasks (${Math.round(donePercent)}%)`;
+  const todoLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${todoTaskCount} tasks (${Math.round(todoPercent)}%)`;
+  const doingLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${doingTaskCount} tasks (${Math.round(doingPercent)}%)`;
+  const doneLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${doneTaskCount} tasks (${Math.round(donePercent)}%)`;
 
   todoText.textContent = todoLine;
   doingText.textContent = doingLine;
@@ -259,7 +272,7 @@ $(document).ready(function () {
 });
 
 // AJAX code for the save button that will update all the content of the card:
-const taskId = newTask.getAttribute("data-task-id");
+const taskIdAj = newTask.getAttribute("data-task-id");
 const taskTitleText = taskTitle.innerText.trim();
 const descTextContent = descText.innerText.trim();
 const priorityValue = prioritySelect.value;
@@ -269,7 +282,7 @@ $.ajax({
   url: "/update-task",
   type: "POST",
   data: {
-    taskId: taskId,
+    taskId: taskIdAj,
     taskTitleText: taskTitleText,
     descTextContent: descTextContent,
     priorityValue: priorityValue,

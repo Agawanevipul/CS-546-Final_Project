@@ -7,17 +7,31 @@ import validator from "../validator.js";
 
 const router = Router();
 
-router.route("/assignments").get(async (req, res) => {
-  try {
-    let data = await assignmentInfo.getAll(req.session.user.studentId);
-    if (!data) {
-      return res.status(500).json({ error: "server error" });
+router
+  .route("/assignments")
+  .get(async (req, res) => {
+    try {
+      let data = await assignmentInfo.getAll(req.session.user.studentId);
+      if (!data) {
+        return res.status(500).json({ error: "server error" });
+      }
+      return res.json(data);
+    } catch (err) {
+      return res.json({ error: err });
     }
-    return res.json(data);
-  } catch (err) {
-    return res.json({ error: err });
-  }
-});
+  })
+  .post(async (req, res) => {
+    let assignmentValue = req.body;
+    try {
+      let data = await assignmentInfo.create(assignmentValue);
+      if (!data) {
+        return res.status(500).json({ error: "server error" });
+      }
+      return res.json(data);
+    } catch (err) {
+      return res.json({ error: err });
+    }
+  });
 
 router
   .route("/")

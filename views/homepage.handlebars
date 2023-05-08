@@ -38,7 +38,7 @@
     <div class="DandD" id="lane_todo">
       <h3 class="heading">TO DO</h3>
       {{#each tasks}}
-        <div class="task" draggable="true">
+        <div class="task" draggable="true" data-task-id="{{this.id}}">
           <h5 class="task-title">{{this.title}}</h5>
           <p class="task-desc">{{this.description}}</p>
           <span class="close-sign">X</span>
@@ -65,7 +65,7 @@
     <div class="DandD" id="lane_doing">
       <h3 class="heading">Doing</h3>
       {{#each tasks}}
-        <div class="task" draggable="true">
+        <div class="task" draggable="true" data-task-id="{{this.id}}">
           <h5 class="task-title">{{this.title}}</h5>
           <p class="task-desc">{{this.description}}</p>
           <span class="close-sign">X</span>
@@ -92,7 +92,7 @@
     <div class="DandD" id="lane_done">
       <h3 class="heading">Done</h3>
       {{#each tasks}}
-        <div class="task" draggable="true">
+        <div class="task" draggable="true" data-task-id="{{this.id}}">
           <h5 class="task-title">{{this.title}}</h5>
           <p class="task-desc">{{this.description}}</p>
           <span class="close-sign">X</span>

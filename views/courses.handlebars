@@ -1,146 +1,59 @@
-{{!-- {{#if loginPage}}
-<section id="login_form" class="form my-4 mx-5">
-      <div class="container">
-        <div class="row no-gutters">
-          <div class="col-lg-5">
-            <img src="/public/images/loogin.jpg" class="img-fluid" alt="" />
-          </div>
-          <div class="col-lg-7 px-5 pt-5">
-            <h1 class="font-weight-bold py-3" id="login_red">
-              <img
-                id="login_logo"
-                src="/public/images/logo_m.png"
-                class="img-fluid"
-                alt="StudyAce Logo"
-              />
-              StudyAce
-            </h1>
-            <h1 id="sign_red">{{title}}</h1>
-
-            <form method="post" id="login" action="/login">
-            <input type="hidden" name="clicked" value="loggedIn">
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <input
-                    type="email"
-                    placeholder="abc@stevens.edu"
-                    class="form-control my-3 p-4"
-                    id="emailId"
-                    name="emailId"
-                    value="{{emailId}}"
-                  />
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <input
-                    type="password"
-                    placeholder="password"
-                    class="form-control my-3 p-4"
-                    id="password"
-                    name="password"
-                    value="{{password}}"
-                  />
-                </div>
-              </div>
-              {{#if error }}
-              <div class="form-group">
-              <div class="alert alert-danger">
-              {{ error }}
-              </div>
-              </div>
-              {{/if}}
-              <div class="form-row">
-                <div class="col-lg-7">
-                  <button type="submit" class="btn1">sign in</button>
-                </div>
-              </div>
-              <a id="forgot_pwd" href="#">Forgot password?</a>
-              <p>
-                Don't have an account?
-                <a class="toggle" href="/register">Register here</a>
-              </p>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-{{else}} --}}
-{{!-- <script>
-function addDetails(){
-  let count=parseInt(document.getElementById("course_count").value);
-  let results = document.getElementById("courseDetails");
-  while(results.hasChildNodes()){
-    results.removeChild(results.lastChild);
-  }
-  for(let i=0;i<count;i++){
-    results.appendChild("Course "+(i+1))
-    let data=document.createElement("input")
-    data.appendChild(document.createTextNode("Course Name: "))
-    results.appendChild(data);
-    results.appendChild(document.createElement("br"))
-
-  }
-}
-</script> --}}
 <section id="courses_form" class="form my-4 mx-5">
-      <div class="container">
-        <div class="row no-gutters">
-          <div class="col-lg-5">
-            <img src="/public//images/registration_copy.jpg" class="img-fluid" alt="" />
+  <div class="container">
+    <div class="row no-gutters">
+      <div class="col-lg-5">
+        <img
+          src="/public//images/registration_copy.jpg"
+          class="img-fluid"
+          alt=""
+        />
+      </div>
+      <div class="col-lg-7 px-5 pt-4">
+        <h1 class="font-weight-bold py-1" id="login_red">{{title}}</h1>
+        <!--<h4 id="sign_red">Register</h4>-->
+        <form method="post" id="coursesID" action="/courses">
+          <input type="hidden" name="clicked" value="courses_added" />
+          <div class="row pt-4">
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="semester"
+                  name="semester"
+                  placeholder="Current Semester"
+                  value="{{semester}}"
+                />
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="course_count"
+                  name="course_count"
+                  placeholder="No. of courses taken"
+                  value="{{courseCount}}"
+                />
+              </div>
+            </div>
           </div>
-          <div class="col-lg-7 px-5 pt-4">
-            <h1 class="font-weight-bold py-1" id="login_red">{{title}}</h1>
-            <!--<h4 id="sign_red">Register</h4>-->
-            <form method="post" id="coursesID" action="/courses">
-            <input type="hidden" name="clicked" value="courses_added">
-              <div class="row pt-4">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="semester"
-                      name="semester"
-                      placeholder="Current Semester"
-                      value="{{semester}}"
-                    >
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <input
-                      type="number"
-                      class="form-control"
-                      id="course_count"
-                      name="course_count"
-                      placeholder="No. of courses taken"
-                      value="{{courseCount}}"
-                    >
-                  </div>
-                </div>
-              </div>
-              {{!-- {{#each {{courseCount}}}} --}}
+          {{!-- {{#each {{courseCount}}}} --}}
 
-              {{!-- {{/each}} --}}
-              {{!-- {{#if error }} --}}
-              <div class="error-container" id ="error-container" hidden>
-              <div class="alert alert-danger">
-              {{ error }}
-              </div>
-              </div>
-              {{!-- {{/if}} --}}
-              <div class="row pt-4" id="button">
-                <div class="col-lg-6 mx-auto text-center">
-                  <button type="submit" class="btn1">Add Course Details</button>
-                </div>
-              </div>
-
-              <div class="row pt-2">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div id="courseDetails"></div>
-                    {{!-- <input
+          {{!-- {{/each}} --}}
+          {{!-- {{#if error }} --}}
+          <div class="error-container" id="error-container" hidden>
+            <div class="alert alert-danger">
+              {{error}}
+            </div>
+          </div>
+          {{!-- {{/if}} --}}
+          <div class="row pt-2">
+            <div class="col-md-6">
+              <div class="form-group">
+                <div id="courseDetails"></div>
+                {{!-- <input
                       type="text"
                       class="form-control"
                       id="course_names"
@@ -148,19 +61,26 @@ function addDetails(){
                       placeholder="Course Name"
                       value="{{courseNames}}"
                     /> --}}
-                  </div>
-                </div>
               </div>
-              {{!-- <div class="row pt-4" id="button2" hidden>
+            </div>
+          </div>
+          <div class="row pt-4" id="button">
+            <div class="col-lg-6 mx-auto text-center">
+              <div class="form-group">
+                <button id="first_button" class="btn1">Add Course Details</button>
+              </div>
+            </div>
+          </div>
+
+          {{! <div class="row pt-4" id="button2" hidden>
                 <div class="col-lg-6 mx-auto text-center">
                   <button type="submit" class="btn1">Add Course Names</button>
                 </div>
-              </div> --}}
-              
-            </form>
-            <script src='/public/js/courses.js'></script>
-          </div>
-        </div>
+              </div> }}
+
+        </form>
+        <script src="/public/js/courses.js"></script>
       </div>
-    </section>
-{{!-- {{/if}} --}}
+    </div>
+  </div>
+</section>
