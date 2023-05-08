@@ -76,10 +76,14 @@ let exportedMethods = {
       _id: new ObjectId(studentId),
     });
 
-    if (!descriptionList) throw [404, "No assignments assigned for the student"];
+
+    if (!descriptionList)
+      throw [404, "No assignments assigned for the student"];
+
 
     if (!descriptionList.assignments)
       throw [404, "Assignments not found for this student"];
+
 
       let todo_list=[],doing_list=[], done_list=[]
       for (let i = 0; i < descriptionList.assignments.length; i++) {
@@ -100,6 +104,7 @@ let exportedMethods = {
       }
     
     return {todo_list,doing_list,done_list};
+
   },
   async create(
     studentId,

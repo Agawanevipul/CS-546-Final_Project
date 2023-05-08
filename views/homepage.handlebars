@@ -1,3 +1,5 @@
+
+
 <div class="mainbg">
   <div style="display: flex">
     <form id="form_todo">
@@ -25,13 +27,7 @@
         Add +
       </button>
     </form>
-    {{!-- <form id="form_notes">
-      <input type="text" placeholder="New Notes..." id="input_notes" />
 
-      <button class="btn btn-light font-weight-bold" type="submit">
-        Add +
-      </button>
-    </form> --}}
   </div>
 
   <div class="DandD_lanes">
@@ -46,8 +42,15 @@
           <span class="save-icon" style="display: none;">✔</span>
           <select class="task-priority" disabled="">
             <option value="" disabled="">Priority</option>
-            <option value="{{this.priority}}">{{this.priority}}</option>
+            <option class="high-priority" value="High" {{#isEqual this.priority 'High'}}selected{{/isEqual}}>High</option>
+            <option class="medium-priority" value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
+            <option class="low-priority" value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
           </select>
+
+          {{!-- <select class="task-priority" disabled="">
+            <option value="" disabled="">Priority</option>
+            <option value="{{this.priority}}">{{this.priority}}</option>
+          </select> --}}
           <input
             type="number"
             class="grade"
@@ -73,8 +76,15 @@
           <span class="save-icon" style="display: none;">✔</span>
           <select class="task-priority" disabled="">
             <option value="" disabled="">Priority</option>
-            <option value="{{this.priority}}">{{this.priority}}</option>
+            <option value="High" {{#isEqual this.priority 'High'}}selected{{/isEqual}}>High</option>
+            <option value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
+            <option value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
           </select>
+
+          {{!-- <select class="task-priority" disabled="">
+            <option value="" disabled="">Priority</option>
+            <option value="{{this.priority}}">{{this.priority}}</option>
+          </select> --}}
           <input
             type="number"
             class="grade"
@@ -100,8 +110,15 @@
           <span class="save-icon" style="display: none;">✔</span>
           <select class="task-priority" disabled="">
             <option value="" disabled="">Priority</option>
-            <option value="{{this.priority}}">{{this.priority}}</option>
+            <option value="High" {{#isEqual this.priority 'High'}}selected{{/isEqual}}>High</option>
+            <option value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
+            <option value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
           </select>
+
+          {{!-- <select class="task-priority" disabled="">
+            <option value="" disabled="">Priority</option>
+            <option value="{{this.priority}}">{{this.priority}}</option>
+          </select> --}}
           <input
             type="number"
             class="grade"

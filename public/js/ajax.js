@@ -143,7 +143,6 @@ $(document).ready(function () {
       $("#sem").text(data.semester);
     })
     .fail(function () {
-      // Handle any errors that may occur
       alert("Failed to retrieve user details!");
     });
 });
