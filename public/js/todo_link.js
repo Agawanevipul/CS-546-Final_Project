@@ -77,7 +77,30 @@ form.addEventListener("submit", (e) => {
   newTask.appendChild(saveIcon);
   newTask.appendChild(prioritySelect);
   newTask.appendChild(gradeInput);
+  formData = {
+    todo: value,
+    desc: valueDesc,
+  };
+  setTimeout(function () {
+    $.ajax({
+      type: "POST",
+      url: "/assignments",
+      data: JSON.stringify(formData),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
 
+        $("#form_todo")[0].reset();
+
+        alert("TODO added successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+  }, 200);
   prioritySelect.disabled = true;
   gradeInput.disabled = true;
 
@@ -151,46 +174,46 @@ form.addEventListener("submit", (e) => {
   input_desc.value = "";
 });
 
-const form_notes = document.getElementById("form_notes");
-const input_notes = document.getElementById("input_notes");
-const notesLane = document.getElementById("lane_notes");
-let noteSet = new Set();
+// const form_notes = document.getElementById("form_notes");
+// const input_notes = document.getElementById("input_notes");
+// const notesLane = document.getElementById("lane_notes");
+// let noteSet = new Set();
 
-form_notes.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const value_notes = input_notes.value;
+// form_notes.addEventListener("submit", (e) => {
+//   e.preventDefault();
+//   const value_notes = input_notes.value;
 
-  if (!value_notes) return;
+//   if (!value_notes) return;
 
-  const newTaskNotes = document.createElement("p");
-  const closeSign1 = document.createElement("span");
+//   const newTaskNotes = document.createElement("p");
+//   const closeSign1 = document.createElement("span");
 
-  newTaskNotes.classList.add("task");
-  newTaskNotes.setAttribute("draggable", "true");
-  newTaskNotes.innerText = value_notes;
+//   newTaskNotes.classList.add("task");
+//   newTaskNotes.setAttribute("draggable", "true");
+//   newTaskNotes.innerText = value_notes;
 
-  closeSign1.classList.add("close-sign");
-  closeSign1.innerText = "X";
-  newTaskNotes.appendChild(closeSign1);
+//   closeSign1.classList.add("close-sign");
+//   closeSign1.innerText = "X";
+//   newTaskNotes.appendChild(closeSign1);
 
-  noteSet.add(newTaskNotes);
+//   noteSet.add(newTaskNotes);
 
-  closeSign1.addEventListener("click", () => {
-    newTaskNotes.remove();
-    noteSet.delete(newTaskNotes);
-  });
+//   closeSign1.addEventListener("click", () => {
+//     newTaskNotes.remove();
+//     noteSet.delete(newTaskNotes);
+//   });
 
-  newTaskNotes.addEventListener("dragstart", () => {
-    newTaskNotes.classList.add("is-dragging");
-  });
+//   newTaskNotes.addEventListener("dragstart", () => {
+//     newTaskNotes.classList.add("is-dragging");
+//   });
 
-  newTaskNotes.addEventListener("dragend", () => {
-    newTaskNotes.classList.remove("is-dragging");
-  });
+//   newTaskNotes.addEventListener("dragend", () => {
+//     newTaskNotes.classList.remove("is-dragging");
+//   });
 
-  notesLane.appendChild(newTaskNotes);
-  input_notes.value = "";
-});
+//   notesLane.appendChild(newTaskNotes);
+//   input_notes.value = "";
+// });
 
 analyzeBtn.addEventListener("click", () => {
   const todoLane = document.querySelector("#lane_todo");
@@ -227,36 +250,82 @@ analyzeBtn.addEventListener("click", () => {
   doingText.textContent = doingLine;
   doneText.textContent = doneLine;
 });
-$(document).ready(function () {
-  $("#form_todo").submit(function (event) {
-    event.preventDefault();
+// $(document).ready(function () {
+//   $("#form_todo").submit(function (event) {
+//     event.preventDefault();
 
-    var formData = {
-      todo: $("#input_todo").val(),
-      desc: $("#todo_desc").val(),
-      subject: $("#subject_dropdown button").text().trim(),
-    };
+//     // var formData = {
+//     //   todo: $("#input_todo").val(),
+//     //   notes: $("#todo_desc").val(),
+//     // };
 
-    $.ajax({
-      type: "POST",
-      url: "/api/todo",
-      data: JSON.stringify(formData),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (response) {
-        console.log(response);
+//     var todo = $("#input_todo").value;
+//     var notes = $("#todo_desc").value;
 
-        $("#form_todo")[0].reset();
+//     console.log("Todo: " + todo);
+//     console.log("Notes: " + notes);
+//     var formData = {
+//       todo: todo,
+//       notes: notes,
+//     };
+//     setTimeout(function () {
+//       $.ajax({
+//         type: "POST",
+//         url: "/assignments",
+//         data: JSON.stringify(formData),
+//         contentType: "application/json; charset=utf-8",
+//         dataType: "json",
+//         success: function (response) {
+//           console.log(response);
 
-        alert("TODO added successfully!");
-      },
-      error: function (xhr, status, error) {
-        console.log(xhr.responseText);
-        alert("Error adding TODO: " + xhr.responseText);
-      },
-    });
-  });
-});
+//           $("#form_todo")[0].reset();
+
+//           alert("TODO added successfully!");
+//         },
+//         error: function (xhr, status, error) {
+//           console.log(xhr.responseText);
+//           alert("Error adding TODO: " + xhr.responseText);
+//         },
+//       });
+//     }, 200); // delay for 0.2 seconds
+//   });
+// });
+
+// $(document).ready(function () {
+//   $("#form_todo").submit(function (event) {
+//     event.preventDefault();
+
+//     var formData = {
+//       todo: $("#task_title").val(),
+//       notes: $("#task_desc").val(),
+//       // subject: $("#subject_dropdown button").text().trim(),
+//       // subject: "web",
+//       // priority: "high",
+//       // grade: 87,
+//       // dueDate: "00/00/0000",
+//       // status: "to-do",
+//     };
+
+//     $.ajax({
+//       type: "POST",
+//       url: "/assignments",
+//       data: JSON.stringify(formData),
+//       contentType: "application/json; charset=utf-8",
+//       dataType: "json",
+//       success: function (response) {
+//         console.log(response);
+
+//         $("#form_todo")[0].reset();
+
+//         alert("TODO added successfully!");
+//       },
+//       error: function (xhr, status, error) {
+//         console.log(xhr.responseText);
+//         alert("Error adding TODO: " + xhr.responseText);
+//       },
+//     });
+//   });
+// });
 
 // AJAX code for the save button that will update all the content of the card:
 const taskId = newTask.getAttribute("data-task-id");
