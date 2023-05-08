@@ -7,31 +7,17 @@ import validator from "../validator.js";
 
 const router = Router();
 
-router
-  .route("/assignments")
-  .get(async (req, res) => {
-    try {
-      let data = await assignmentInfo.getAll(req.session.user.studentId);
-      if (!data) {
-        return res.status(500).json({ error: "server error" });
-      }
-      return res.json(data);
-    } catch (err) {
-      return res.json({ error: err });
+router.route("/assignments").get(async (req, res) => {
+  try {
+    let data = await assignmentInfo.getAll(req.session.user.studentId);
+    if (!data) {
+      return res.status(500).json({ error: "server error" });
     }
-  })
-  .post(async (req, res) => {
-    let assignmentValue = req.body;
-    try {
-      let data = await assignmentInfo.create(assignmentValue);
-      if (!data) {
-        return res.status(500).json({ error: "server error" });
-      }
-      return res.json(data);
-    } catch (err) {
-      return res.json({ error: err });
-    }
-  });
+    return res.json(data);
+  } catch (err) {
+    return res.json({ error: err });
+  }
+});
 
 router
   .route("/")
@@ -76,7 +62,7 @@ router
           );
 
           if (student) {
-            return res.redirect("/login");
+            return res.redirect("/courses");
           }
         } else {
           const error = "Confirm password must be similar to password.";
@@ -141,11 +127,15 @@ router
 router
   .route("/homepage")
   .get(async (req, res) => {
-    res.sendFile(path.resolve("MainPageUpdated_2/mainpage.html"));
-    //code here for GET
+    const studentData = await assignmentData.getAllStatus(
+      req.session.user.studentId
+    );
+    let todo = studentData.todo_list;
+    let doing = studentData.doing_list;
+    let done = studentData.done_list;
+    res.render("homepage", { todo, doing, done });
   })
   .post(async (req, res) => {
-    console.log("homepage", req.body);
     try {
       let task_details = req.body;
       let studentId = req.session.user.studentId;
@@ -168,7 +158,6 @@ router
       if (todo_assignment) {
         let assignmentName = todo_assignment;
         let status = "to-do";
-        // let grade = "0"
 
         assignmentName = validator.checkString(
           assignmentName,
@@ -192,7 +181,6 @@ router
         let status = "doing";
         let assignmentId = await assignmentData.getId(assignmentName);
         assignmentId = validator.checkId(assignmentId, "Assignment ID");
-        // let grade = "0"
 
         assignmentName = validator.checkString(
           assignmentName,
@@ -217,7 +205,6 @@ router
         let status = "done";
         let assignmentId = await assignmentData.getId(assignmentName);
         assignmentId = validator.checkId(assignmentId, "Assignment ID");
-        // let grade = "0"
 
         assignmentName = validator.checkString(
           assignmentName,
@@ -239,20 +226,13 @@ router
         res.json(insertData);
       }
     } catch (e) {
-      // console.log(e)
       res.status(500).json({ error: e });
     }
   });
 
-// router
-// .route('/courses')
-// .get(async (req, res) => {
-//   res.render('courses',{title:"Add Courses"})
-//   //code here for GET
-// })
-// .post(async (req, res) => {
-//   console.log(req.body.courseDetails)
-
-// });
+router.route("/courses").post(async (req, res) => {
+  console.log("yup");
+  console.log(req.body.courseDetails);
+});
 
 export default router;
