@@ -86,8 +86,7 @@ let exportedMethods = {
         let single_description = descriptionList.assignments[i];
         for (let [key, value] of Object.entries(single_description)) {
           if (key === "status") {
-            let assignmentList = value;
-            if(value==="to do"){
+            if(value==="to-do"){
               todo_list.push(single_description)
             }
             else if (value==="doing"){
