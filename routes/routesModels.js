@@ -127,11 +127,13 @@ router
 router
   .route("/homepage")
   .get(async (req, res) => {
+
     const studentData = await assignmentInfo.getAllStatus(req.session.user.studentId);
     let todo = studentData.todo_list
     let doing = studentData.doing_list
     let done = studentData.done_list
     res.render("homepage", {todo, doing, done});
+
   })
   .post(async (req, res) => {
     try {
@@ -259,6 +261,7 @@ router
         );
         status = validator.checkString(status, "Status");
 
+
         let insertData = await assignmentData.update(
           studentId,
           assignmentId,
@@ -351,6 +354,7 @@ router
   console.log("yup")
   console.log(req.body)
   res.redirect('/login')
+
 });
 
 export default router;

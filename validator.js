@@ -35,38 +35,56 @@ const exportedMethods = {
     }
     return arr;
   },
-  checkAssignmentsArray(arr,varName){
+  checkAssignmentsArray(arr, varName) {
     if (!arr || !Array.isArray(arr))
       throw `You must provide an array of ${varName}`;
-    
-    for(let j in arr){
-        if(typeof(j)!=="string") throw [400,'Assignments should have string values']
-        j = j.trim();
-        if (j.trim().length === 0) throw [400,'Assignment cannot have an empty string or string with just spaces in it'];
-      }
 
-      if(arr[1].toLowerCase() !== "to-do" | arr[1].toLowerCase() !== "doing" | arr[1].toLowerCase() !== "done") 
-        throw [400,'Status should be To-do or Doing or Done']
-      
-      let dateformat=arr[2].split("/")
-      if(dateformat[0].length!==2) throw [400,'Append 0 in front if the month is less than 10'];
-      if(dateformat[1].length!==2) throw [400,'Append 0 in front if the day is less than 10'];
-      if(dateformat[2].length!==4) throw [400,'Invalid year'];
-      if(dateformat.length!==3) throw [400,'Release date should be of the format(DD/MM/YYYY)'];
-      if((parseInt(dateformat[0])<1) || (parseInt(dateformat[0])>12) || (parseInt(dateformat[1])<1) || (parseInt(dateformat[1])>31) || (parseInt(dateformat[2])<1900) || (parseInt(dateformat[2])>2023))
-      throw [400,'Invalid Release date'];
+    for (let j in arr) {
+      if (typeof j !== "string")
+        throw [400, "Assignments should have string values"];
+      j = j.trim();
+      if (j.trim().length === 0)
+        throw [
+          400,
+          "Assignment cannot have an empty string or string with just spaces in it",
+        ];
+    }
 
-    return arr
+    if (
+      (arr[1].toLowerCase() !== "to-do") |
+      (arr[1].toLowerCase() !== "doing") |
+      (arr[1].toLowerCase() !== "done")
+    )
+      throw [400, "Status should be To-do or Doing or Done"];
 
+    let dateformat = arr[2].split("/");
+    if (dateformat[0].length !== 2)
+      throw [400, "Append 0 in front if the month is less than 10"];
+    if (dateformat[1].length !== 2)
+      throw [400, "Append 0 in front if the day is less than 10"];
+    if (dateformat[2].length !== 4) throw [400, "Invalid year"];
+    if (dateformat.length !== 3)
+      throw [400, "Release date should be of the format(DD/MM/YYYY)"];
+    if (
+      parseInt(dateformat[0]) < 1 ||
+      parseInt(dateformat[0]) > 12 ||
+      parseInt(dateformat[1]) < 1 ||
+      parseInt(dateformat[1]) > 31 ||
+      parseInt(dateformat[2]) < 1900 ||
+      parseInt(dateformat[2]) > 2023
+    )
+      throw [400, "Invalid Release date"];
+
+    return arr;
   },
   checkNumber(inp, varName) {
     if (!inp) throw `You must provide a number of ${varName}`;
-    if (typeof(parseInt(inp))!=='number')
+    if (typeof parseInt(inp) !== "number")
       throw `You must provide a number for ${varName}`;
     return inp;
   },
   validateEmailId(email) {
-    email=email.trim()
+    email = email.trim().toLowerCase();
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(email)) {
       throw "Invalid email address";
@@ -82,34 +100,38 @@ const exportedMethods = {
   },
   validPassword(password) {
     if (!password || password.length < 8 || password.includes(" ")) {
-        throw `Password must be at least 8 characters long and cannot contain empty spaces.`;
+      throw `Password must be at least 8 characters long and cannot contain empty spaces.`;
     }
     const upperCase = /[A-Z]/;
     const numberCase = /[0-9]/;
     const specialCharCase = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-    if (!upperCase.test(password) || !numberCase.test(password) || !specialCharCase.test(password)) {
-        throw `Password must contain at least one uppercase character, one number, and one special character.`;
+    if (
+      !upperCase.test(password) ||
+      !numberCase.test(password) ||
+      !specialCharCase.test(password)
+    ) {
+      throw `Password must contain at least one uppercase character, one number, and one special character.`;
     }
-        return password;
-    },
-    validRole(role) {
-        role = role.toLowerCase();
-      
-        if (role !== "admin" && role !== "user") {
-          throw `Role must be either 'admin' or 'user'`;
-        }
-        return role;
-    },
-    validName(name, varName) {
-        name=name.trim()
-        let nameValid = /^[a-zA-Z]/; // Regular expression to match valid firstName
-        if(!nameValid.test(name)){
-            throw `Invalid ${varName} name.`
-        }
-        if (name.length < 2 || name.length > 25)
-        throw `name should be in length between 2 to 25.`;
-        return name;
-    }   
+    return password;
+  },
+  validRole(role) {
+    role = role.toLowerCase();
+
+    if (role !== "admin" && role !== "user") {
+      throw `Role must be either 'admin' or 'user'`;
+    }
+    return role;
+  },
+  validName(name, varName) {
+    name = name.trim();
+    let nameValid = /^[a-zA-Z]/; // Regular expression to match valid firstName
+    if (!nameValid.test(name)) {
+      throw `Invalid ${varName} name.`;
+    }
+    if (name.length < 2 || name.length > 25)
+      throw `name should be in length between 2 to 25.`;
+    return name;
+  },
 };
 
 export default exportedMethods;

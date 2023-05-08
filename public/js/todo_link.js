@@ -5,8 +5,13 @@ const todoLane = document.getElementById("lane_todo");
 const input_desc = document.getElementById("todo_desc");
 const analyzeClick = document.getElementById("analyzeBtn");
 
-let taskSet = new Set();
+setTimeout(() => {
+  analyzeBtn.click();
+}, 1000);
 
+//let taskSet = new Set();
+let taskId = 0;
+const taskStatus = {};
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const value = input.value;
@@ -29,6 +34,11 @@ form.addEventListener("submit", (e) => {
 
   newTask.classList.add("task");
   newTask.setAttribute("draggable", "true");
+
+  newTask.setAttribute("data-task-id", `task-${taskId}`);
+  taskId++;
+
+  newTask.setAttribute("data-status", "todo");
 
   taskTitle.classList.add("task-title");
   taskTitle.innerText = value;
@@ -104,13 +114,13 @@ form.addEventListener("submit", (e) => {
   prioritySelect.disabled = true;
   gradeInput.disabled = true;
 
-  taskSet.add(newTask);
+  //taskSet.add(newTask);
   setTimeout(() => {
     analyzeBtn.click();
   }, 500);
 
   closeSign.addEventListener("click", () => {
-    taskSet.delete(newTask);
+    //taskSet.delete(newTask);
     newTask.remove();
     setTimeout(() => {
       analyzeBtn.click();
@@ -151,8 +161,8 @@ form.addEventListener("submit", (e) => {
       gradeInput.value = "";
       return;
     }
-    taskSet.delete(newTask);
-    taskSet.add(newTask);
+    //taskSet.delete(newTask);
+    //taskSet.add(newTask);
   });
 
   newTask.addEventListener("dragstart", () => {
@@ -164,6 +174,17 @@ form.addEventListener("submit", (e) => {
 
   newTask.addEventListener("dragend", () => {
     newTask.classList.remove("is-dragging");
+    const currentLane = newTask.parentNode.id;
+    let newStatus;
+    if (currentLane === "lane_todo") {
+      newStatus = "todo";
+    } else if (currentLane === "lane_doing") {
+      newStatus = "doing";
+    } else if (currentLane === "lane_done") {
+      newStatus = "done";
+    }
+    newTask.setAttribute("data-status", newStatus);
+    taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
@@ -230,26 +251,54 @@ analyzeBtn.addEventListener("click", () => {
 
   let totalTasks = todoTaskCount + doingTaskCount + doneTaskCount;
 
-  let todoPercent = (todoTaskCount / totalTasks) * 100;
-  let doingPercent = (doingTaskCount / totalTasks) * 100;
-  let donePercent = (doneTaskCount / totalTasks) * 100;
+  let todoPercent = totalTasks === 0 ? 0 : (todoTaskCount / totalTasks) * 100;
+  let doingPercent = totalTasks === 0 ? 0 : (doingTaskCount / totalTasks) * 100;
+  let donePercent = totalTasks === 0 ? 0 : (doneTaskCount / totalTasks) * 100;
 
-  todoBar.style.width = `${todoPercent}%`;
-  doingBar.style.width = `${doingPercent}%`;
-  doneBar.style.width = `${donePercent}%`;
+  todoBar.style.width = `${totalTasks === 0 ? 0 : todoPercent}%`;
+  doingBar.style.width = `${totalTasks === 0 ? 0 : doingPercent}%`;
+  doneBar.style.width = `${totalTasks === 0 ? 0 : donePercent}%`;
 
   const todoText = document.getElementById("todoText");
   const doingText = document.getElementById("doingText");
   const doneText = document.getElementById("doneText");
 
-  const todoLine = `${todoTaskCount} tasks (${Math.round(todoPercent)}%)`;
-  const doingLine = `${doingTaskCount} tasks (${Math.round(doingPercent)}%)`;
-  const doneLine = `${doneTaskCount} tasks (${Math.round(donePercent)}%)`;
+  const todoLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${todoTaskCount} tasks (${Math.round(todoPercent)}%)`;
+  const doingLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${doingTaskCount} tasks (${Math.round(doingPercent)}%)`;
+  const doneLine =
+    totalTasks === 0
+      ? "0 tasks"
+      : `${doneTaskCount} tasks (${Math.round(donePercent)}%)`;
 
   todoText.textContent = todoLine;
   doingText.textContent = doingLine;
   doneText.textContent = doneLine;
 });
+
+
+const prioritySelect = document.querySelector(".task-priority");
+const priorityOption = prioritySelect.options[prioritySelect.selectedIndex];
+const priorityVal = priorityOption.value;
+
+const taskElement = document.querySelector(".task");
+
+if (priorityVal === "High") {
+  taskElement.style.backgroundColor = "rgba(198, 48, 62, 0.2)";
+} else if (priorityVal === "Medium") {
+  taskElement.style.backgroundColor = "rgba(255, 193, 7, 0.2)";
+} else if (priorityVal === "Low") {
+  taskElement.style.backgroundColor = "rgba(13, 110, 253, 0.2)";
+}
+prioritySelect.disabled = true;
+
+//ajax post request
+
 // $(document).ready(function () {
 //   $("#form_todo").submit(function (event) {
 //     event.preventDefault();
@@ -291,11 +340,17 @@ analyzeBtn.addEventListener("click", () => {
 //   });
 // });
 
+
 // $(document).ready(function () {
 //   $("#form_todo").submit(function (event) {
 //     event.preventDefault();
 
 //     var formData = {
+
+//       todo: $("#input_todo").val(),
+//       desc: $("#todo_desc").val(),
+//       subject: $("#subject_dropdown button").text().trim(),
+
 //       todo: $("#task_title").val(),
 //       notes: $("#task_desc").val(),
 //       // subject: $("#subject_dropdown button").text().trim(),
@@ -304,11 +359,16 @@ analyzeBtn.addEventListener("click", () => {
 //       // grade: 87,
 //       // dueDate: "00/00/0000",
 //       // status: "to-do",
+
 //     };
 
 //     $.ajax({
 //       type: "POST",
+
+//       url: "/api/todo",
+
 //       url: "/assignments",
+
 //       data: JSON.stringify(formData),
 //       contentType: "application/json; charset=utf-8",
 //       dataType: "json",
@@ -328,7 +388,8 @@ analyzeBtn.addEventListener("click", () => {
 // });
 
 // AJAX code for the save button that will update all the content of the card:
-const taskId = newTask.getAttribute("data-task-id");
+
+const taskIdAj = newTask.getAttribute("data-task-id");
 const taskTitleText = taskTitle.innerText.trim();
 const descTextContent = descText.innerText.trim();
 const priorityValue = prioritySelect.value;
@@ -338,7 +399,7 @@ $.ajax({
   url: "/update-task",
   type: "POST",
   data: {
-    taskId: taskId,
+    taskId: taskIdAj,
     taskTitleText: taskTitleText,
     descTextContent: descTextContent,
     priorityValue: priorityValue,

@@ -1,6 +1,6 @@
 import { courseCollection } from "../config/mongoCollections.js";
 import { dbConnection, closeConnection } from "./config/mongoConnection.js";
-import studentCollection from "./data/index.js";
+import assignmentCollection from "./data/index.js";
 //drops the database each time this is run
 const db = await dbConnection();
 // await db.dropDatabase();
@@ -13,22 +13,16 @@ async function main() {
   // }
 
   try {
-    const createCourse = await courseCollection.create(
-      "644849bc2652323de57ffad6",
-      2,
-      3,
-      ["CS 546", "CS 583", "BIA 678"],
-      [
-        [
-          "Lab1",
-          "coding",
-          "to do",
-          "01/30/2023",
-          "01/21/2023",
-          "01/28/2023",
-          "This is my notes",
-        ],
-      ]
+    const createCourse = await assignmentCollection.create(
+      "6457da9fd245d23512542eaa",
+
+      "Title",
+      "to do",
+      "High",
+      "0",
+      "CS546",
+      "01/30/2023",
+      "This is my notes"
     );
     console.log(createCourse);
   } catch (e) {
