@@ -12,13 +12,7 @@ draggables.forEach((task) => {
   });
   RadioNodeList;
 
-  const deleteBtn = task.querySelector(".close-sign");
-  deleteBtn.addEventListener("click", () => {
-    task.remove();
-    setTimeout(() => {
-      analyzeBtn.click();
-    }, 500);
-  });
+  const removeBtn = task.querySelector(".close-sign");
 
   const editIcon = task.querySelector(".edit-icon");
   const saveIcon = task.querySelector(".save-icon");
@@ -61,6 +55,34 @@ draggables.forEach((task) => {
       gradeInput.value = "";
       return;
     }
+  });
+  removeBtn.addEventListener("click", () => {
+    setTimeout(() => {
+      analyzeBtn.click();
+    }, 500);
+    const url = "/assignments";
+    const dl = { todo: taskTitle.value };
+    console.log(dl);
+    const options = {
+      method: "DELETE",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+    };
+
+    fetch(url, options)
+      .then((response) => {
+        if (response.ok) {
+          closeSign.parentElement.remove();
+        } else {
+          throw new Error("Failed to delete task");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to delete task");
+      });
+    task.remove();
   });
 });
 

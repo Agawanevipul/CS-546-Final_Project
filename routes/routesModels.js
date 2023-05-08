@@ -113,6 +113,26 @@ router
     } catch (e) {
       res.status(500).json({ error: e });
     }
+  })
+  .delete(async (req, res) => {
+    console.log(req.body);
+    try {
+      let task_details = req.body;
+      let studentId = req.session.user.studentId;
+      studentId = validator.checkId(studentId, "Student ID");
+
+      assignmentName = validator.checkString(
+        task_details.todo,
+        "Assignment Name"
+      );
+      let assignmentId = await assignmentData.getId(assignmentName);
+      assignmentId = validator.checkId(assignmentId, "Assignment ID");
+
+      let insertData = await assignmentData.remove(assignmentId);
+      res.json(insertData);
+    } catch (e) {
+      res.status(500).json({ error: e });
+    }
   });
 
 router
