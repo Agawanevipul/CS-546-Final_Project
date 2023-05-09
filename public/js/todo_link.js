@@ -125,6 +125,7 @@ form.addEventListener("submit", (e) => {
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
+    // const taskId = closeSign.parentElement.getAttribute("data-task-id");
   });
 
   editIcon.addEventListener("click", () => {
@@ -281,7 +282,6 @@ analyzeBtn.addEventListener("click", () => {
   doneText.textContent = doneLine;
 });
 
-
 const prioritySelect = document.querySelector(".task-priority");
 const priorityOption = prioritySelect.options[prioritySelect.selectedIndex];
 const priorityVal = priorityOption.value;
@@ -296,71 +296,6 @@ if (priorityVal === "High") {
   taskElement.style.backgroundColor = "rgba(13, 110, 253, 0.2)";
 }
 prioritySelect.disabled = true;
-
-//ajax post request
-
-// $(document).ready(function () {
-//   $("#form_todo").submit(function (event) {
-//     event.preventDefault();
-
-//     // var formData = {
-//     //   todo: $("#input_todo").val(),
-//     //   notes: $("#todo_desc").val(),
-//     // };
-
-//     var todo = $("#input_todo").value;
-//     var notes = $("#todo_desc").value;
-
-//     console.log("Todo: " + todo);
-//     console.log("Notes: " + notes);
-//     var formData = {
-//       todo: todo,
-//       notes: notes,
-//     };
-//     setTimeout(function () {
-//       $.ajax({
-//         type: "POST",
-//         url: "/assignments",
-//         data: JSON.stringify(formData),
-//         contentType: "application/json; charset=utf-8",
-//         dataType: "json",
-//         success: function (response) {
-//           console.log(response);
-
-//           $("#form_todo")[0].reset();
-
-//           alert("TODO added successfully!");
-//         },
-//         error: function (xhr, status, error) {
-//           console.log(xhr.responseText);
-//           alert("Error adding TODO: " + xhr.responseText);
-//         },
-//       });
-//     }, 200); // delay for 0.2 seconds
-//   });
-// });
-
-
-// $(document).ready(function () {
-//   $("#form_todo").submit(function (event) {
-//     event.preventDefault();
-
-//     var formData = {
-
-//       todo: $("#input_todo").val(),
-//       desc: $("#todo_desc").val(),
-//       subject: $("#subject_dropdown button").text().trim(),
-
-//       todo: $("#task_title").val(),
-//       notes: $("#task_desc").val(),
-//       // subject: $("#subject_dropdown button").text().trim(),
-//       // subject: "web",
-//       // priority: "high",
-//       // grade: 87,
-//       // dueDate: "00/00/0000",
-//       // status: "to-do",
-
-//     };
 
 //     $.ajax({
 //       type: "POST",
@@ -414,26 +349,27 @@ $.ajax({
 });
 
 // closeSign AJAX/
-closeSign.addEventListener("click", () => {
-  const taskId = closeSign.parentElement.getAttribute("data-task-id");
-  const url = `/tasks/${taskId}`;
-  const options = {
-    method: "DELETE",
-  };
-  fetch(url, options)
-    .then((response) => {
-      if (response.ok) {
-        closeSign.parentElement.remove();
-      } else {
-        throw new Error(`Failed to delete task with ID ${taskId}`);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      alert("Failed to delete task");
-    });
-});
-// ---------------------------------------------------------------------------------------------------------------------------------------------------
+// closeSign.addEventListener("click", () => {
+//   const taskId = closeSign.parentElement.getAttribute("data-task-id");
+//   const url = '/assignments'
+//   const options = {
+//     method: "DELETE",
+
+//   };
+//   fetch(url, options)
+//     .then((response) => {
+//       if (response.ok) {
+//         closeSign.parentElement.remove();
+//       } else {
+//         throw new Error(`Failed to delete task with ID ${taskId}`);
+//       }
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       alert("Failed to delete task");
+//     });
+// });
+// // ---------------------------------------------------------------------------------------------------------------------------------------------------
 // AJAX code for the noteAddBtn button:
 $(document).ready(function () {
   $("#form_notes").submit(function (event) {
@@ -465,25 +401,32 @@ $(document).ready(function () {
 });
 
 // closeSign AJAX/
-closeSign1.addEventListener("click", () => {
-  const noteId = closeSign1.parentElement.getAttribute("data-note-id");
-  const url = `/tasks/${taskId}`;
-  const options = {
-    method: "DELETE",
-  };
-  fetch(url, options)
-    .then((response) => {
-      if (response.ok) {
-        closeSign1.parentElement.remove();
-      } else {
-        throw new Error(`Failed to delete note with ID ${noteId}`);
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-      alert("Failed to delete note");
-    });
-});
+// closeSign.addEventListener("click", () => {
+//   const noteId = closeSign.parentElement.getAttribute("data-note-id");
+//   const url = "/assignments";
+//   const dl = { todo: value };
+//   console.log(dl);
+//   console.log(value);
+//   const options = {
+//     method: "DELETE",
+//     data: JSON.stringify(dl),
+//     contentType: "application/json; charset=utf-8",
+//     dataType: "json",
+//   };
+
+//   fetch(url, options)
+//     .then((response) => {
+//       if (response.ok) {
+//         closeSign.parentElement.remove();
+//       } else {
+//         throw new Error("Failed to delete task");
+//       }
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       alert("Failed to delete task");
+//     });
+// });
 // ---------------------------------------------------------------------------------------------------------------------------------
 // Ajax to get user Details on the userProfile page
 $(document).ready(function () {

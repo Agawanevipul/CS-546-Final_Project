@@ -12,13 +12,7 @@ draggables.forEach((task) => {
   });
   RadioNodeList;
 
-  const deleteBtn = task.querySelector(".close-sign");
-  deleteBtn.addEventListener("click", () => {
-    task.remove();
-    setTimeout(() => {
-      analyzeBtn.click();
-    }, 500);
-  });
+  const removeBtn = task.querySelector(".close-sign");
 
   const editIcon = task.querySelector(".edit-icon");
   const saveIcon = task.querySelector(".save-icon");
@@ -61,6 +55,37 @@ draggables.forEach((task) => {
       gradeInput.value = "";
       return;
     }
+  });
+  // let dl = task.querySelector(".task-title");
+
+  removeBtn.addEventListener("click", () => {
+    setTimeout(() => {
+      analyzeBtn.click();
+    }, 500);
+    let tl = task.querySelector(".task-title");
+    let dl = { todo: tl.innerText };
+    console.log(dl);
+
+    $.ajax({
+      type: "DELETE",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("TODO deleted successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+
+    task.remove();
   });
 });
 

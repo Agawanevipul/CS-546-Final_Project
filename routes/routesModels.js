@@ -113,6 +113,28 @@ router
     } catch (e) {
       res.status(500).json({ error: e });
     }
+  })
+  .delete(async (req, res) => {
+    try {
+      let task_details = req.body;
+      let studentId = req.session.user.studentId;
+      studentId = validator.checkId(
+        studentId,
+        "Student ID"
+      );
+      let assignmentName = validator.checkString(
+        task_details.todo,
+        "Assignment Name"
+      );
+      const assignmentInfo = await assignmentData.getId(assignmentName);
+      let assignmentId =assignmentInfo._id.toString()
+
+      assignmentId = validator.checkId(assignmentId, "Assignment ID");
+      let insertData = await assignmentData.remove(assignmentId);
+      res.json(insertData);
+    } catch (e) {
+      res.status(500).json({ error: e });
+    }
   });
 
 router
@@ -426,15 +448,18 @@ router
     try {
       let task_details = req.body;
       let studentId = req.session.user.studentId;
-      studentId = validator.checkId(studentId, "Student ID");
-
-      assignmentName = validator.checkString(
-        task_details.assignmentName,
+      studentId = validator.checkId(
+        studentId,
+        "Student ID"
+      );
+      let assignmentName = validator.checkString(
+        task_details.todo,
         "Assignment Name"
       );
-      let assignmentId = await assignmentData.getId(assignmentName);
-      assignmentId = validator.checkId(assignmentId, "Assignment ID");
+      const assignmentInfo = await assignmentData.getId(assignmentName);
+      let assignmentId =assignmentInfo._id.toString()
 
+      assignmentId = validator.checkId(assignmentId, "Assignment ID");
       let insertData = await assignmentData.remove(assignmentId);
       res.json(insertData);
     } catch (e) {
