@@ -56,7 +56,9 @@ app.use(
     cookie: { maxAge: 60000 },
   })
 );
-
+app.get("/", (req, res, next) => {
+  res.redirect("/login");
+});
 app.get("/register", (req, res, next) => {
   if (req.session.user) {
     console.log(
@@ -136,6 +138,31 @@ app.get("/login", (req, res, next) => {
 });
 
 app.get("/homepage", (req, res, next) => {
+  if (req.session.user) {
+    console.log(
+      "[" +
+        new Date().toUTCString() +
+        "]:" +
+        req.method +
+        " " +
+        req.originalUrl +
+        " (Authenticated User)"
+    );
+    next();
+  } else {
+    console.log(
+      "[" +
+        new Date().toUTCString() +
+        "]:" +
+        req.method +
+        " " +
+        req.originalUrl +
+        " (Authenticated User)"
+    );
+    return res.redirect("/login");
+  }
+});
+app.get("/profile", (req, res, next) => {
   if (req.session.user) {
     console.log(
       "[" +

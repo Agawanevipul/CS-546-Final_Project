@@ -1,9 +1,10 @@
 import { Router } from "express";
 import path from "path";
-import { studentsInfo, assignmentInfo } from "../data/index.js";
+import { studentsInfo, assignmentInfo, courseInfo } from "../data/index.js";
 import assignmentData from "../data/assignments.js";
 import { title } from "process";
 import validator from "../validator.js";
+import xss from "xss";
 
 const router = Router();
 
@@ -462,11 +463,52 @@ router
   });
 
 router.route("/courses").post(async (req, res) => {
-  console.log("yup");
   console.log(req.body);
+  try {
+    let courses = req.body;
+    let student_id = req.session.user.studentId;
+    let semester = xss(courses.sem);
+    let totalCourses = courses.courseNames.length;
+    let courseNames = xss(courses.courseNames);
+
+    semester = validator.checkNumber(courses.sem);
+    totalCourses = validator.checkNumber(courses.courseNames.length);
+    courseNames = validator.checkStringArray(courses.courseNames);
+
+    let newCourse = {
+      student_id: student_id,
+      semester: semester,
+      totalCourses: totalCourses,
+      courseNames: courseNames,
+    };
+
+    const courseDetails = await courseInfo.create(newCourse);
+    res.json(courseDetails);
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+
+  const courseDetails = await courseInfo.create(newCourse);
+
   res.redirect("/login");
 });
 
-export default router;
+router.route("/profile").get(async (req, res) => {
+  try {
+    // const studentData = await assignmentInfo.getAllStatus(
+    //   req.session.user.studentId
+    // );
 
-//Patch updated
+    let first_name = req.session.user.firstName;
+    let last_name = req.session.user.firstName;
+    let cwid = req.session.user.firstName;
+    let courses = req.session.user.firstName;
+    let sem = req.session.user.firstName;
+
+    const courseDetails = res.render("profile", { todo, doing, done });
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+});
+
+export default router;
