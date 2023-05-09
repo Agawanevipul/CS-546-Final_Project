@@ -96,7 +96,7 @@ draggables.forEach((task) => {
 
         $("#form_todo")[0].reset();
 
-        alert("TODO deleted successfully!");
+        alert("Updated successfully!");
       },
       error: function (xhr, status, error) {
         console.log(xhr.responseText);
@@ -129,7 +129,7 @@ draggables.forEach((task) => {
 
         $("#form_todo")[0].reset();
 
-        alert("TODO deleted successfully!");
+        alert("Deleted successfully!");
       },
       error: function (xhr, status, error) {
 
