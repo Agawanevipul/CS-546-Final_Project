@@ -24,9 +24,6 @@ draggables.forEach((task) => {
   });
   RadioNodeList;
 
-  //const currentLane = task.getAttribute("data-status");
-
-  //taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
 
   const editIcon = task.querySelector(".edit-icon");
   const saveIcon = task.querySelector(".save-icon");
@@ -71,16 +68,27 @@ draggables.forEach((task) => {
     }
   });
 
+
   const removeBtn = task.querySelector(".close-sign");
-  removeBtn.addEventListener("click", () => {
-    setTimeout(() => {
-      analyzeBtn.click();
-    }, 500);
-    const naam = { todo: taskTitle };
+
+  saveIcon.addEventListener("click", () => {
+    let tl = task.querySelector(".task-title");
+    let d = task.querySelector(".task-desc");
+    let p = task.querySelector(".task-priority");
+    let g = task.querySelector(".grade");
+
+    let dl = {
+      todo: tl.innerText,
+      desc: d.innerText,
+      priority: p.value,
+      grade: g.value,
+      subject: "web",
+    };
+    console.log(dl);
     $.ajax({
-      type: "DELETE",
+      type: "PATCH",
       url: "/assignments",
-      data: JSON.stringify(naam),
+      data: JSON.stringify(dl),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (response) {
@@ -91,8 +99,40 @@ draggables.forEach((task) => {
         alert("TODO deleted successfully!");
       },
       error: function (xhr, status, error) {
-        console.log(taskTitle.innerText);
-        console.log(naam);
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+  });
+
+  // let dl = task.querySelector(".task-title");
+
+
+  removeBtn.addEventListener("click", () => {
+    setTimeout(() => {
+      analyzeBtn.click();
+    }, 500);
+
+    let tl = task.querySelector(".task-title");
+    let dl = { todo: tl.innerText };
+    console.log(dl);
+
+    $.ajax({
+      type: "DELETE",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("TODO deleted successfully!");
+      },
+      error: function (xhr, status, error) {
+
         console.log(xhr.responseText);
 
         alert("Error adding TODO: " + xhr.responseText);

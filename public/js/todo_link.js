@@ -121,10 +121,34 @@ form.addEventListener("submit", (e) => {
 
   closeSign.addEventListener("click", () => {
     //taskSet.delete(newTask);
-    newTask.remove();
+
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
+
+    let tl = newTask.querySelector(".task-title");
+    let dl = { todo: tl.innerText };
+    $.ajax({
+      type: "DELETE",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("TODO deleted successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+
+    newTask.remove();
+    // const taskId = closeSign.parentElement.getAttribute("data-task-id");
   });
 
   editIcon.addEventListener("click", () => {
@@ -296,6 +320,7 @@ if (priorityVal === "High") {
 }
 prioritySelect.disabled = true;
 
+
 //ajax post request
 
 // $(document).ready(function () {
@@ -360,6 +385,7 @@ prioritySelect.disabled = true;
 
 //     };
 
+
 //     $.ajax({
 //       type: "POST",
 
@@ -411,12 +437,22 @@ prioritySelect.disabled = true;
 //   },
 // });
 
+
 // // closeSign AJAX/
 // closeSign.addEventListener("click", () => {
 //   const taskId = closeSign.parentElement.getAttribute("data-task-id");
 //   const url = `/tasks/${taskId}`;
 //   const options = {
 //     method: "DELETE",
+
+// closeSign AJAX/
+// closeSign.addEventListener("click", () => {
+//   const taskId = closeSign.parentElement.getAttribute("data-task-id");
+//   const url = '/assignments'
+//   const options = {
+//     method: "DELETE",
+
+
 //   };
 //   fetch(url, options)
 //     .then((response) => {
@@ -432,10 +468,7 @@ prioritySelect.disabled = true;
 //     });
 // });
 // // ---------------------------------------------------------------------------------------------------------------------------------------------------
-// // AJAX code for the noteAddBtn button:
-// $(document).ready(function () {
-//   $("#form_notes").submit(function (event) {
-//     event.preventDefault();
+
 
 //     var formData = {
 //       notes: $("#input_notes").val(),
@@ -462,6 +495,7 @@ prioritySelect.disabled = true;
 //   });
 // });
 
+
 // // closeSign AJAX/
 // closeSign1.addEventListener("click", () => {
 //   const noteId = closeSign1.parentElement.getAttribute("data-note-id");
@@ -475,10 +509,33 @@ prioritySelect.disabled = true;
 //         closeSign1.parentElement.remove();
 //       } else {
 //         throw new Error(`Failed to delete note with ID ${noteId}`);
+
+// closeSign AJAX/
+// closeSign.addEventListener("click", () => {
+//   const noteId = closeSign.parentElement.getAttribute("data-note-id");
+//   const url = "/assignments";
+//   const dl = { todo: value };
+//   console.log(dl);
+//   console.log(value);
+//   const options = {
+//     method: "DELETE",
+//     data: JSON.stringify(dl),
+//     contentType: "application/json; charset=utf-8",
+//     dataType: "json",
+//   };
+
+//   fetch(url, options)
+//     .then((response) => {
+//       if (response.ok) {
+//         closeSign.parentElement.remove();
+//       } else {
+//         throw new Error("Failed to delete task");
+
 //       }
 //     })
 //     .catch((error) => {
 //       console.error(error);
+
 //       alert("Failed to delete note");
 //     });
 // });
@@ -504,3 +561,30 @@ prioritySelect.disabled = true;
 //       alert("Failed to retrieve user details!");
 //     });
 // });
+
+//       alert("Failed to delete task");
+//     });
+// });
+// ---------------------------------------------------------------------------------------------------------------------------------
+// Ajax to get user Details on the userProfile page
+$(document).ready(function () {
+  $.ajax({
+    url: "/userProfile",
+    method: "GET",
+    dataType: "json",
+  })
+    .done(function (data) {
+      $("#email_id").text(data.email);
+      $("#first_name").text(data.firstName);
+      $("#last_name").text(data.lastName);
+      $("#cwid").text(data.cwid);
+      $("#courses").text(data.courses);
+      $("#program").text(data.program);
+      $("#sem").text(data.semester);
+    })
+    .fail(function () {
+      // Handle any errors that may occur
+      alert("Failed to retrieve user details!");
+    });
+});
+
