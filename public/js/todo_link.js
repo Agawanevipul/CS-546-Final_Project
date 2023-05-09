@@ -121,10 +121,33 @@ form.addEventListener("submit", (e) => {
 
   closeSign.addEventListener("click", () => {
     //taskSet.delete(newTask);
-    newTask.remove();
+
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
+
+    let tl = newTask.querySelector(".task-title");
+    let dl = { todo: tl.innerText };
+    $.ajax({
+      type: "DELETE",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("TODO deleted successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+
+    newTask.remove();
     // const taskId = closeSign.parentElement.getAttribute("data-task-id");
   });
 
