@@ -65,7 +65,7 @@ draggables.forEach((task) => {
   const gradeInput = task.querySelector(".grade");
 
   editIcon.addEventListener("click", () => {
-    taskTitle.contentEditable = true;
+    //taskTitle.contentEditable = true;
     descText.contentEditable = true;
     prioritySelect.disabled = false;
     editIcon.style.display = "none";
@@ -74,7 +74,7 @@ draggables.forEach((task) => {
   });
 
   saveIcon.addEventListener("click", () => {
-    taskTitle.contentEditable = false;
+    //taskTitle.contentEditable = false;
     descText.contentEditable = false;
     prioritySelect.disabled = true;
     editIcon.style.display = "inline-block";
@@ -172,6 +172,15 @@ draggables.forEach((task) => {
 
     task.remove();
   });
+
+  const priority = prioritySelect.value;
+  if (priority === "High") {
+    task.style.backgroundColor = "rgba(198, 48, 62, 0.2)";
+  } else if (priority === "Medium") {
+    task.style.backgroundColor = "rgba(255, 193, 7, 0.2)";
+  } else if (priority === "Low") {
+    task.style.backgroundColor = "rgba(13, 110, 253, 0.2)";
+  }
 });
 
 droppables.forEach((zone) => {

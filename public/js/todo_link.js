@@ -63,6 +63,7 @@ form.addEventListener("submit", (e) => {
   gradeInput.placeholder = "Grade";
   gradeInput.required = true;
   gradeInput.step = "1";
+  gradeInput.value = "0";
 
   prioritySelect.classList.add("task-priority");
   priorityPlaceholderOption.text = "Priority";
@@ -75,6 +76,7 @@ form.addEventListener("submit", (e) => {
   mediumOption.text = "Medium";
   lowOption.value = "low";
   lowOption.text = "Low";
+  lowOption.selected = true;
   prioritySelect.appendChild(priorityPlaceholderOption);
   prioritySelect.appendChild(highOption);
   prioritySelect.appendChild(mediumOption);
@@ -152,7 +154,7 @@ form.addEventListener("submit", (e) => {
   });
 
   editIcon.addEventListener("click", () => {
-    taskTitle.contentEditable = true;
+    //taskTitle.contentEditable = true;
     descText.contentEditable = true;
     prioritySelect.disabled = false;
     editIcon.style.display = "none";
@@ -161,7 +163,7 @@ form.addEventListener("submit", (e) => {
   });
 
   saveIcon.addEventListener("click", () => {
-    taskTitle.contentEditable = false;
+    //taskTitle.contentEditable = false;
     descText.contentEditable = false;
     prioritySelect.disabled = true;
     editIcon.style.display = "inline-block";
