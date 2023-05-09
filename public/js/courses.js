@@ -7,63 +7,6 @@ let errorDiv = document.getElementById("error-container");
 let errorTextElement = errorDiv.getElementsByClassName("alert alert-danger")[0];
 let frmLabel = document.getElementById("formLabel");
 
-// if (myForm) {
-//   myForm.addEventListener("submit", (event) => {
-//     event.preventDefault();
-//     if (count.value) {
-//       try {
-//         errorDiv.classList.add("hidden");
-//         btn.style.visibility = "hidden";
-//         btn.style.display = "none";
-
-//         while (results.hasChildNodes()) {
-//           results.removeChild(results.lastChild);
-//         }
-//         let second_form = document.createElement("form");
-//         second_form.action = "/courses";
-//         second_form.method = "post";
-
-//         let courseLabel = document.createElement("label");
-//         courseLabel.innerHTML = "Enter Course Names: ";
-//         courseLabel.className = "row pt-4";
-//         second_form.appendChild(courseLabel);
-//         second_form.appendChild(document.createElement("br"));
-//         for (let i = 0; i < parseInt(count.value); i++) {
-//           let courseName = document.createElement("input");
-//           courseName.id = "CourseName" + (i + 1);
-//           courseName.placeholder = "Course " + (i + 1);
-
-//           second_form.appendChild(courseName);
-//           second_form.appendChild(document.createElement("br"));
-//         }
-
-//         let btn2 = document.createElement("button");
-//         btn2.innerHTML = "Add Course Names";
-//         btn2.id = "second_button";
-//         btn2.className = "btn1";
-//         btn2.type = "submit";
-//         second_form.appendChild(btn2);
-//         results.appendChild(second_form);
-
-//         btn2.addEventListener("click", () => {
-//           event.preventDefault();
-//           second_form.submit(); // submit form programmatically
-//         });
-//       } catch (e) {
-//         const message = typeof e === "string" ? e : e.message;
-//         errorTextElement.textContent = e;
-//         errorDiv.classList.remove("hidden");
-//       }
-//     } else {
-//       count.value = "";
-//       errorDiv.hidden = false;
-//       errorDiv.innerHTML = "You must enter a value";
-//       frmLabel.className = "error";
-//       count.focus();
-//       count.className = "inputClass";
-//     }
-//   });
-// }
 if (myForm) {
   myForm.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -123,6 +66,34 @@ if (myForm) {
           second_form.appendChild(courseNamesInput);
           console.log(courseNames);
           second_form.submit(); // submit form programmatically
+
+          const semesterInput = document.getElementById("semester");
+          const semesterValue = semesterInput.value;
+
+          dl = {
+            sem: semesterValue,
+            courseName: courseNames,
+          };
+          console.log(dl);
+
+          $.ajax({
+            type: "POST",
+            url: "/courses",
+            data: JSON.stringify(dl),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+              console.log(response);
+
+              $("#form_todo")[0].reset();
+
+              alert("Updated successfully!");
+            },
+            error: function (xhr, status, error) {
+              console.log(xhr.responseText);
+              alert("Error adding TODO: " + xhr.responseText);
+            },
+          });
         });
       } catch (e) {
         const message = typeof e === "string" ? e : e.message;
