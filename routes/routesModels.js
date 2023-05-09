@@ -119,13 +119,20 @@ router
     try {
       let task_details = req.body;
       let studentId = req.session.user.studentId;
-      studentId = validator.checkId(studentId, "Student ID");
-
+      console.log(studentId);
+      studentId = validator.checkId(
+        new ObjectId(studentId.toString()),
+        "Student ID"
+      );
+      console.log(studentId);
+      console.log(assignmentName);
       assignmentName = validator.checkString(
         task_details.todo,
         "Assignment Name"
       );
       let assignmentId = await assignmentData.getId(assignmentName);
+      console.log(assignmentId);
+
       assignmentId = validator.checkId(assignmentId, "Assignment ID");
 
       let insertData = await assignmentData.remove(assignmentId);

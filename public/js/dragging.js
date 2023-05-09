@@ -56,32 +56,35 @@ draggables.forEach((task) => {
       return;
     }
   });
+  // let dl = task.querySelector(".task-title");
+
   removeBtn.addEventListener("click", () => {
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
-    const url = "/assignments";
-    const dl = { todo: taskTitle.value };
+    let tl = task.querySelector(".task-title");
+    let dl = { todo: tl.innerText };
     console.log(dl);
-    const options = {
-      method: "DELETE",
+
+    $.ajax({
+      type: "DELETE",
+      url: "/assignments",
       data: JSON.stringify(dl),
       contentType: "application/json; charset=utf-8",
       dataType: "json",
-    };
+      success: function (response) {
+        console.log(response);
 
-    fetch(url, options)
-      .then((response) => {
-        if (response.ok) {
-          closeSign.parentElement.remove();
-        } else {
-          throw new Error("Failed to delete task");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Failed to delete task");
-      });
+        $("#form_todo")[0].reset();
+
+        alert("TODO deleted successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+
     task.remove();
   });
 });
