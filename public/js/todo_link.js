@@ -228,6 +228,7 @@ form.addEventListener("submit", (e) => {
     let p = newTask.querySelector(".task-priority");
     let g = newTask.querySelector(".grade");
     let s = newTask.getAttribute("data-status");
+    let date = newTask.getAttribute("due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -236,6 +237,7 @@ form.addEventListener("submit", (e) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.valueOf(),
     };
     console.log(dl);
     $.ajax({
@@ -287,6 +289,11 @@ form.addEventListener("submit", (e) => {
     let p = newTask.querySelector(".task-priority");
     let g = newTask.querySelector(".grade");
     let s = newTask.getAttribute("data-status");
+    let date = newTask.getAttribute("due-date");
+
+    console.log(date);
+
+    console.log(date.innerText);
 
     let dl = {
       todo: tl.innerText,
@@ -295,7 +302,9 @@ form.addEventListener("submit", (e) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.value,
     };
+    console.log(dl);
 
     $.ajax({
       type: "PATCH",

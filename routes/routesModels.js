@@ -31,7 +31,7 @@ router
       let priority = "low"; //check the id for priority from form
       let grade = "0";
       let subject = "web";
-      let dueDate = "00/00/0000"; //check the id for due date from form
+      let dueDate = "01-01-2023"; //check the id for due date from form
       let notes = xss(task_details.desc);
 
       studentId = validator.checkId(studentId, "Student ID");
@@ -147,7 +147,7 @@ router
       let priority = xss(task_details.priority); //check the id for priority from form
       let grade = xss(task_details.grade);
       let subject = xss(task_details.subject);
-      let dueDate = "00/00/0000"; //check the id for due date from form
+      let dueDate = xss(task_details.dueDate); //check the id for due date from form
       let notes = xss(task_details.todo);
 
       studentId = validator.checkId(studentId, "Student ID");

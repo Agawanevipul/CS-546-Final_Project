@@ -26,6 +26,7 @@ draggables.forEach((task) => {
     let p = task.querySelector(".task-priority");
     let g = task.querySelector(".grade");
     let s = task.getAttribute("data-status");
+    let date = task.getAttribute("due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -34,6 +35,7 @@ draggables.forEach((task) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.valueOf(),
     };
 
     $.ajax({
@@ -108,6 +110,7 @@ draggables.forEach((task) => {
     let p = task.querySelector(".task-priority");
     let g = task.querySelector(".grade");
     let s = task.getAttribute("data-status");
+    let date = task.getAttribute("due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -116,6 +119,7 @@ draggables.forEach((task) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.valueOf(),
     };
     console.log(dl);
     $.ajax({
