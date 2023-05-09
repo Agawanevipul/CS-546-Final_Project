@@ -1,6 +1,8 @@
 const draggables = document.querySelectorAll(".task");
 const droppables = document.querySelectorAll(".DandD");
 
+//const taskStatus = {};
+
 draggables.forEach((task) => {
   task.addEventListener("dragstart", () => {
     task.classList.add("is-dragging");
@@ -9,8 +11,22 @@ draggables.forEach((task) => {
 
   task.addEventListener("dragend", () => {
     task.classList.remove("is-dragging");
+    const currentLane = task.parentNode.id;
+    let newStatus;
+    if (currentLane === "lane_todo") {
+      newStatus = "to-do";
+    } else if (currentLane === "lane_doing") {
+      newStatus = "doing";
+    } else if (currentLane === "lane_done") {
+      newStatus = "done";
+    }
+    task.setAttribute("data-status", newStatus);
   });
   RadioNodeList;
+
+  //const currentLane = task.getAttribute("data-status");
+
+  //taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
 
   const editIcon = task.querySelector(".edit-icon");
   const saveIcon = task.querySelector(".save-icon");

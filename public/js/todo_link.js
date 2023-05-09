@@ -11,7 +11,7 @@ setTimeout(() => {
 
 //let taskSet = new Set();
 let taskId = 0;
-const taskStatus = {};
+//const taskStatus = {};
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const value = input.value;
@@ -177,14 +177,14 @@ form.addEventListener("submit", (e) => {
     const currentLane = newTask.parentNode.id;
     let newStatus;
     if (currentLane === "lane_todo") {
-      newStatus = "todo";
+      newStatus = "to-do";
     } else if (currentLane === "lane_doing") {
       newStatus = "doing";
     } else if (currentLane === "lane_done") {
       newStatus = "done";
     }
     newTask.setAttribute("data-status", newStatus);
-    taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
+    //taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
