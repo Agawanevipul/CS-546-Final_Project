@@ -1,9 +1,10 @@
 import { Router } from "express";
 import path from "path";
-import { studentsInfo, assignmentInfo } from "../data/index.js";
+import { studentsInfo, assignmentInfo, courseInfo } from "../data/index.js";
 import assignmentData from "../data/assignments.js";
 import { title } from "process";
 import validator from "../validator.js";
+import xss from "xss";
 
 const router = Router();
 
@@ -24,14 +25,14 @@ router
     try {
       let task_details = req.body;
       let studentId = req.session.user.studentId;
-      let todo_assignment = task_details.todo;
+      let todo_assignment = xss(task_details.todo);
       let doing_assignment = [];
       let done_assignment = [];
       let priority = "low"; //check the id for priority from form
       let grade = "0";
       let subject = "web";
       let dueDate = "00/00/0000"; //check the id for due date from form
-      let notes = task_details.desc;
+      let notes = xss(task_details.desc);
 
       studentId = validator.checkId(studentId, "Student ID");
       priority = validator.checkString(priority, "Priority");
@@ -121,7 +122,7 @@ router
       studentId = validator.checkId(studentId, "Student ID");
 
       let assignmentName = validator.checkString(
-        task_details.todo,
+        xss(task_details.todo),
         "Assignment Name"
       );
       const assignmentInfo = await assignmentData.getId(assignmentName);
@@ -141,13 +142,13 @@ router
 
       console.log(task_details, "task details");
       let studentId = req.session.user.studentId;
-      let assignmentName = task_details.todo;
-      let status = task_details.status;
-      let priority = task_details.priority; //check the id for priority from form
-      let grade = task_details.grade;
-      let subject = task_details.subject;
+      let assignmentName = xss(task_details.todo);
+      let status = xss(task_details.status);
+      let priority = xss(task_details.priority); //check the id for priority from form
+      let grade = xss(task_details.grade);
+      let subject = xss(task_details.subject);
       let dueDate = "00/00/0000"; //check the id for due date from form
-      let notes = task_details.todo;
+      let notes = xss(task_details.todo);
 
       studentId = validator.checkId(studentId, "Student ID");
       priority = validator.checkString(priority, "Priority");
@@ -188,13 +189,13 @@ router
     let isclicked = req.body.clicked;
     console.log(isclicked);
     if (isclicked === "registered") {
-      let firstName = req.body.first_name;
-      let lastName = req.body.last_name;
-      let emailId = req.body.email_id;
-      let CWID = req.body.cwid;
-      let program = req.body.program;
-      let major = req.body.major;
-      let password = req.body.create_pass;
+      let firstName = xss(req.body.first_name);
+      let lastName = xss(req.body.last_name);
+      let emailId = xss(req.body.email_id);
+      let CWID = xss(req.body.cwid);
+      let program = xss(req.body.program);
+      let major = xss(req.body.major);
+      let password = xss(req.body.create_pass);
       let confirmPassword = req.body.confirm_pass;
       try {
         firstName = validator.checkString(firstName, "First Name");
@@ -257,8 +258,8 @@ router
       }
     }
     if (isclicked === "loggedIn") {
-      let emailId = req.body.emailId;
-      let password = req.body.password;
+      let emailId = xss(req.body.emailId);
+      let password = xss(req.body.password);
       try {
         emailId = validator.checkString(emailId, "Email Id");
         emailId = validator.validateEmailId(emailId);
@@ -462,11 +463,52 @@ router
   });
 
 router.route("/courses").post(async (req, res) => {
-  console.log("yup");
   console.log(req.body);
+  try {
+    let courses = req.body;
+    let student_id = req.session.user.studentId;
+    let semester = xss(courses.sem);
+    let totalCourses = courses.courseNames.length;
+    let courseNames = xss(courses.courseNames);
+
+    semester = validator.checkNumber(courses.sem);
+    totalCourses = validator.checkNumber(courses.courseNames.length);
+    courseNames = validator.checkStringArray(courses.courseNames);
+
+    let newCourse = {
+      student_id: student_id,
+      semester: semester,
+      totalCourses: totalCourses,
+      courseNames: courseNames,
+    };
+
+    const courseDetails = await courseInfo.create(newCourse);
+    res.json(courseDetails);
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+
+  const courseDetails = await courseInfo.create(newCourse);
+
   res.redirect("/login");
 });
 
-export default router;
+router.route("/profile").get(async (req, res) => {
+  try {
+    // const studentData = await assignmentInfo.getAllStatus(
+    //   req.session.user.studentId
+    // );
 
-//Patch updated
+    let first_name = req.session.user.firstName;
+    let last_name = req.session.user.firstName;
+    let cwid = req.session.user.firstName;
+    let courses = req.session.user.firstName;
+    let sem = req.session.user.firstName;
+
+    const courseDetails = res.render("profile", { todo, doing, done });
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+});
+
+export default router;

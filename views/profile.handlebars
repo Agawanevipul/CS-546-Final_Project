@@ -22,31 +22,33 @@
             </tr>
             <tr>
                 <th>Email</th>
-                <td id="email_id">abc@gmail.com</td>
+                <td id="email_id">{{this.email_id}}</td>
             </tr>
             <tr>
                 <th>First Name</th>
-                <td id="first_name">John</td>
+                <td id="first_name">{{this.first_name}}</td>
             </tr>
             <tr>
                 <th>Last Name</th>
-                <td id="last_name">Cena</td>
+                <td id="last_name">{{this.last_name}}</td>
             </tr>
             <tr>
                 <th>CWID</th>
-                <td id="cwid">20012778</td>
+                <td id="cwid">{{this.cwid}}</td>
             </tr>
             <tr>
                 <th>Courses</th>
-                <td id="courses">CS546</td>
+                {{#each Courses}}
+                <td id="courses">{{this.courses}}</td>
+                {{/each}}
             </tr>
             <tr>
                 <th>Program</th>
-                <td id="program">CS</td>
+                <td id="program">{{this.program}}</td>
             </tr>
             <tr>
                 <th>Semester</th>
-                <td id="sem">1</td>
+                <td id="sem">{{this.sem}}</td>
             </tr>
         </table>
     </div>

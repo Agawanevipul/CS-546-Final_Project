@@ -24,6 +24,12 @@ const constructorMethod = (app) => {
       title: "Courses",
     });
   });
+  app.use("/profile", studentRoute);
+  app.get("/profile", (req, res) => {
+    res.render("profile", {
+      title: "Profile",
+    });
+  });
   app.use("*", (req, res) => {
     res.status(404).json({ error: "Not found" });
   });
