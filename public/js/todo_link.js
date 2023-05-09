@@ -188,6 +188,41 @@ form.addEventListener("submit", (e) => {
     //taskSet.delete(newTask);
     //taskSet.add(newTask);
   });
+  saveIcon.addEventListener("click", () => {
+    let tl = newTask.querySelector(".task-title");
+    let d = newTask.querySelector(".task-desc");
+    let p = newTask.querySelector(".task-priority");
+    let g = newTask.querySelector(".grade");
+    let s = newTask.getAttribute("data-status");
+
+    let dl = {
+      todo: tl.innerText,
+      desc: d.innerText,
+      priority: p.value,
+      grade: g.value,
+      subject: "web",
+      status: s,
+    };
+    console.log(dl);
+    $.ajax({
+      type: "PATCH",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("Updated successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+  });
 
   newTask.addEventListener("dragstart", () => {
     newTask.classList.add("is-dragging");
@@ -212,6 +247,40 @@ form.addEventListener("submit", (e) => {
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
+
+    let tl = newTask.querySelector(".task-title");
+    let d = newTask.querySelector(".task-desc");
+    let p = newTask.querySelector(".task-priority");
+    let g = newTask.querySelector(".grade");
+    let s = newTask.getAttribute("data-status");
+
+    let dl = {
+      todo: tl.innerText,
+      desc: d.innerText,
+      priority: p.value,
+      grade: g.value,
+      subject: "web",
+      status: s,
+    };
+
+    $.ajax({
+      type: "PATCH",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("Updated successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
   });
 
   todoLane.appendChild(newTask);
@@ -320,7 +389,6 @@ if (priorityVal === "High") {
 }
 prioritySelect.disabled = true;
 
-
 //ajax post request
 
 // $(document).ready(function () {
@@ -385,7 +453,6 @@ prioritySelect.disabled = true;
 
 //     };
 
-
 //     $.ajax({
 //       type: "POST",
 
@@ -437,7 +504,6 @@ prioritySelect.disabled = true;
 //   },
 // });
 
-
 // // closeSign AJAX/
 // closeSign.addEventListener("click", () => {
 //   const taskId = closeSign.parentElement.getAttribute("data-task-id");
@@ -451,7 +517,6 @@ prioritySelect.disabled = true;
 //   const url = '/assignments'
 //   const options = {
 //     method: "DELETE",
-
 
 //   };
 //   fetch(url, options)
@@ -468,7 +533,6 @@ prioritySelect.disabled = true;
 //     });
 // });
 // // ---------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 //     var formData = {
 //       notes: $("#input_notes").val(),
@@ -494,7 +558,6 @@ prioritySelect.disabled = true;
 //     });
 //   });
 // });
-
 
 // // closeSign AJAX/
 // closeSign1.addEventListener("click", () => {
@@ -567,24 +630,23 @@ prioritySelect.disabled = true;
 // });
 // ---------------------------------------------------------------------------------------------------------------------------------
 // Ajax to get user Details on the userProfile page
-$(document).ready(function () {
-  $.ajax({
-    url: "/userProfile",
-    method: "GET",
-    dataType: "json",
-  })
-    .done(function (data) {
-      $("#email_id").text(data.email);
-      $("#first_name").text(data.firstName);
-      $("#last_name").text(data.lastName);
-      $("#cwid").text(data.cwid);
-      $("#courses").text(data.courses);
-      $("#program").text(data.program);
-      $("#sem").text(data.semester);
-    })
-    .fail(function () {
-      // Handle any errors that may occur
-      alert("Failed to retrieve user details!");
-    });
-});
-
+// $(document).ready(function () {
+//   $.ajax({
+//     url: "/userProfile",
+//     method: "GET",
+//     dataType: "json",
+//   })
+//     .done(function (data) {
+//       $("#email_id").text(data.email);
+//       $("#first_name").text(data.firstName);
+//       $("#last_name").text(data.lastName);
+//       $("#cwid").text(data.cwid);
+//       $("#courses").text(data.courses);
+//       $("#program").text(data.program);
+//       $("#sem").text(data.semester);
+//     })
+//     .fail(function () {
+//       // Handle any errors that may occur
+//       alert("Failed to retrieve user details!");
+//     });
+// });

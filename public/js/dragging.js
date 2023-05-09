@@ -21,9 +21,41 @@ draggables.forEach((task) => {
       newStatus = "done";
     }
     task.setAttribute("data-status", newStatus);
+    let tl = task.querySelector(".task-title");
+    let d = task.querySelector(".task-desc");
+    let p = task.querySelector(".task-priority");
+    let g = task.querySelector(".grade");
+    let s = task.getAttribute("data-status");
+
+    let dl = {
+      todo: tl.innerText,
+      desc: d.innerText,
+      priority: p.value,
+      grade: g.value,
+      subject: "web",
+      status: s,
+    };
+
+    $.ajax({
+      type: "PATCH",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("Updated successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
   });
   RadioNodeList;
-
 
   const editIcon = task.querySelector(".edit-icon");
   const saveIcon = task.querySelector(".save-icon");
@@ -68,7 +100,6 @@ draggables.forEach((task) => {
     }
   });
 
-
   const removeBtn = task.querySelector(".close-sign");
 
   saveIcon.addEventListener("click", () => {
@@ -76,6 +107,7 @@ draggables.forEach((task) => {
     let d = task.querySelector(".task-desc");
     let p = task.querySelector(".task-priority");
     let g = task.querySelector(".grade");
+    let s = task.getAttribute("data-status");
 
     let dl = {
       todo: tl.innerText,
@@ -83,6 +115,7 @@ draggables.forEach((task) => {
       priority: p.value,
       grade: g.value,
       subject: "web",
+      status: s,
     };
     console.log(dl);
     $.ajax({
@@ -106,7 +139,6 @@ draggables.forEach((task) => {
   });
 
   // let dl = task.querySelector(".task-title");
-
 
   removeBtn.addEventListener("click", () => {
     setTimeout(() => {
@@ -132,7 +164,6 @@ draggables.forEach((task) => {
         alert("Deleted successfully!");
       },
       error: function (xhr, status, error) {
-
         console.log(xhr.responseText);
 
         alert("Error adding TODO: " + xhr.responseText);

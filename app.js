@@ -59,7 +59,6 @@ app.use(
 
 app.get("/register", (req, res, next) => {
   if (req.session.user) {
-
     console.log(
       "[" +
         new Date().toUTCString() +
@@ -189,17 +188,33 @@ app.get("/logout", (req, res, next) => {
   }
 });
 
-app.get('/logout', (req, res, next) => {
-    if(!req.session.user){
-      console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Non-Authenticated User)');
-      return res.redirect('/login')
-    }
-    if (req.session.user) {
-      console.log('['+new Date().toUTCString()+']:'+req.method+" "+req.originalUrl+' (Authenticated User)');
-      next();
-    }
-  });
-  
+app.get("/logout", (req, res, next) => {
+  if (!req.session.user) {
+    console.log(
+      "[" +
+        new Date().toUTCString() +
+        "]:" +
+        req.method +
+        " " +
+        req.originalUrl +
+        " (Non-Authenticated User)"
+    );
+    return res.redirect("/login");
+  }
+  if (req.session.user) {
+    console.log(
+      "[" +
+        new Date().toUTCString() +
+        "]:" +
+        req.method +
+        " " +
+        req.originalUrl +
+        " (Authenticated User)"
+    );
+    next();
+  }
+});
+
 configRoutes(app);
 
 app.listen(3000, () => {
