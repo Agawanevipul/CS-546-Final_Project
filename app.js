@@ -81,6 +81,7 @@ app.get("/register", (req, res, next) => {
         req.originalUrl +
         " (Non-Authenticated User)"
     );
+    return res.redirect("/login");
     next();
   }
 });

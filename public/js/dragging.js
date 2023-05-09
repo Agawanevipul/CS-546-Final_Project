@@ -26,7 +26,7 @@ draggables.forEach((task) => {
     let p = task.querySelector(".task-priority");
     let g = task.querySelector(".grade");
     let s = task.getAttribute("data-status");
-    let date = task.getAttribute("due-date");
+    let date = task.querySelector("#due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -35,7 +35,7 @@ draggables.forEach((task) => {
       grade: g.value,
       subject: "web",
       status: s,
-      dueDate: date.valueOf(),
+      dueDate: date.value,
     };
 
     $.ajax({
@@ -65,6 +65,7 @@ draggables.forEach((task) => {
   const descText = task.querySelector(".task-desc");
   const prioritySelect = task.querySelector(".task-priority");
   const gradeInput = task.querySelector(".grade");
+  const date = task.querySelector("#due-date");
 
   editIcon.addEventListener("click", () => {
     //taskTitle.contentEditable = true;
@@ -73,8 +74,8 @@ draggables.forEach((task) => {
     editIcon.style.display = "none";
     saveIcon.style.display = "inline-block";
     gradeInput.disabled = false;
+    date.disabled = false;
   });
-
   saveIcon.addEventListener("click", () => {
     //taskTitle.contentEditable = false;
     descText.contentEditable = false;
@@ -82,7 +83,7 @@ draggables.forEach((task) => {
     editIcon.style.display = "inline-block";
     saveIcon.style.display = "none";
     gradeInput.disabled = true;
-
+    date.disabled = true;
     const priority = prioritySelect.value;
     if (priority === "High") {
       task.style.backgroundColor = "rgba(198, 48, 62, 0.2)";
@@ -100,17 +101,20 @@ draggables.forEach((task) => {
       gradeInput.value = "";
       return;
     }
-  });
+    const valueDueDate = date.value.trim();
+    const dateRegex = /^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-\d{4}$/;
+    if (valueDueDate !== "" && !dateRegex.test(valueDueDate)) {
+      alert("Please enter a valid date in the format mm-dd-yyyy.");
+      date.value = "";
+      return;
+    }
 
-  const removeBtn = task.querySelector(".close-sign");
-
-  saveIcon.addEventListener("click", () => {
     let tl = task.querySelector(".task-title");
     let d = task.querySelector(".task-desc");
     let p = task.querySelector(".task-priority");
     let g = task.querySelector(".grade");
     let s = task.getAttribute("data-status");
-    let date = task.getAttribute("due-date");
+    let date = task.querySelector("#due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -119,7 +123,7 @@ draggables.forEach((task) => {
       grade: g.value,
       subject: "web",
       status: s,
-      dueDate: date.valueOf(),
+      dueDate: date.value,
     };
     console.log(dl);
     $.ajax({
@@ -141,8 +145,81 @@ draggables.forEach((task) => {
       },
     });
   });
+  // saveIcon.addEventListener("click", () => {
+  //   //taskTitle.contentEditable = false;
+  //   descText.contentEditable = false;
+  //   prioritySelect.disabled = true;
+  //   editIcon.style.display = "inline-block";
+  //   saveIcon.style.display = "none";
+  //   gradeInput.disabled = true;
+  //   date.disabled = true;
+
+  //   const priority = prioritySelect.value;
+  //   if (priority === "High") {
+  //     task.style.backgroundColor = "rgba(198, 48, 62, 0.2)";
+  //   } else if (priority === "Medium") {
+  //     task.style.backgroundColor = "rgba(255, 193, 7, 0.2)";
+  //   } else if (priority === "Low") {
+  //     task.style.backgroundColor = "rgba(13, 110, 253, 0.2)";
+  //   }
+
+  //   const grade = gradeInput.value.trim();
+  //   if (grade === "" || (parseInt(grade) >= 0 && parseInt(grade) <= 100)) {
+  //     newTask.setAttribute("data-grade", grade === "" ? "" : parseInt(grade));
+  //   } else {
+  //     alert("Please enter a valid grade between 0 and 100.");
+  //     gradeInput.value = "";
+  //     return;
+  //   }
+  //   const valueDueDate = date.value.trim();
+  //   const dateRegex = /^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-\d{4}$/;
+  //   if (valueDueDate !== "" && !dateRegex.test(valueDueDate)) {
+  //     alert("Please enter a valid date in the format mm-dd-yyyy.");
+  //     date.value = "";
+  //     return;
+  //   }
+  // });
+
+  // saveIcon.addEventListener("click", () => {
+  //   let tl = task.querySelector(".task-title");
+  //   let d = task.querySelector(".task-desc");
+  //   let p = task.querySelector(".task-priority");
+  //   let g = task.querySelector(".grade");
+  //   let s = task.getAttribute("data-status");
+  //   let date = task.querySelector("#due-date");
+
+  //   let dl = {
+  //     todo: tl.innerText,
+  //     desc: d.innerText,
+  //     priority: p.value,
+  //     grade: g.value,
+  //     subject: "web",
+  //     status: s,
+  //     dueDate: date.value,
+  //   };
+  //   console.log(dl);
+  //   $.ajax({
+  //     type: "PATCH",
+  //     url: "/assignments",
+  //     data: JSON.stringify(dl),
+  //     contentType: "application/json; charset=utf-8",
+  //     dataType: "json",
+  //     success: function (response) {
+  //       console.log(response);
+
+  //       $("#form_todo")[0].reset();
+
+  //       alert("Updated successfully!");
+  //     },
+  //     error: function (xhr, status, error) {
+  //       console.log(xhr.responseText);
+  //       alert("Error adding TODO: " + xhr.responseText);
+  //     },
+  //   });
+  // });
 
   // let dl = task.querySelector(".task-title");
+  const removeBtn = task.querySelector(".close-sign");
 
   removeBtn.addEventListener("click", () => {
     setTimeout(() => {
