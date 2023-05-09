@@ -37,7 +37,6 @@
         <div class="task" draggable="true" data-status = {{this.status}}>
           <h5 class="task-title">{{this.assignmentName}}</h5>
           <p class="task-desc">{{this.notes}}</p>
-          <span class="close-sign">X</span>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
           <select class="task-priority" disabled="">
@@ -46,11 +45,8 @@
             <option class="medium-priority" value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
             <option class="low-priority" value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
           </select>
-
-          {{!-- <select class="task-priority" disabled="">
-            <option value="" disabled="">Priority</option>
-            <option value="{{this.priority}}">{{this.priority}}</option>
-          </select> --}}
+          <span class="close-sign">X</span>
+          <label for="gradeInput" class="grade-label">Grade</label>
           <input
             type="number"
             class="grade"
@@ -72,26 +68,23 @@
         <div class="task" draggable="true" data-status = {{this.status}}>
           <h5 class="task-title">{{this.assignmentName}}</h5>
           <p class="task-desc">{{this.notes}}</p>
-          <span class="close-sign">X</span>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
           <select class="task-priority" disabled="">
             <option value="" disabled="">Priority</option>
-            <option value="High" {{#isEqual this.priority 'High'}}selected{{/isEqual}}>High</option>
-            <option value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
-            <option value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
+            <option class="high-priority" value="High" {{#isEqual this.priority 'High'}}selected{{/isEqual}}>High</option>
+            <option class="medium-priority" value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
+            <option class="low-priority" value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
           </select>
-
-          {{!-- <select class="task-priority" disabled="">
-            <option value="" disabled="">Priority</option>
-            <option value="{{this.priority}}">{{this.priority}}</option>
-          </select> --}}
+          <span class="close-sign">X</span>
+          <label for="gradeInput" class="grade-label">Grade</label>
           <input
             type="number"
             class="grade"
             min="0"
             max="100"
             placeholder="{{this.grade}}"
+            value="{{this.grade}}"
             required=""
             step="1"
             disabled=""
@@ -106,26 +99,23 @@
         <div class="task" draggable="true" data-status = {{this.status}}>
           <h5 class="task-title">{{this.assignmentName}}</h5>
           <p class="task-desc">{{this.notes}}</p>
-          <span class="close-sign">X</span>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
           <select class="task-priority" disabled="">
             <option value="" disabled="">Priority</option>
-            <option value="High" {{#isEqual this.priority 'High'}}selected{{/isEqual}}>High</option>
-            <option value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
-            <option value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
+            <option class="high-priority" value="High" {{#isEqual this.priority 'High'}}selected{{/isEqual}}>High</option>
+            <option class="medium-priority" value="Medium" {{#isEqual this.priority 'Medium'}}selected{{/isEqual}}>Medium</option>
+            <option class="low-priority" value="Low" {{#isEqual this.priority 'Low'}}selected{{/isEqual}}>Low</option>
           </select>
-
-          {{!-- <select class="task-priority" disabled="">
-            <option value="" disabled="">Priority</option>
-            <option value="{{this.priority}}">{{this.priority}}</option>
-          </select> --}}
+          <span class="close-sign">X</span>
+          <label for="gradeInput" class="grade-label">Grade</label>
           <input
             type="number"
             class="grade"
             min="0"
             max="100"
-            placeholder="{{this.grade}}"           
+            placeholder="{{this.grade}}"
+            value="{{this.grade}}"           
             required=""
             step="1"
             disabled=""
