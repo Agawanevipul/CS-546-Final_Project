@@ -56,6 +56,41 @@ draggables.forEach((task) => {
       return;
     }
   });
+
+  saveIcon.addEventListener("click", () => {
+    let tl = task.querySelector(".task-title");
+    let d = task.querySelector(".task-desc");
+    let p = task.querySelector(".task-priority");
+    let g = task.querySelector(".grade");
+
+    let dl = {
+      todo: tl.innerText,
+      desc: d.innerText,
+      priority: p.value,
+      grade: g.value,
+      subject: "web",
+    };
+    console.log(dl);
+    $.ajax({
+      type: "PATCH",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("TODO deleted successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+  });
+
   // let dl = task.querySelector(".task-title");
 
   removeBtn.addEventListener("click", () => {
