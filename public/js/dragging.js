@@ -1,6 +1,8 @@
 const draggables = document.querySelectorAll(".task");
 const droppables = document.querySelectorAll(".DandD");
 
+//const taskStatus = {};
+
 draggables.forEach((task) => {
   task.addEventListener("dragstart", () => {
     task.classList.add("is-dragging");
@@ -9,10 +11,19 @@ draggables.forEach((task) => {
 
   task.addEventListener("dragend", () => {
     task.classList.remove("is-dragging");
+    const currentLane = task.parentNode.id;
+    let newStatus;
+    if (currentLane === "lane_todo") {
+      newStatus = "to-do";
+    } else if (currentLane === "lane_doing") {
+      newStatus = "doing";
+    } else if (currentLane === "lane_done") {
+      newStatus = "done";
+    }
+    task.setAttribute("data-status", newStatus);
   });
   RadioNodeList;
 
-  const removeBtn = task.querySelector(".close-sign");
 
   const editIcon = task.querySelector(".edit-icon");
   const saveIcon = task.querySelector(".save-icon");
@@ -57,6 +68,9 @@ draggables.forEach((task) => {
     }
   });
 
+
+  const removeBtn = task.querySelector(".close-sign");
+
   saveIcon.addEventListener("click", () => {
     let tl = task.querySelector(".task-title");
     let d = task.querySelector(".task-desc");
@@ -93,10 +107,12 @@ draggables.forEach((task) => {
 
   // let dl = task.querySelector(".task-title");
 
+
   removeBtn.addEventListener("click", () => {
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
+
     let tl = task.querySelector(".task-title");
     let dl = { todo: tl.innerText };
     console.log(dl);
@@ -105,6 +121,7 @@ draggables.forEach((task) => {
       type: "DELETE",
       url: "/assignments",
       data: JSON.stringify(dl),
+
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function (response) {
@@ -115,7 +132,9 @@ draggables.forEach((task) => {
         alert("Deleted successfully!");
       },
       error: function (xhr, status, error) {
+
         console.log(xhr.responseText);
+
         alert("Error adding TODO: " + xhr.responseText);
       },
     });

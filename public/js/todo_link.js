@@ -11,7 +11,7 @@ setTimeout(() => {
 
 //let taskSet = new Set();
 let taskId = 0;
-const taskStatus = {};
+//const taskStatus = {};
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const value = input.value;
@@ -201,14 +201,14 @@ form.addEventListener("submit", (e) => {
     const currentLane = newTask.parentNode.id;
     let newStatus;
     if (currentLane === "lane_todo") {
-      newStatus = "todo";
+      newStatus = "to-do";
     } else if (currentLane === "lane_doing") {
       newStatus = "doing";
     } else if (currentLane === "lane_done") {
       newStatus = "done";
     }
     newTask.setAttribute("data-status", newStatus);
-    taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
+    //taskStatus[newTask.getAttribute("data-task-id")] = newStatus;
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
@@ -320,6 +320,72 @@ if (priorityVal === "High") {
 }
 prioritySelect.disabled = true;
 
+
+//ajax post request
+
+// $(document).ready(function () {
+//   $("#form_todo").submit(function (event) {
+//     event.preventDefault();
+
+//     // var formData = {
+//     //   todo: $("#input_todo").val(),
+//     //   notes: $("#todo_desc").val(),
+//     // };
+
+//     var todo = $("#input_todo").value;
+//     var notes = $("#todo_desc").value;
+
+//     console.log("Todo: " + todo);
+//     console.log("Notes: " + notes);
+//     var formData = {
+//       todo: todo,
+//       notes: notes,
+//     };
+//     setTimeout(function () {
+//       $.ajax({
+//         type: "POST",
+//         url: "/assignments",
+//         data: JSON.stringify(formData),
+//         contentType: "application/json; charset=utf-8",
+//         dataType: "json",
+//         success: function (response) {
+//           console.log(response);
+
+//           $("#form_todo")[0].reset();
+
+//           alert("TODO added successfully!");
+//         },
+//         error: function (xhr, status, error) {
+//           console.log(xhr.responseText);
+//           alert("Error adding TODO: " + xhr.responseText);
+//         },
+//       });
+//     }, 200); // delay for 0.2 seconds
+//   });
+// });
+
+// $(document).ready(function () {
+//   $("#form_todo").submit(function (event) {
+//     event.preventDefault();
+
+//     var formData = {
+
+//       todo: $("#input_todo").val(),
+//       desc: $("#todo_desc").val(),
+//       subject: $("#subject_dropdown button").text().trim(),
+
+//       todo: $("#task_title").val(),
+//       notes: $("#task_desc").val(),
+//       // subject: $("#subject_dropdown button").text().trim(),
+//       // subject: "web",
+//       // priority: "high",
+//       // grade: 87,
+//       // dueDate: "00/00/0000",
+//       // status: "to-do",
+
+//     };
+
+
 //     $.ajax({
 //       type: "POST",
 
@@ -347,29 +413,37 @@ prioritySelect.disabled = true;
 
 // AJAX code for the save button that will update all the content of the card:
 
-const taskIdAj = newTask.getAttribute("data-task-id");
-const taskTitleText = taskTitle.innerText.trim();
-const descTextContent = descText.innerText.trim();
-const priorityValue = prioritySelect.value;
-const gradeValue = gradeInput.value.trim();
+// const taskIdAj = newTask.getAttribute("data-task-id");
+// const taskTitleText = taskTitle.innerText.trim();
+// const descTextContent = descText.innerText.trim();
+// const priorityValue = prioritySelect.value;
+// const gradeValue = gradeInput.value.trim();
 
-$.ajax({
-  url: "/update-task",
-  type: "POST",
-  data: {
-    taskId: taskIdAj,
-    taskTitleText: taskTitleText,
-    descTextContent: descTextContent,
-    priorityValue: priorityValue,
-    gradeValue: gradeValue,
-  },
-  success: function (response) {
-    console.log(response);
-  },
-  error: function (xhr, status, error) {
-    console.log(error);
-  },
-});
+// $.ajax({
+//   url: "/update-task",
+//   type: "POST",
+//   data: {
+//     taskId: taskIdAj,
+//     taskTitleText: taskTitleText,
+//     descTextContent: descTextContent,
+//     priorityValue: priorityValue,
+//     gradeValue: gradeValue,
+//   },
+//   success: function (response) {
+//     console.log(response);
+//   },
+//   error: function (xhr, status, error) {
+//     console.log(error);
+//   },
+// });
+
+
+// // closeSign AJAX/
+// closeSign.addEventListener("click", () => {
+//   const taskId = closeSign.parentElement.getAttribute("data-task-id");
+//   const url = `/tasks/${taskId}`;
+//   const options = {
+//     method: "DELETE",
 
 // closeSign AJAX/
 // closeSign.addEventListener("click", () => {
@@ -377,6 +451,7 @@ $.ajax({
 //   const url = '/assignments'
 //   const options = {
 //     method: "DELETE",
+
 
 //   };
 //   fetch(url, options)
@@ -393,35 +468,47 @@ $.ajax({
 //     });
 // });
 // // ---------------------------------------------------------------------------------------------------------------------------------------------------
-// AJAX code for the noteAddBtn button:
-$(document).ready(function () {
-  $("#form_notes").submit(function (event) {
-    event.preventDefault();
 
-    var formData = {
-      notes: $("#input_notes").val(),
-    };
 
-    $.ajax({
-      type: "POST",
-      url: "/api/notes",
-      data: JSON.stringify(formData),
-      contentType: "application/json; charset=utf-8",
-      dataType: "json",
-      success: function (response) {
-        console.log(response);
+//     var formData = {
+//       notes: $("#input_notes").val(),
+//     };
 
-        $("#form_notes")[0].reset();
+//     $.ajax({
+//       type: "POST",
+//       url: "/api/notes",
+//       data: JSON.stringify(formData),
+//       contentType: "application/json; charset=utf-8",
+//       dataType: "json",
+//       success: function (response) {
+//         console.log(response);
 
-        alert("Note added successfully!");
-      },
-      error: function (xhr, status, error) {
-        console.log(xhr.responseText);
-        alert("Error adding Note: " + xhr.responseText);
-      },
-    });
-  });
-});
+//         $("#form_notes")[0].reset();
+
+//         alert("Note added successfully!");
+//       },
+//       error: function (xhr, status, error) {
+//         console.log(xhr.responseText);
+//         alert("Error adding Note: " + xhr.responseText);
+//       },
+//     });
+//   });
+// });
+
+
+// // closeSign AJAX/
+// closeSign1.addEventListener("click", () => {
+//   const noteId = closeSign1.parentElement.getAttribute("data-note-id");
+//   const url = `/tasks/${taskId}`;
+//   const options = {
+//     method: "DELETE",
+//   };
+//   fetch(url, options)
+//     .then((response) => {
+//       if (response.ok) {
+//         closeSign1.parentElement.remove();
+//       } else {
+//         throw new Error(`Failed to delete note with ID ${noteId}`);
 
 // closeSign AJAX/
 // closeSign.addEventListener("click", () => {
@@ -443,10 +530,38 @@ $(document).ready(function () {
 //         closeSign.parentElement.remove();
 //       } else {
 //         throw new Error("Failed to delete task");
+
 //       }
 //     })
 //     .catch((error) => {
 //       console.error(error);
+
+//       alert("Failed to delete note");
+//     });
+// });
+// // ---------------------------------------------------------------------------------------------------------------------------------
+// // Ajax to get user Details on the userProfile page
+// $(document).ready(function () {
+//   $.ajax({
+//     url: "/userProfile",
+//     method: "GET",
+//     dataType: "json",
+//   })
+//     .done(function (data) {
+//       $("#email_id").text(data.email);
+//       $("#first_name").text(data.firstName);
+//       $("#last_name").text(data.lastName);
+//       $("#cwid").text(data.cwid);
+//       $("#courses").text(data.courses);
+//       $("#program").text(data.program);
+//       $("#sem").text(data.semester);
+//     })
+//     .fail(function () {
+//       // Handle any errors that may occur
+//       alert("Failed to retrieve user details!");
+//     });
+// });
+
 //       alert("Failed to delete task");
 //     });
 // });
@@ -472,3 +587,4 @@ $(document).ready(function () {
       alert("Failed to retrieve user details!");
     });
 });
+

@@ -115,10 +115,13 @@ router
     }
   })
   .delete(async (req, res) => {
+
+
     try {
       let task_details = req.body;
       let studentId = req.session.user.studentId;
       studentId = validator.checkId(studentId, "Student ID");
+
       let assignmentName = validator.checkString(
         task_details.todo,
         "Assignment Name"
@@ -127,11 +130,13 @@ router
       let assignmentId = assignmentInfo._id.toString();
 
       assignmentId = validator.checkId(assignmentId, "Assignment ID");
+
       let insertData = await assignmentData.remove(assignmentId);
       res.json(insertData);
     } catch (e) {
       res.status(500).json({ error: e });
     }
+
   })
   .patch(async (req, res) => {
     try {
@@ -181,6 +186,7 @@ router
     } catch (e) {
       res.status(500).json({ error: e });
     }
+
   });
 
 router
@@ -290,14 +296,19 @@ router
 
 router
   .route("/homepage")
+
   .get(async (req, res) => {
-    const studentData = await assignmentInfo.getAllStatus(
-      req.session.user.studentId
-    );
-    let todo = studentData.todo_list;
-    let doing = studentData.doing_list;
-    let done = studentData.done_list;
-    res.render("homepage", { todo, doing, done });
+    try {
+      const studentData = await assignmentInfo.getAllStatus(
+        req.session.user.studentId
+      );
+      let todo = studentData.todo_list;
+      let doing = studentData.doing_list;
+      let done = studentData.done_list;
+      res.render("homepage", { todo, doing, done });
+    } catch (e) {
+      res.status(500).json({ error: e });
+    }
   })
   .post(async (req, res) => {
     try {
