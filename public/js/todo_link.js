@@ -63,6 +63,7 @@ form.addEventListener("submit", (e) => {
   gradeInput.placeholder = "Grade";
   gradeInput.required = true;
   gradeInput.step = "1";
+  gradeInput.value = "0";
 
   prioritySelect.classList.add("task-priority");
   priorityPlaceholderOption.text = "Priority";
@@ -75,6 +76,7 @@ form.addEventListener("submit", (e) => {
   mediumOption.text = "Medium";
   lowOption.value = "low";
   lowOption.text = "Low";
+  lowOption.selected = true;
   prioritySelect.appendChild(priorityPlaceholderOption);
   prioritySelect.appendChild(highOption);
   prioritySelect.appendChild(mediumOption);
@@ -152,7 +154,7 @@ form.addEventListener("submit", (e) => {
   });
 
   editIcon.addEventListener("click", () => {
-    taskTitle.contentEditable = true;
+    //taskTitle.contentEditable = true;
     descText.contentEditable = true;
     prioritySelect.disabled = false;
     editIcon.style.display = "none";
@@ -161,7 +163,7 @@ form.addEventListener("submit", (e) => {
   });
 
   saveIcon.addEventListener("click", () => {
-    taskTitle.contentEditable = false;
+    //taskTitle.contentEditable = false;
     descText.contentEditable = false;
     prioritySelect.disabled = true;
     editIcon.style.display = "inline-block";
@@ -320,7 +322,6 @@ if (priorityVal === "High") {
 }
 prioritySelect.disabled = true;
 
-
 //ajax post request
 
 // $(document).ready(function () {
@@ -385,7 +386,6 @@ prioritySelect.disabled = true;
 
 //     };
 
-
 //     $.ajax({
 //       type: "POST",
 
@@ -437,7 +437,6 @@ prioritySelect.disabled = true;
 //   },
 // });
 
-
 // // closeSign AJAX/
 // closeSign.addEventListener("click", () => {
 //   const taskId = closeSign.parentElement.getAttribute("data-task-id");
@@ -451,7 +450,6 @@ prioritySelect.disabled = true;
 //   const url = '/assignments'
 //   const options = {
 //     method: "DELETE",
-
 
 //   };
 //   fetch(url, options)
@@ -468,7 +466,6 @@ prioritySelect.disabled = true;
 //     });
 // });
 // // ---------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 //     var formData = {
 //       notes: $("#input_notes").val(),
@@ -494,7 +491,6 @@ prioritySelect.disabled = true;
 //     });
 //   });
 // });
-
 
 // // closeSign AJAX/
 // closeSign1.addEventListener("click", () => {
@@ -567,24 +563,23 @@ prioritySelect.disabled = true;
 // });
 // ---------------------------------------------------------------------------------------------------------------------------------
 // Ajax to get user Details on the userProfile page
-$(document).ready(function () {
-  $.ajax({
-    url: "/userProfile",
-    method: "GET",
-    dataType: "json",
-  })
-    .done(function (data) {
-      $("#email_id").text(data.email);
-      $("#first_name").text(data.firstName);
-      $("#last_name").text(data.lastName);
-      $("#cwid").text(data.cwid);
-      $("#courses").text(data.courses);
-      $("#program").text(data.program);
-      $("#sem").text(data.semester);
-    })
-    .fail(function () {
-      // Handle any errors that may occur
-      alert("Failed to retrieve user details!");
-    });
-});
-
+// $(document).ready(function () {
+//   $.ajax({
+//     url: "/userProfile",
+//     method: "GET",
+//     dataType: "json",
+//   })
+//     .done(function (data) {
+//       $("#email_id").text(data.email);
+//       $("#first_name").text(data.firstName);
+//       $("#last_name").text(data.lastName);
+//       $("#cwid").text(data.cwid);
+//       $("#courses").text(data.courses);
+//       $("#program").text(data.program);
+//       $("#sem").text(data.semester);
+//     })
+//     .fail(function () {
+//       // Handle any errors that may occur
+//       alert("Failed to retrieve user details!");
+//     });
+// });
