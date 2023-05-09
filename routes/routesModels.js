@@ -115,8 +115,6 @@ router
     }
   })
   .delete(async (req, res) => {
-
-
     try {
       let task_details = req.body;
       let studentId = req.session.user.studentId;
@@ -136,16 +134,15 @@ router
     } catch (e) {
       res.status(500).json({ error: e });
     }
-
   })
   .patch(async (req, res) => {
     try {
       let task_details = req.body;
-      
-      console.log(task_details,"task details")
+
+      console.log(task_details, "task details");
       let studentId = req.session.user.studentId;
       let assignmentName = task_details.todo;
-      let status = "to-do";
+      let status = task_details.status;
       let priority = task_details.priority; //check the id for priority from form
       let grade = task_details.grade;
       let subject = task_details.subject;
@@ -162,31 +159,26 @@ router
       const assignmentInfo = await assignmentData.getId(assignmentName);
       let assignmentId = assignmentInfo._id.toString();
 
-        assignmentId = validator.checkId(assignmentId, "Assignment ID");
+      assignmentId = validator.checkId(assignmentId, "Assignment ID");
 
-        assignmentName = validator.checkString(
-          assignmentName,
-          "Assignment Name"
-        );
-        status = validator.checkString(status, "Status");
+      assignmentName = validator.checkString(assignmentName, "Assignment Name");
+      status = validator.checkString(status, "Status");
 
-        let insertData = await assignmentData.update(
-          studentId,
-          assignmentId,
-          assignmentName,
-          status,
-          priority,
-          grade,
-          subject,
-          dueDate,
-          notes
-        );
-        res.json(insertData);
-      
+      let insertData = await assignmentData.update(
+        studentId,
+        assignmentId,
+        assignmentName,
+        status,
+        priority,
+        grade,
+        subject,
+        dueDate,
+        notes
+      );
+      res.json(insertData);
     } catch (e) {
       res.status(500).json({ error: e });
     }
-
   });
 
 router
@@ -407,8 +399,8 @@ router
   .patch(async (req, res) => {
     try {
       let task_details = req.body;
-      
-      console.log(task_details,"task details")
+
+      console.log(task_details, "task details");
       let studentId = req.session.user.studentId;
       let assignmentName = task_details.todo;
       let status = "to-do";
@@ -428,26 +420,23 @@ router
       const assignmentInfo = await assignmentData.getId(assignmentName);
       let assignmentId = assignmentInfo._id.toString();
 
-        assignmentId = validator.checkId(assignmentId, "Assignment ID");
+      assignmentId = validator.checkId(assignmentId, "Assignment ID");
 
-        assignmentName = validator.checkString(
-          assignmentName,
-          "Assignment Name"
-        );
-        status = validator.checkString(status, "Status");
+      assignmentName = validator.checkString(assignmentName, "Assignment Name");
+      status = validator.checkString(status, "Status");
 
-        let insertData = await assignmentData.update(
-          studentId,
-          assignmentId,
-          assignmentName,
-          status,
-          priority,
-          grade,
-          subject,
-          dueDate,
-          notes
-        );
-        res.json(insertData);
+      let insertData = await assignmentData.update(
+        studentId,
+        assignmentId,
+        assignmentName,
+        status,
+        priority,
+        grade,
+        subject,
+        dueDate,
+        notes
+      );
+      res.json(insertData);
     } catch (e) {
       res.status(500).json({ error: e });
     }

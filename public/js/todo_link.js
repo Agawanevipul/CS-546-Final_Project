@@ -190,6 +190,41 @@ form.addEventListener("submit", (e) => {
     //taskSet.delete(newTask);
     //taskSet.add(newTask);
   });
+  saveIcon.addEventListener("click", () => {
+    let tl = newTask.querySelector(".task-title");
+    let d = newTask.querySelector(".task-desc");
+    let p = newTask.querySelector(".task-priority");
+    let g = newTask.querySelector(".grade");
+    let s = newTask.getAttribute("data-status");
+
+    let dl = {
+      todo: tl.innerText,
+      desc: d.innerText,
+      priority: p.value,
+      grade: g.value,
+      subject: "web",
+      status: s,
+    };
+    console.log(dl);
+    $.ajax({
+      type: "PATCH",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("Updated successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
+  });
 
   newTask.addEventListener("dragstart", () => {
     newTask.classList.add("is-dragging");
@@ -214,6 +249,40 @@ form.addEventListener("submit", (e) => {
     setTimeout(() => {
       analyzeBtn.click();
     }, 500);
+
+    let tl = newTask.querySelector(".task-title");
+    let d = newTask.querySelector(".task-desc");
+    let p = newTask.querySelector(".task-priority");
+    let g = newTask.querySelector(".grade");
+    let s = newTask.getAttribute("data-status");
+
+    let dl = {
+      todo: tl.innerText,
+      desc: d.innerText,
+      priority: p.value,
+      grade: g.value,
+      subject: "web",
+      status: s,
+    };
+
+    $.ajax({
+      type: "PATCH",
+      url: "/assignments",
+      data: JSON.stringify(dl),
+      contentType: "application/json; charset=utf-8",
+      dataType: "json",
+      success: function (response) {
+        console.log(response);
+
+        $("#form_todo")[0].reset();
+
+        alert("Updated successfully!");
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr.responseText);
+        alert("Error adding TODO: " + xhr.responseText);
+      },
+    });
   });
 
   todoLane.appendChild(newTask);
