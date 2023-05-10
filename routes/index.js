@@ -18,12 +18,7 @@ const constructorMethod = (app) => {
     });
   });
   app.use("/", studentRoute);
-  app.use("/courses", studentRoute);
-  app.get("/courses", (req, res) => {
-    res.render("courses", {
-      title: "Courses",
-    });
-  });
+
   app.use("/profile", studentRoute);
   app.get("/profile", (req, res) => {
     res.render("profile", {

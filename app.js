@@ -97,7 +97,17 @@ app.get("/courses", (req, res, next) => {
         req.originalUrl +
         " (Authenticated User)"
     );
-    return res.redirect("/homepage");
+    return res.redirect('/homepage')
+  }else if (req.session.user1) {
+    console.log(
+      "[" +
+        new Date().toUTCString() +
+        "]:" +
+        req.method +
+        " " +
+        req.originalUrl +
+        " (Authenticated User)"
+    );
   } else {
     console.log(
       "[" +
@@ -108,8 +118,10 @@ app.get("/courses", (req, res, next) => {
         req.originalUrl +
         " (Non-Authenticated User)"
     );
-    next();
+    return res.redirect('/login');
   }
+  
+  next();
 });
 
 app.get("/login", (req, res, next) => {
@@ -163,6 +175,7 @@ app.get("/homepage", (req, res, next) => {
     return res.redirect("/login");
   }
 });
+
 app.get("/profile", (req, res, next) => {
   if (req.session.user) {
     console.log(
