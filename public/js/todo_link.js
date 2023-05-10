@@ -84,7 +84,7 @@ form.addEventListener("submit", (e) => {
   inputDueDate.classList.add("due-date");
   inputDueDate.placeholder = "MM-DD-YYYY";
   inputDueDate.required = false;
-  inputDueDate.pattern = "^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-\\d{4}$";
+  inputDueDate.value = "01-01-2023";
 
   prioritySelect.classList.add("task-priority");
   priorityPlaceholderOption.text = "Priority";
@@ -93,11 +93,12 @@ form.addEventListener("submit", (e) => {
   priorityPlaceholderOption.selected = true;
   highOption.value = "high";
   highOption.text = "High";
+  highOption.selected = true;
   mediumOption.value = "medium";
   mediumOption.text = "Medium";
   lowOption.value = "low";
   lowOption.text = "Low";
-  lowOption.selected = true;
+
   prioritySelect.appendChild(priorityPlaceholderOption);
   prioritySelect.appendChild(highOption);
   prioritySelect.appendChild(mediumOption);
@@ -216,7 +217,7 @@ form.addEventListener("submit", (e) => {
     inputDueDate.disabled = true;
     const valueDueDate = inputDueDate.value.trim();
     const dateRegex = /^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-\d{4}$/;
-    if (!dateRegex.test(valueDueDate)) {
+    if (valueDueDate !== "" && !dateRegex.test(valueDueDate)) {
       alert("Please enter a valid date in the format mm-dd-yyyy.");
       inputDueDate.value = "";
       return;
@@ -228,6 +229,7 @@ form.addEventListener("submit", (e) => {
     let p = newTask.querySelector(".task-priority");
     let g = newTask.querySelector(".grade");
     let s = newTask.getAttribute("data-status");
+    let date = newTask.querySelector("#due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -236,6 +238,7 @@ form.addEventListener("submit", (e) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.value,
     };
     console.log(dl);
     $.ajax({
@@ -287,6 +290,7 @@ form.addEventListener("submit", (e) => {
     let p = newTask.querySelector(".task-priority");
     let g = newTask.querySelector(".grade");
     let s = newTask.getAttribute("data-status");
+    let date = newTask.querySelector("#due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -295,6 +299,7 @@ form.addEventListener("submit", (e) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.value,
     };
 
     $.ajax({
