@@ -19,6 +19,13 @@ const exportedMethods = {
       throw `Error: ${varName} cannot be an empty string or string with just spaces`;
     if (!isNaN(strVal))
       throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
+
+      if(varName === 'First Name' | varName === 'Last Name'){
+        if(!strVal.match(/^[a-z ,.'-]+$/gi)){
+          throw `${varName} shouldn't contain numbers`
+        }
+        if(!(strVal.length>1 & strVal.length<25)) throw `Error: ${varName} should contain atleast 2 characters and less than 26 characters` 
+      }
     return strVal;
   },
 
@@ -81,6 +88,9 @@ const exportedMethods = {
     if (!inp) throw `You must provide a number of ${varName}`;
     if (typeof parseInt(inp) !== "number")
       throw `You must provide a number for ${varName}`;
+    if(varName === 'CWID'){
+      if(inp.toString().length !== 8) throw 'CWID must contain 8 digits'
+    }
     return inp;
   },
   validateEmailId(email) {

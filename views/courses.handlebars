@@ -6,24 +6,26 @@
           src="/public//images/registration_copy.jpg"
           class="img-fluid"
           alt=""
-        />
+        >
       </div>
       <div class="col-lg-7 px-5 pt-4">
         <h1 class="font-weight-bold py-1" id="login_red">{{title}}</h1>
 
-        <form method="post" id="coursesID" action="/courses">
-          <input type="hidden" name="clicked" value="courses_added" />
+        <form id="coursesID" >
+          <input type="hidden" name="clicked" value="courses_added">
           <div class="row pt-4">
             <div class="col-md-6">
               <div class="form-group">
                 <input
                   type="number"
                   class="form-control"
+                  min="0"
+                  max="10"
                   id="semester"
                   name="semester"
                   placeholder="Current Semester"
                   value="{{semester}}"
-                />
+                >
               </div>
             </div>
             <div class="col-md-6">
@@ -31,11 +33,13 @@
                 <input
                   type="number"
                   class="form-control"
+                  min="0"
+                  max="4"
                   id="course_count"
                   name="course_count"
                   placeholder="No. of courses taken"
                   value="{{courseCount}}"
-                />
+                >
               </div>
             </div>
           </div>
