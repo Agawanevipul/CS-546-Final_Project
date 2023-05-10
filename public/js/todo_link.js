@@ -93,11 +93,12 @@ form.addEventListener("submit", (e) => {
   priorityPlaceholderOption.selected = true;
   highOption.value = "high";
   highOption.text = "High";
+  highOption.selected = true;
   mediumOption.value = "medium";
   mediumOption.text = "Medium";
   lowOption.value = "low";
   lowOption.text = "Low";
-  lowOption.selected = true;
+
   prioritySelect.appendChild(priorityPlaceholderOption);
   prioritySelect.appendChild(highOption);
   prioritySelect.appendChild(mediumOption);
