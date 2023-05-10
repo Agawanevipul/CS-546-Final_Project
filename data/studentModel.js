@@ -40,7 +40,6 @@ const method = {
     };
 
     const insertInfo = await infoCollection.insertOne(info);
-    console.log(insertInfo)
     const insertAssignment = await assignments.create(insertInfo.insertedId.toString(),[])
     return insertInfo
   },
@@ -115,15 +114,12 @@ async update(id,firstName,lastName,emailId,CWID,program,major,password,confirmPa
 
   let compareToPassword = false;
   compareToPassword = await bcrypt.compare(password, oldData.password);
-  // console.log(password,oldData.password,"first")
-  //   console.log(compareToPassword)
   if (!compareToPassword) {
     new_flag=true
   }
 
   compareToPassword = false;
   compareToPassword = await bcrypt.compare(confirmPassword, oldData.confirmPassword);
-    // console.log(compareToPassword)
   if (!compareToPassword) {
     new_flag=true
   }
