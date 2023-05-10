@@ -1,5 +1,25 @@
+(function () {
+  function validation(semVal, count){
+    
+    
+    if (!semVal) throw "You must provide a value for semester";
+    semVal=parseInt(semVal)
+    if (typeof(semVal) !== "number")
+      throw "Semester value must be a number";
+    if(!(semVal>0 & semVal<11)) throw "Semester value must be 1 to 10"
+
+    if (!count) throw "You must provide a value for no. of courses";
+    count=parseInt(count)
+    if (typeof(count) !== "number")
+      throw "Semester value must be a number";
+    if(!(count>0 & count<5)) throw "No. of courses must be 1 to 4"
+    return true;
+  }
+
 let myForm = document.getElementById("coursesID");
+let semVal = document.getElementById("semester")
 let count = document.getElementById("course_count");
+
 let btn = document.getElementById("first_button");
 
 let results = document.getElementById("courseDetails");
@@ -13,6 +33,7 @@ if (myForm) {
     if (count.value) {
       try {
         errorDiv.classList.add("hidden");
+        let result = validation(semVal.value, count.value)
         btn.style.visibility = "hidden";
         btn.style.display = "none";
 
@@ -20,8 +41,6 @@ if (myForm) {
           results.removeChild(results.lastChild);
         }
         let second_form = document.createElement("form");
-        second_form.action = "/courses";
-        second_form.method = "post";
 
         let courseLabel = document.createElement("label");
         courseLabel.innerHTML = "Enter Course Names: ";
@@ -41,7 +60,7 @@ if (myForm) {
         let btn2 = document.createElement("button");
         btn2.innerHTML = "Add Course Names";
         btn2.id = "second_button";
-        btn2.className = "btn1";
+        btn2.className = "btn2";
         btn2.type = "submit";
         second_form.appendChild(btn2);
         results.appendChild(second_form);
@@ -64,7 +83,6 @@ if (myForm) {
           courseNamesInput.name = "courseNames";
           courseNamesInput.value = JSON.stringify(courseNames);
           second_form.appendChild(courseNamesInput);
-          console.log(courseNames);
           second_form.submit(); // submit form programmatically
 
           const semesterInput = document.getElementById("semester");
@@ -74,11 +92,10 @@ if (myForm) {
             sem: semesterValue,
             courseName: courseNames,
           };
-          console.log(dl);
 
           $.ajax({
             type: "POST",
-            url: "/courses",
+            url: "/task",
             data: JSON.stringify(dl),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
@@ -110,3 +127,4 @@ if (myForm) {
     }
   });
 }
+})();

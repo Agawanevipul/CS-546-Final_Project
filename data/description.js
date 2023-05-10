@@ -4,7 +4,6 @@ import validator from '../validator.js';
 
 const method = {
     async create(student_id, assignments) {   
-      console.log(student_id)
       student_id= validator.checkId(student_id,'Student ID')
       // weightage = validator.checkStringObject(weightage, 'Weightage');
       // assignments = validator.checkStringArrayObject(assignments, 'Assignments');

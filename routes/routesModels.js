@@ -2,6 +2,7 @@ import { Router } from "express";
 import path from "path";
 import { studentsInfo, assignmentInfo, courseInfo } from "../data/index.js";
 import assignmentData from "../data/assignments.js";
+import courseData from "../data/courseModel.js";
 import { title } from "process";
 import validator from "../validator.js";
 import xss from "xss";
@@ -139,8 +140,6 @@ router
   .patch(async (req, res) => {
     try {
       let task_details = req.body;
-
-      console.log(task_details, "task details");
       let studentId = req.session.user.studentId;
       let assignmentName = task_details.todo;
       let status = task_details.status;
@@ -182,12 +181,41 @@ router
     }
   });
 
+router.route("/task")
+.post(async (req, res) => {
+  let student_id=""
+  try {
+    let courses = req.body;
+    if(req.session.user1){
+      student_id = req.session.user1;
+    } else if(req.session.user){
+      student_id = req.session.user;
+    }
+    
+    let semester = courses.sem;
+    let totalCourses = courses.courseName.length;
+    let courseNames = courses.courseName;
+
+    semester = validator.checkNumber(semester);
+    totalCourses = validator.checkNumber(totalCourses);
+    courseNames = validator.checkStringArray(courseNames);
+
+    const courseDetails = await courseData.create(student_id,semester,totalCourses,courseNames);
+    if(courseDetails){
+      req.session.destroy();
+    }    
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+
+});
+
+
 router
   .route("/")
 
   .post(async (req, res) => {
     let isclicked = req.body.clicked;
-    console.log(isclicked);
     if (isclicked === "registered") {
       let firstName = req.body.first_name;
       let lastName = req.body.last_name;
@@ -223,6 +251,7 @@ router
             password,
             confirmPassword
           );
+          req.session.user1 = student.insertedId.toString()
 
           if (student) {
             return res.redirect("/courses");
@@ -266,13 +295,18 @@ router
         password = validator.checkString(password, "Password");
 
         const loginData = await studentsInfo.get_details(emailId, password);
+        const courseData = await courseInfo.getCourses(loginData._id.toString());
         if (!loginData)
           res.status(400).render("login", { error: "Couldn't Login" });
         req.session.user = {
           studentId: loginData._id,
           firstName: loginData.firstName,
           lastName: loginData.lastName,
-          emailAddress: loginData.emailId,
+          cwid: loginData.campus_id,
+          program: loginData.program,
+          emailId: loginData.emailId,
+          courses : courseData.courseNames,
+          sem: courseData.semester
         };
 
         return res.redirect("/homepage");
@@ -400,8 +434,6 @@ router
   .patch(async (req, res) => {
     try {
       let task_details = req.body;
-
-      console.log(task_details, "task details");
       let studentId = req.session.user.studentId;
       let assignmentName = task_details.todo;
       let status = "to-do";
@@ -462,53 +494,51 @@ router
     }
   });
 
-router.route("/courses").post(async (req, res) => {
-  console.log(req.body);
+router.route("/courses")
+.get(async (req, res) => {
+  try {
+    res.render("courses", {
+      title: "Courses",
+    });
+  } catch (e) {
+    res.status(500).json({ error: e });
+  }
+})
+.post(async (req, res) => {
+  let student_id=""
   try {
     let courses = req.body;
-    let student_id = req.session.user.studentId;
-    let semester = xss(courses.sem);
-    let totalCourses = courses.courseNames.length;
-    let courseNames = xss(courses.courseNames);
+    if(req.session.user1){
+      student_id = req.session.user1;
+      req.session.destroy();
+    } else if(req.session.user){
+      student_id = req.session.user;
+    }
+    
+    let semester = courses.sem;
+    let totalCourses = courses.courseName.length;
+    let courseNames = courses.courseName;
 
-    semester = validator.checkNumber(courses.sem);
-    totalCourses = validator.checkNumber(courses.courseNames.length);
-    courseNames = validator.checkStringArray(courses.courseNames);
+    semester = validator.checkNumber(semester);
+    totalCourses = validator.checkNumber(totalCourses);
+    courseNames = validator.checkStringArray(courseNames);
 
-    let newCourse = {
-      student_id: student_id,
-      semester: semester,
-      totalCourses: totalCourses,
-      courseNames: courseNames,
-    };
-
-    const courseDetails = await courseInfo.create(newCourse);
-    res.json(courseDetails);
+    const courseDetails = await courseData.create(student_id,semester,totalCourses,courseNames);
+ 
   } catch (e) {
     res.status(500).json({ error: e });
   }
 
-  const courseDetails = await courseInfo.create(newCourse);
-
-  res.redirect("/login");
 });
 
 router.route("/profile").get(async (req, res) => {
   try {
-    // const studentData = await assignmentInfo.getAllStatus(
-    //   req.session.user.studentId
-    // );
-
-    let first_name = req.session.user.firstName;
-    let last_name = req.session.user.firstName;
-    let cwid = req.session.user.firstName;
-    let courses = req.session.user.firstName;
-    let sem = req.session.user.firstName;
-
-    const courseDetails = res.render("profile", { todo, doing, done });
+  let details = req.session.user
+    return res.render("profile", {details});
   } catch (e) {
     res.status(500).json({ error: e });
   }
-});
+})
+
 
 export default router;

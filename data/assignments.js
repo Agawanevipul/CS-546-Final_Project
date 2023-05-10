@@ -143,7 +143,6 @@ let exportedMethods = {
     };
 
     const descriptionAssignments = await this.getAll(studentId);
-    console.log(descriptionAssignments);
     oldAssignments = descriptionAssignments;
     oldAssignments.push(newAssignment);
 

@@ -8,19 +8,16 @@ const method = {
       semester  = validator.checkNumber(semester,'Semester')
       totalCourses  = validator.checkNumber(totalCourses,'Total Courses')
       courseNames = validator.checkStringArray(courseNames, 'Course Names')
-      
       let newCourse = {
-          student_id: student_id,
-          semester: semester,
+          student_id: new ObjectId(student_id),
+          semester: parseInt(semester),
           totalCourses: totalCourses,
           courseNames: courseNames
       };
       const courseInfo = await courseCollection();
       const insertInfo = await courseInfo.insertOne(newCourse)
-
       if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw [400,'Could not add course details'];
-
       const newId = insertInfo.insertedId;
       return await this.get(newId.toString());
     },
@@ -30,7 +27,16 @@ const method = {
       const courseInfo = await courseCollection();
       const course = await courseInfo.findOne({_id: new ObjectId(id)});
       if (!course) throw [404, 'No course found with that id'];
-      course._id = course._id.toString();
+      // course._id = course._id.toString();
+      return course; 
+    },
+    async getCourses(id){
+      id= validator.checkId(id,'Student ID')
+    
+      const courseInfo = await courseCollection();
+      const course = await courseInfo.findOne({student_id: new ObjectId(id)});
+      if (!course) throw [404, 'No student found with that id'];
+      // course._id = course._id.toString();
       return course; 
     },
     async getAll() {
@@ -77,7 +83,7 @@ const method = {
       if(new_flag===false) throw [400,'No new values to update'];
       let updatedCourseData = {
         student_id: student_id,
-        semester: semester,
+        semester: parseInt(semester),
         totalCourses: totalCourses,
         courseNames: courseNames 
       };
