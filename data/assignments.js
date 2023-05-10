@@ -129,11 +129,22 @@ let exportedMethods = {
     const oldData = await descriptionInfo.findOne({
       _id: new ObjectId(studentId),
     });
+    // try{
+    //   if(this.getId(assignmentName.toLowerCase())){
+    //     throw [400,'Assignment of the same name exists']
+    //   }
+
+    // }
+    // catch(e){
+    //   return e
+    // }
+    
+    // getId(assignmentName)
 
     let oldAssignments = [];
     let newAssignment = {
       _id: new ObjectId(),
-      assignmentName: assignmentName,
+      assignmentName: assignmentName.toLowerCase(),
       status: status,
       priority: priority,
       grade: grade,

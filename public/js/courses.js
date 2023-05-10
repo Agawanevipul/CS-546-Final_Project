@@ -52,6 +52,9 @@ if (myForm) {
           courseName.id = "CourseName" + (i + 1);
           courseName.name = "course" + (i + 1); // set the name attribute to retrieve the value from server-side
           courseName.placeholder = "Course " + (i + 1);
+          let label = document.createElement("label");
+              label.innerHTML = "Course " + (i + 1);
+              label.htmlFor = "CourseName" + (i + 1);
 
           second_form.appendChild(courseName);
           second_form.appendChild(document.createElement("br"));

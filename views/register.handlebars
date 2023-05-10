@@ -18,6 +18,7 @@
             <h1 id="sign_red">{{title}}</h1>
 
             <form method="post" id="login" action="/login">
+            
             <input type="hidden" name="clicked" value="loggedIn">
               <div class="form-row">
                 <div class="col-lg-7">
@@ -28,6 +29,7 @@
                     id="emailId"
                     name="emailId"
                     value="{{emailId}}"
+                    aria-describedby="emailId-help" aria-label="Email address"
                   >
                 </div>
               </div>
@@ -40,6 +42,7 @@
                     id="password"
                     name="password"
                     value="{{password}}"
+                    aria-describedby="password-help" aria-label="Password"
                   >
                 </div>
               </div>
@@ -57,7 +60,6 @@
                   </div>
                 </div>
               </div>
-              <a id="forgot_pwd" href="#">Forgot password?</a>
               <p>
                 Don't have an account?
                 <a class="toggle" href="/register">Register here</a>
@@ -93,6 +95,7 @@
                       name="first_name"
                       placeholder="First Name"
                       value="{{firstName}}"
+                      aria-describedby="firstName-help" aria-label="First Name"
                     >
                   </div>
                 </div>
@@ -105,6 +108,7 @@
                       name="last_name"
                       placeholder="Last Name"
                       value="{{lastName}}"
+                      aria-describedby="lastName-help" aria-label="Last Name"
                     >
                   </div>
                 </div>
@@ -119,6 +123,7 @@
                       name="email_id"
                       placeholder="abc@stevens.edu"
                       value="{{emailId}}"
+                      aria-describedby="emailId-help" aria-label="Email address"
                     >
                   </div>
                 </div>
@@ -133,6 +138,7 @@
                       name="cwid"
                       placeholder="Campus Wide ID (CWID)"
                       value="{{CWID}}"
+                      aria-describedby="campusId-help" aria-label="Campus Wide ID"
                     >
                   </div>
                 </div>
@@ -178,6 +184,7 @@
                       name="create_pass"
                       placeholder="Create Password"
                       value="{{create_pass}}"
+                      aria-describedby="password-help" aria-label="Password"
                     >
                   </div>
                 </div>
@@ -192,6 +199,7 @@
                       name="confirm_pass"
                       placeholder="Confirm Password"
                       value="{{confirm_pass}}"
+                      aria-describedby="confirmPassword-help" aria-label="Confirm Password"
                     >
                   </div>
                 </div>

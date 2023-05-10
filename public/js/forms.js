@@ -6,13 +6,13 @@
     const validator = {
       
         checkString(strVal, varName) {
-          if (!strVal) throw `Error: You must supply a ${varName}!`;
-          if (typeof strVal !== "string") throw `Error: ${varName} must be a string!`;
+          if (!strVal) throw [400,`You must supply a ${varName}!`];
+          if (typeof strVal !== "string") throw [400,`${varName} must be a string!`];
           strVal = strVal.trim();
           if (strVal.length === 0)
-            throw `Error: ${varName} cannot be an empty string or string with just spaces`;
+            throw [400,`${varName} cannot be an empty string or string with just spaces`];
           if (!isNaN(strVal))
-            throw `Error: ${strVal} is not a valid value for ${varName} as it only contains digits`;
+            throw [400,`${strVal} is not a valid value for ${varName} as it only contains digits`];
           return strVal;
         },
       
@@ -20,10 +20,10 @@
           //We will allow an empty array for this,
           //if it's not empty, we will make sure all tags are strings
           if (!arr || !Array.isArray(arr))
-            throw `You must provide an array of ${varName}`;
+            throw [400,`You must provide an array of ${varName}`];
           for (let i in arr) {
             if (typeof arr[i] !== "string" || arr[i].trim().length === 0) {
-              throw `One or more elements in ${varName} array is not a string or is an empty string`;
+              throw [400,`One or more elements in ${varName} array is not a string or is an empty string`];
             }
             arr[i] = arr[i].trim();
           }
@@ -31,7 +31,7 @@
         },
         checkAssignmentsArray(arr,varName){
           if (!arr || !Array.isArray(arr))
-            throw `You must provide an array of ${varName}`;
+            throw [400,]`You must provide an array of ${varName}`];
           
           for(let j in arr){
               if(typeof(j)!=="string") throw [400,'Assignments should have string values']
@@ -54,35 +54,35 @@
       
         },
         checkNumber(inp, varName) {
-          if (!inp) throw `You must provide a number for ${varName}`;
+          if (!inp) throw [400,`You must provide a number for ${varName}`];
           if (typeof(parseInt(inp))!=='number')
-            throw `You must provide a number for ${varName}`;
+            throw [400,`You must provide a number for ${varName}`];
           return inp;
         },
         validateEmailId(email) {
           email=email.toLowerCase().trim()
           const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!regex.test(email)) {
-            throw "Invalid email address";
+            throw [400,"Invalid email address"];
           }
           if (!email.endsWith("@stevens.edu")) {
-            throw "Email domain must be @stevens.edu";
+            throw [400,"Email domain must be @stevens.edu"];
           }
           if (!/^[^\s@]{3,}@stevens\.edu$/.test(email)) {
-            throw "Email address must have at least 3 characters before the @stevens.edu domain";
+            throw [400,"Email address must have at least 3 characters before the @stevens.edu domain"];
           }
       
           return email;
         },
         validPassword(password) {
           if (!password || password.length < 8 || password.includes(" ")) {
-              throw `Password must be at least 8 characters long and cannot contain empty spaces.`;
+              throw [400,`Password must be at least 8 characters long and cannot contain empty spaces.`];
           }
           const upperCase = /[A-Z]/;
           const numberCase = /[0-9]/;
           const specialCharCase = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
           if (!upperCase.test(password) || !numberCase.test(password) || !specialCharCase.test(password)) {
-              throw `Password must contain at least one uppercase character, one number, and one special character.`;
+              throw [400,`Password must contain at least one uppercase character, one number, and one special character.`];
           }
               return password;
           },
@@ -90,7 +90,7 @@
               role = role.toLowerCase();
             
               if (role !== "admin" && role !== "user") {
-                throw `Role must be either 'admin' or 'user'`;
+                throw [400,`Role must be either 'admin' or 'user'`];
               }
               return role;
           },
@@ -98,10 +98,10 @@
               name=name.trim()
               let nameValid = /^[a-zA-Z]/; // Regular expression to match valid firstName
               if(!nameValid.test(name)){
-                  throw `Invalid ${varName} name.`
+                  throw [400,`Invalid ${varName} name.`]
               }
               if (name.length < 2 || name.length > 25)
-              throw `name should be in length between 2 to 25.`;
+              throw [400,`name should be in length between 2 to 25.`];
               return name;
           }   
       };

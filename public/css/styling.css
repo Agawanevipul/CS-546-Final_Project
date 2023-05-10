@@ -35,6 +35,12 @@ img {
   border: 1px solid;
   color: #9d1535;
 }
+.toggle{
+ color:blue; 
+}
+.Home_Color{
+  color:blue; 
+}
 #login_red {
   color: #9d1535;
 }

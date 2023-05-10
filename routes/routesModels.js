@@ -273,7 +273,7 @@ router
           });
         }
       } catch (e) {
-        return res.status(404).render("register", {
+        return res.status(400).render("register", {
           title: "Register",
           loginPage: false,
           firstName: firstName,
@@ -338,7 +338,7 @@ router
       let showLogoutLink = true;
       let cookieData=req.session.user.courses
 
-      res.render("homepage", {
+      res.render("homepage", {title:"Home Page",
         todo,
         doing,
         done,
@@ -546,7 +546,7 @@ router.route("/courses")
 router.route("/profile").get(async (req, res) => {
   try {
   let details = req.session.user
-    return res.render("profile", {details});
+    return res.render("profile", {title: "Profile",details});
   } catch (e) {
     res.status(500).json({ error: e });
   }

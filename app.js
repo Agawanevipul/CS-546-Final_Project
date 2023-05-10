@@ -53,7 +53,7 @@ app.use(
     secret: "This is a secret.. shhh don't tell anyone",
     saveUninitialized: false,
     resave: false,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 60000000 },
   })
 );
 app.get("/", (req, res, next) => {

@@ -3,8 +3,8 @@
 <div class="mainbg">
   <div style="display: flex">
     <form id="form_todo">
-      <input type="text" placeholder="New TODO..." id="input_todo" />
-      <input type="text" placeholder="Description" id="todo_desc" />
+      <input type="text" placeholder="New TODO..." id="input_todo" aria-describedby="title-help" aria-label="Task Title">
+      <input type="text" placeholder="Description" id="todo_desc" aria-describedby="description-help" aria-label="Task Description">
       <div class="dropdown" id="subject_dropdown">
         <button
           class="btn btn-light font-weight-bold dropdown-toggle"
@@ -29,10 +29,10 @@
 
   <div class="DandD_lanes">
     <div class="DandD" id="lane_todo">
-      <h3 class="heading">TO DO</h3>
+      <h1 class="heading">TO DO</h1>
       {{#each todo}}
         <div class="task" draggable="true" data-status = {{this.status}}>
-          <h5 class="task-title">{{this.assignmentName}}</h5>
+          <h2 class="task-title">{{this.assignmentName}}</h2>
           <p class="task-desc">{{this.notes}}</p>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
@@ -54,7 +54,7 @@
             required=""
             step="1"
             disabled=""
-          />
+          >
           <label for="due-date" class="due-date-label">Due Date</label>
           <input type="text" id="due-date" class="due-date" placeholder="MM-DD-YYYY"
              disabled="" value="{{this.dueDate}}">
@@ -66,7 +66,7 @@
       <h3 class="heading">Doing</h3>
       {{#each doing}}
         <div class="task" draggable="true" data-status = {{this.status}}>
-          <h5 class="task-title">{{this.assignmentName}}</h5>
+          <h2 class="task-title">{{this.assignmentName}}</h2>
           <p class="task-desc">{{this.notes}}</p>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
@@ -88,7 +88,7 @@
             required=""
             step="1"
             disabled=""
-          />
+          >
           <label for="due-date" class="due-date-label">Due Date</label>
           <input type="text" id="due-date" class="due-date" placeholder="MM-DD-YYYY"
              disabled="" value="{{this.dueDate}}">
@@ -100,7 +100,7 @@
       <h3 class="heading">Done</h3>
       {{#each done}}
         <div class="task" draggable="true" data-status = {{this.status}}>
-          <h5 class="task-title">{{this.assignmentName}}</h5>
+          <h2 class="task-title">{{this.assignmentName}}</h2>
           <p class="task-desc">{{this.notes}}</p>
           <span class="edit-icon">✎</span>
           <span class="save-icon" style="display: none;">✔</span>
@@ -124,7 +124,7 @@
             required=""
             step="1"
             disabled=""
-          />
+          >
           <label for="due-date" class="due-date-label">Due Date</label>
           <input type="text" id="due-date" class="due-date" placeholder="MM-DD-YYYY"
              disabled="" value="{{this.dueDate}}">
@@ -135,7 +135,7 @@
 </div>
 <div class="card" id="tracking_card">
   <div class="card-body">
-    <h5 class="card-title">Task Tracking</h5>
+    <h3 class="card-title">Task Tracking</h3>
     <p id="todoText"></p>
     <div class="progress mb-3">
       <div
