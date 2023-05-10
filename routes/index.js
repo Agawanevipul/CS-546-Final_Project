@@ -30,6 +30,14 @@ const constructorMethod = (app) => {
       title: "Profile",
     });
   });
+  app.use("/homepage", studentRoute);
+  app.get("/homepage", (req, res) => {
+    res.render("homepage", {
+      showProfileLink: true,
+      showLogoutLink: true,
+      title: "Homepage",
+    });
+  });
   app.use("*", (req, res) => {
     res.status(404).json({ error: "Not found" });
   });

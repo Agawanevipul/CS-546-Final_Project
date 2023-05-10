@@ -298,7 +298,16 @@ router
       let todo = studentData.todo_list;
       let doing = studentData.doing_list;
       let done = studentData.done_list;
-      res.render("homepage", { todo, doing, done });
+      let showProfileLink = true;
+      let showLogoutLink = true;
+
+      res.render("homepage", {
+        todo,
+        doing,
+        done,
+        showProfileLink,
+        showLogoutLink,
+      });
     } catch (e) {
       res.status(500).json({ error: e });
     }
