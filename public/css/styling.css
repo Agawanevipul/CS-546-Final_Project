@@ -45,6 +45,12 @@ img {
   height: 70px;
   width: 70px;
 }
+#sa_footer_link {
+  color: #9d1535;
+}
+i {
+  color: #9d1535;
+}
 
 footer {
   margin-top: auto;
@@ -56,12 +62,6 @@ footer {
   text-align: center;
 }
 
-#sa_footer_link {
-  color: #9d1535;
-}
-i {
-  color: #9d1535;
-}
 #nav_name {
   color: #9d1535;
 }
