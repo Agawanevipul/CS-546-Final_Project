@@ -45,6 +45,12 @@ img {
   height: 70px;
   width: 70px;
 }
+#sa_footer_link {
+  color: #9d1535;
+}
+i {
+  color: #9d1535;
+}
 
 footer {
   margin-top: auto;
@@ -56,12 +62,6 @@ footer {
   text-align: center;
 }
 
-#sa_footer_link {
-  color: #9d1535;
-}
-i {
-  color: #9d1535;
-}
 #nav_name {
   color: #9d1535;
 }
@@ -131,6 +131,15 @@ i {
   min-height: 120px;
   flex-shrink: 0;
 }
+/* .task {
+  color: black;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: move;
+  margin-bottom: 15px;
+} */
 .task {
   color: black;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.25);
@@ -139,6 +148,58 @@ i {
   font-size: 16px;
   cursor: move;
   margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.task-title {
+  flex-basis: 100%;
+  margin-bottom: 5px;
+}
+
+.task-desc {
+  flex-basis: 100%;
+  margin-bottom: 5px;
+}
+
+.edit-icon,
+.save-icon {
+  margin-right: 10px;
+}
+
+.task-priority,
+.close-sign {
+  margin-left: auto;
+}
+
+.grade-label {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+  margin-bottom: 0px;
+  margin-top: 8px;
+}
+
+.grade {
+  display: inline-block;
+  vertical-align: middle;
+}
+.due-date-label {
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+  margin-bottom: 0px;
+  margin-top: 8px;
+}
+
+.due-date {
+  display: inline-block;
+  vertical-align: middle;
+  width: 100px;
+}
+#due-date {
+  margin-top: 6px;
 }
 .is-dragging {
   scale: 1.05;
@@ -241,14 +302,3 @@ i {
 #analyzeBtn {
   display: none;
 }
-/* .high-priority {
-  background-color: rgba(198, 48, 62, 0.2);
-}
-
-.medium-priority {
-  background-color: rgba(255, 193, 7, 0.2);
-}
-
-.low-priority {
-  background-color: rgba(13, 110, 253, 0.2);
-} */

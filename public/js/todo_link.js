@@ -30,7 +30,12 @@ form.addEventListener("submit", (e) => {
   const highOption = document.createElement("option");
   const mediumOption = document.createElement("option");
   const lowOption = document.createElement("option");
+
+  const gradeLabel = document.createElement("label");
   const gradeInput = document.createElement("input");
+
+  const dueDateLabel = document.createElement("label");
+  const inputDueDate = document.createElement("input");
 
   newTask.classList.add("task");
   newTask.setAttribute("draggable", "true");
@@ -56,14 +61,30 @@ form.addEventListener("submit", (e) => {
   saveIcon.innerText = "✔";
   saveIcon.style.display = "none";
 
+  gradeLabel.setAttribute("for", "gradeInput");
+  gradeLabel.innerText = "Grade";
+  gradeLabel.classList.add("grade-label");
+
   gradeInput.type = "number";
   gradeInput.classList.add("grade");
+  gradeInput.setAttribute("id", "gradeInput");
   gradeInput.min = "0";
   gradeInput.max = "100";
   gradeInput.placeholder = "Grade";
   gradeInput.required = true;
   gradeInput.step = "1";
   gradeInput.value = "0";
+
+  dueDateLabel.setAttribute("for", "due-date");
+  dueDateLabel.innerText = "Due Date";
+  dueDateLabel.classList.add("due-date-label");
+
+  inputDueDate.type = "text";
+  inputDueDate.id = "due-date";
+  inputDueDate.classList.add("due-date");
+  inputDueDate.placeholder = "MM-DD-YYYY";
+  inputDueDate.required = false;
+  inputDueDate.value = "01-01-2023";
 
   prioritySelect.classList.add("task-priority");
   priorityPlaceholderOption.text = "Priority";
@@ -72,11 +93,12 @@ form.addEventListener("submit", (e) => {
   priorityPlaceholderOption.selected = true;
   highOption.value = "high";
   highOption.text = "High";
+  highOption.selected = true;
   mediumOption.value = "medium";
   mediumOption.text = "Medium";
   lowOption.value = "low";
   lowOption.text = "Low";
-  lowOption.selected = true;
+
   prioritySelect.appendChild(priorityPlaceholderOption);
   prioritySelect.appendChild(highOption);
   prioritySelect.appendChild(mediumOption);
@@ -84,11 +106,15 @@ form.addEventListener("submit", (e) => {
 
   newTask.appendChild(taskTitle);
   newTask.appendChild(descText);
-  newTask.appendChild(closeSign);
   newTask.appendChild(editIcon);
   newTask.appendChild(saveIcon);
   newTask.appendChild(prioritySelect);
+  newTask.appendChild(closeSign);
+  newTask.appendChild(gradeLabel);
   newTask.appendChild(gradeInput);
+  newTask.appendChild(dueDateLabel);
+  newTask.appendChild(inputDueDate);
+
   formData = {
     todo: value,
     desc: valueDesc,
@@ -115,6 +141,7 @@ form.addEventListener("submit", (e) => {
   }, 200);
   prioritySelect.disabled = true;
   gradeInput.disabled = true;
+  inputDueDate.disabled = true;
 
   //taskSet.add(newTask);
   setTimeout(() => {
@@ -160,6 +187,7 @@ form.addEventListener("submit", (e) => {
     editIcon.style.display = "none";
     saveIcon.style.display = "inline-block";
     gradeInput.disabled = false;
+    inputDueDate.disabled = false;
   });
 
   saveIcon.addEventListener("click", () => {
@@ -178,7 +206,6 @@ form.addEventListener("submit", (e) => {
       newTask.style.backgroundColor = "rgba(13, 110, 253, 0.2)";
     }
     gradeInput.disabled = true;
-
     const grade = gradeInput.value.trim();
     if (grade === "" || (parseInt(grade) >= 0 && parseInt(grade) <= 100)) {
       newTask.setAttribute("data-grade", grade === "" ? "" : parseInt(grade));
@@ -187,8 +214,14 @@ form.addEventListener("submit", (e) => {
       gradeInput.value = "";
       return;
     }
-    //taskSet.delete(newTask);
-    //taskSet.add(newTask);
+    inputDueDate.disabled = true;
+    const valueDueDate = inputDueDate.value.trim();
+    const dateRegex = /^(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])-\d{4}$/;
+    if (valueDueDate !== "" && !dateRegex.test(valueDueDate)) {
+      alert("Please enter a valid date in the format mm-dd-yyyy.");
+      inputDueDate.value = "";
+      return;
+    }
   });
   saveIcon.addEventListener("click", () => {
     let tl = newTask.querySelector(".task-title");
@@ -196,6 +229,7 @@ form.addEventListener("submit", (e) => {
     let p = newTask.querySelector(".task-priority");
     let g = newTask.querySelector(".grade");
     let s = newTask.getAttribute("data-status");
+    let date = newTask.querySelector("#due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -204,6 +238,7 @@ form.addEventListener("submit", (e) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.value,
     };
     console.log(dl);
     $.ajax({
@@ -255,6 +290,7 @@ form.addEventListener("submit", (e) => {
     let p = newTask.querySelector(".task-priority");
     let g = newTask.querySelector(".grade");
     let s = newTask.getAttribute("data-status");
+    let date = newTask.querySelector("#due-date");
 
     let dl = {
       todo: tl.innerText,
@@ -263,6 +299,7 @@ form.addEventListener("submit", (e) => {
       grade: g.value,
       subject: "web",
       status: s,
+      dueDate: date.value,
     };
 
     $.ajax({

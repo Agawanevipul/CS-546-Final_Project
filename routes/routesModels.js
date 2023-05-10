@@ -32,8 +32,9 @@ router
       let priority = "low"; //check the id for priority from form
       let grade = "0";
       let subject = "web";
-      let dueDate = "00/00/0000"; //check the id for due date from form
-      let notes = task_details.desc;
+
+      let dueDate = "01-01-2023"; //check the id for due date from form
+      let notes = xss(task_details.desc);
 
       studentId = validator.checkId(studentId, "Student ID");
       priority = validator.checkString(priority, "Priority");
@@ -141,13 +142,14 @@ router
     try {
       let task_details = req.body;
       let studentId = req.session.user.studentId;
-      let assignmentName = task_details.todo;
-      let status = task_details.status;
-      let priority = task_details.priority; //check the id for priority from form
-      let grade = task_details.grade;
-      let subject = task_details.subject;
-      let dueDate = "00/00/0000"; //check the id for due date from form
-      let notes = task_details.todo;
+
+      let assignmentName = xss(task_details.todo);
+      let status = xss(task_details.status);
+      let priority = xss(task_details.priority); //check the id for priority from form
+      let grade = xss(task_details.grade);
+      let subject = xss(task_details.subject);
+      let dueDate = xss(task_details.dueDate); //check the id for due date from form
+      let notes = xss(task_details.todo);
 
       studentId = validator.checkId(studentId, "Student ID");
       priority = validator.checkString(priority, "Priority");
@@ -332,7 +334,17 @@ router
       let todo = studentData.todo_list;
       let doing = studentData.doing_list;
       let done = studentData.done_list;
-      res.render("homepage", { todo, doing, done });
+      let showProfileLink = true;
+      let showLogoutLink = true;
+      let cookieData=req.session.user.courses
+
+      res.render("homepage", {
+        todo,
+        doing,
+        done,
+        showProfileLink,
+        showLogoutLink,cookieData
+      });
     } catch (e) {
       res.status(500).json({ error: e });
     }
@@ -540,5 +552,10 @@ router.route("/profile").get(async (req, res) => {
   }
 })
 
+router.route('/logout').get(async (req, res) => {
+  //code here for GET
+  req.session.destroy();
+  res.render('logout', {title: "Logout"})
+});
 
 export default router;
